@@ -1,13 +1,13 @@
 ---
 name: Opportunity Markets
-description: Auction Lot Wall — dark auction wall with equal lot plaques and red/green bid motion
+description: Auction Lot Wall — dark auction wall with equal lot plaques and violet/red bid motion
 colors:
   wall: "#0b0d10"
   plaque: "#161a20"
   plaque-edge: "#2c323c"
   paper: "#f2f4f6"
   muted: "#9aa3b2"
-  up: "#16c784"
+  up: "#8250fe"
   down: "#ea3943"
 typography:
   display:
@@ -91,7 +91,7 @@ components:
 
 **Creative North Star: "Auction Lot Wall"**
 
-A matte black auction wall where two to four live opportunities hang as equal lot plaques. The wall is quiet; the lots carry the weight. Green and red are bid motion (up/down), never decorative accent strips. Composition is Equal Stack: quiet sticky header, product proof, then full-width stacked lots — not a dense catalog grid, not a frost-glass mist world.
+A matte black auction wall where two to four live opportunities hang as equal lot plaques. The wall is quiet; the lots carry the weight. Violet and red are bid motion (up/down), never decorative accent strips. Composition is Equal Stack: quiet sticky header, product proof, then full-width stacked lots — not a dense catalog grid, not a frost-glass mist world.
 
 Density stays deliberate. Home shows a capped hero set of lots; market detail opens one active lot with outcomes, price history, and a sticky trade plaque. Motion is sparse and meaningful: a short lot-reveal on brand words, a bid-tick when odds move.
 
@@ -100,14 +100,14 @@ Density stays deliberate. Home shows a capped hero set of lots; market detail op
 - Equal hero lots (not a dense card grid)
 - Archivo display + Source Sans 3 body + JetBrains Mono odds
 - Soft-square plaques and controls (tight radius, no pills)
-- Green up / red down as the live board language
+- Violet up / red down as the live board language
 
 ## Colors
 
 Dark auction wall with plaque elevation and signal motion only.
 
 ### Primary
-- **Up** (#16c784): Rising odds, brand highlight on “Markets”, primary hover fill, focus rings, positive bar segments.
+- **Up** (#8250fe / lch(49 99.84 307.04)): Rising odds, brand highlight on “Markets”, primary hover fill, focus rings, positive bar segments.
 - **Down** (#ea3943): Falling odds and negative bar segments. Pair with Up as a motion pair — never as brand chrome alone.
 
 ### Neutral
@@ -118,7 +118,7 @@ Dark auction wall with plaque elevation and signal motion only.
 - **Muted** (#9aa3b2): Supporting copy, meta labels, idle filter text.
 
 ### Named Rules
-**The Bid Motion Rule.** Green and red mark real odds direction and outcome share. Brand may also highlight the wordmark “Markets”, the hero verb phrase (“markets decide”), Active status, and primary hover/focus — not arbitrary chrome fills.
+**The Bid Motion Rule.** Violet and red mark real odds direction and outcome share. Brand may also highlight the wordmark “Markets”, the hero verb phrase (“markets decide”), Active status, and primary hover/focus — not arbitrary chrome fills.
 
 **The Wall/Plaque Rule.** Content sits on Plaque; the page is Wall. Do not invert that stack into light-mode cards on dark chrome.
 
@@ -203,7 +203,7 @@ Single lot-panel with divided rows: mono index, Archivo outcome name, mono odds 
 ### Do:
 - **Do** keep Opportunity Markets product copy and Seer browse/trade flows intact.
 - **Do** give each of 2–4 featured markets equal hero presence in the stack.
-- **Do** use red/green only for real odds motion and outcome share.
+- **Do** use violet/red only for real odds motion and outcome share.
 - **Do** keep controls soft-square (6px) and panels at 8px.
 - **Do** credit Seer as protocol (“Built on Seer”, “View on Seer”) without making Seer the product brand.
 
@@ -212,4 +212,4 @@ Single lot-panel with divided rows: mono index, Archivo outcome name, mono odds 
 - **Don't** ship a dense many-card catalog grid as the home default.
 - **Don't** add submit-proposal CTAs on marketing or browse surfaces.
 - **Don't** use Paradigm scout/sponsor/talent framing.
-- **Don't** use pill radii or purple/glow crypto-HUD chrome.
+- **Don't** use pill radii, neon glow, or crypto-HUD chrome; Up violet is bid signal, not decoration.

@@ -14,7 +14,7 @@ export default {
         'plaque-edge': '#2c323c',
         paper: '#f2f4f6',
         muted: '#9aa3b2',
-        up: '#16c784',
+        up: '#8250fe',
         down: '#ea3943',
       },
       borderRadius: {

@@ -23,13 +23,13 @@ export interface IOutcomeData {
   data: Array<{ time: UTCTimestamp; value: number }>;
 }
 
-/** Auction Lot Wall series: up / down / plaque-edge alternation */
+/** Auction Lot Wall series: violet up / red down / plaque-edge alternation */
 const CHART_COLORS = [
-  '#16c784',
+  '#8250fe',
   '#ea3943',
   '#9aa3b2',
   '#2c323c',
-  '#16c784',
+  '#8250fe',
   '#ea3943',
 ];
 
