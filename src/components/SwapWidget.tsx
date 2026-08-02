@@ -448,19 +448,21 @@ export function SwapWidget({
       </div>
 
       {isDisabled && (
-        <div className="mb-4 rounded-panel border border-down/40 bg-down/10 px-4 py-3">
-          <p className="text-xs text-paper">
-            This outcome lacks enough liquidity to trade right now.
-          </p>
-        </div>
+        <p
+          role="status"
+          className="mb-4 border-y border-down/35 py-3 text-xs leading-relaxed text-paper"
+        >
+          This outcome lacks enough liquidity to trade right now.
+        </p>
       )}
       {insufficientBalance && !isDisabled && (
-        <div className="mb-4 rounded-panel border border-down/50 bg-down/15 px-4 py-3">
-          <p className="text-xs text-down">
-            Insufficient balance. You need more{' '}
-            {sellTokenSymbol ?? 'tokens'} to complete this trade.
-          </p>
-        </div>
+        <p
+          role="status"
+          className="mb-4 border-y border-down/45 py-3 text-xs leading-relaxed text-down"
+        >
+          Insufficient balance. You need more{' '}
+          {sellTokenSymbol ?? 'tokens'} to complete this trade.
+        </p>
       )}
 
       <form className="space-y-5" onSubmit={onFormSubmit}>

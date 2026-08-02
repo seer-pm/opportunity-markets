@@ -96,14 +96,18 @@ export const MarketPreviewCard: React.FC<MarketPreviewCardProps> = ({
         ? 'bid-tick-down font-mono text-2xl font-semibold tabular-nums text-down md:text-3xl'
         : 'font-mono text-2xl font-semibold tabular-nums text-paper md:text-3xl';
 
-  const total = outcomes.reduce((sum, o) => sum + o.percent, 0) || 1;
+  const total = outcomes.reduce((sum, o) => sum + o.percent, 0);
+  const hasOdds = total > 0;
   const topOutcomes = ranked.slice(0, PREVIEW_OUTCOME_CAP);
   const hiddenOutcomes = Math.max(ranked.length - PREVIEW_OUTCOME_CAP, 0);
+  const displayTitle = getMarketDisplayTitle(market.id, market.marketName);
+  const hasLeader = Boolean(leadingLabel && displayPrice);
 
   return (
     <Link
       to={`/markets/${market.chainId}/${market.id}`}
-      className="lot-panel lot-cascade-item group flex flex-col gap-5 p-6 transition-[border-color,box-shadow] duration-300 hover:border-up/40 hover:shadow-lot focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up md:gap-6 md:p-8"
+      aria-label={`Open opportunity: ${displayTitle}`}
+      className="lot-panel lot-cascade-item group flex flex-col gap-4 p-5 transition-[border-color,box-shadow] duration-300 hover:border-up/40 hover:shadow-lot focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up sm:gap-5 sm:p-6 md:gap-6 md:p-8"
       style={
         {
           '--cascade-i': cascadeIndex,
@@ -131,8 +135,8 @@ export const MarketPreviewCard: React.FC<MarketPreviewCardProps> = ({
         </span>
       </div>
 
-      <h2 className="font-display text-[clamp(1.25rem,2.8vw,1.85rem)] font-semibold leading-[1.15] tracking-tight text-paper transition-colors group-hover:text-up">
-        {getMarketDisplayTitle(market.id, market.marketName)}
+      <h2 className="font-display text-[clamp(1.15rem,2.8vw,1.85rem)] font-semibold leading-[1.15] tracking-tight text-paper transition-colors group-hover:text-up">
+        {displayTitle}
       </h2>
 
       {outcomes.length > 0 && (
@@ -140,16 +144,18 @@ export const MarketPreviewCard: React.FC<MarketPreviewCardProps> = ({
           className="flex h-1.5 w-full overflow-hidden rounded-control bg-wall"
           aria-hidden
         >
-          {outcomes.map((outcome, i) => {
-            const width = Math.max((outcome.percent / total) * 100, 0);
-            return (
-              <div
-                key={`${outcome.label}-${i}`}
-                className={shareTone(i, leadingIndex, outcomes.length)}
-                style={{ width: `${width}%` }}
-              />
-            );
-          })}
+          {hasOdds
+            ? outcomes.map((outcome, i) => {
+                const width = Math.max((outcome.percent / total) * 100, 0);
+                return (
+                  <div
+                    key={`${outcome.label}-${i}`}
+                    className={shareTone(i, leadingIndex, outcomes.length)}
+                    style={{ width: `${width}%` }}
+                  />
+                );
+              })
+            : null}
         </div>
       )}
 
@@ -183,14 +189,14 @@ export const MarketPreviewCard: React.FC<MarketPreviewCardProps> = ({
         </ul>
       )}
 
-      <div className="mt-auto flex flex-wrap items-end justify-between gap-4 border-t border-paper/10 pt-5">
+      <div className="mt-auto flex flex-wrap items-end justify-between gap-4 border-t border-paper/10 pt-4 sm:pt-5">
         <div className="flex flex-col items-start gap-2">
           <span className="text-xs font-semibold uppercase tracking-[0.08em] text-muted">
-            {leadingLabel ? `Leading · ${leadingLabel}` : 'Leading odds'}
+            {hasLeader ? `Leading · ${leadingLabel}` : 'Leading odds'}
           </span>
           <div className="inline-flex flex-wrap items-baseline gap-x-2 gap-y-1">
             <span className={oddsClass}>{displayPrice ?? '—'}</span>
-            {direction !== 'flat' && (
+            {hasLeader && direction !== 'flat' && (
               <span
                 className={
                   direction === 'up'
@@ -203,7 +209,10 @@ export const MarketPreviewCard: React.FC<MarketPreviewCardProps> = ({
             )}
           </div>
         </div>
-        <span className="text-xs font-semibold uppercase tracking-[0.08em] text-up transition-colors group-hover:text-paper group-focus-visible:text-paper">
+        <span
+          aria-hidden
+          className="text-xs font-semibold uppercase tracking-[0.08em] text-up transition-colors group-hover:text-paper group-focus-visible:text-paper"
+        >
           Open opportunity →
         </span>
       </div>

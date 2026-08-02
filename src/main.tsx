@@ -8,7 +8,7 @@ import { Slide, ToastContainer } from 'react-toastify';
 import { ConnectKitProvider } from 'connectkit';
 import App from './App';
 import { wagmiConfig } from './config/wagmi';
-import 'react-toastify/dist/ReactToastify.css';
+import './styles/toastify-slide.css';
 import './index.css';
 
 const queryClient = new QueryClient();

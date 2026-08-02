@@ -5,7 +5,12 @@ import { WRAPPED_OUTCOME_TOKEN_DECIMALS } from '@seer-pm/sdk';
 import { useTokenBalance } from '@seer-pm/react';
 import type { Market } from '@seer-pm/sdk';
 import MarketChart from './MarketChart/MarketChart';
+import SubmissionLightbox from './SubmissionLightbox';
 import { useOddsDelta } from '../hooks/useOddsDelta';
+import {
+  getOutcomeSubmissionAssets,
+  type SubmissionAssets,
+} from '../config/submissions';
 
 export interface MarketOutcomesProps {
   readonly className?: string;
@@ -18,6 +23,39 @@ interface OutcomeCardProps {
   readonly label: string;
   readonly odds: number;
   readonly rank: number;
+  readonly assets?: SubmissionAssets;
+  readonly onViewImages: (label: string, assets: SubmissionAssets) => void;
+}
+
+function ImageIcon() {
+  return (
+    <svg
+      width="12"
+      height="12"
+      viewBox="0 0 12 12"
+      fill="none"
+      aria-hidden
+      className="shrink-0"
+    >
+      <rect
+        x="1.25"
+        y="1.75"
+        width="9.5"
+        height="8.5"
+        rx="1.25"
+        stroke="currentColor"
+        strokeWidth="1.25"
+      />
+      <circle cx="4" cy="4.5" r="1" fill="currentColor" />
+      <path
+        d="M1.75 8.25l2.4-2.1a.75.75 0 0 1 .95 0L7 7.75l1.15-.95a.75.75 0 0 1 .95.05L10.25 8.5"
+        stroke="currentColor"
+        strokeWidth="1.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
 }
 
 function OutcomeCard({
@@ -26,6 +64,8 @@ function OutcomeCard({
   label,
   odds,
   rank,
+  assets,
+  onViewImages,
 }: OutcomeCardProps) {
   const { address: account } = useAccount();
   const tokenAddress = market.wrappedTokens[outcomeIndex] as
@@ -58,6 +98,13 @@ function OutcomeCard({
         ? 'bid-tick-down font-mono text-xl font-semibold tabular-nums text-down'
         : 'font-mono text-xl font-semibold tabular-nums text-paper';
 
+  const hasImages = (assets?.images.length ?? 0) > 0;
+  const hasPdf = Boolean(assets?.pdfUrl);
+  const hasBothAssets = hasImages && hasPdf;
+  const showMeta = hasImages || hasPdf || account != null;
+  const proposalLinkClass =
+    'inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.08em] text-paper underline decoration-paper/35 underline-offset-[3px] transition-colors hover:text-up hover:decoration-up focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up';
+
   return (
     <div
       className={`grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-4 gap-y-2 px-5 py-4 ${
@@ -71,11 +118,35 @@ function OutcomeCard({
         <h3 className="font-display text-lg font-semibold leading-tight text-paper">
           {label}
         </h3>
-        {account != null && (
-          <p className="mt-0.5 text-xs font-semibold uppercase tracking-[0.08em] text-muted">
-            Position: {balanceFormatted}
-          </p>
-        )}
+        {showMeta ? (
+          <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
+            {hasPdf && assets?.pdfUrl ? (
+              <a
+                href={assets.pdfUrl}
+                target="_blank"
+                rel="noreferrer"
+                className={proposalLinkClass}
+              >
+                View proposal ↗
+              </a>
+            ) : null}
+            {hasImages && assets ? (
+              <button
+                type="button"
+                onClick={() => onViewImages(label, assets)}
+                className={proposalLinkClass}
+              >
+                {hasBothAssets ? 'View images' : 'View proposal'}
+                <ImageIcon />
+              </button>
+            ) : null}
+            {account != null ? (
+              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-muted">
+                Position: {balanceFormatted}
+              </p>
+            ) : null}
+          </div>
+        ) : null}
       </div>
       <div className="text-right">
         <span className={oddsClass}>{percent}%</span>
@@ -110,23 +181,36 @@ export const MarketOutcomes: React.FC<MarketOutcomesProps> = ({
   const rawOutcomes = market.outcomes ?? [];
   const odds = market.odds ?? [];
 
+  const [lightbox, setLightbox] = React.useState<{
+    title: string;
+    images: SubmissionAssets['images'];
+  } | null>(null);
+
   const outcomes = React.useMemo(
     () =>
-      wrapped.map((_, i) => ({
-        index: i,
-        label:
+      wrapped.map((_, i) => {
+        const label =
           typeof rawOutcomes[i] === 'string'
             ? (rawOutcomes[i] as string)
-            : `Outcome ${i + 1}`,
-        odds: Number(odds[i] ?? 0),
-      })),
-    [wrapped, rawOutcomes, odds]
+            : `Outcome ${i + 1}`;
+        return {
+          index: i,
+          label,
+          odds: Number(odds[i] ?? 0),
+          assets: getOutcomeSubmissionAssets(market.id, label),
+        };
+      }),
+    [wrapped, rawOutcomes, odds, market.id]
   );
 
   const ranked = React.useMemo(
     () => [...outcomes].sort((a, b) => b.odds - a.odds),
     [outcomes]
   );
+
+  function onViewImages(label: string, assets: SubmissionAssets) {
+    setLightbox({ title: label, images: assets.images });
+  }
 
   return (
     <section
@@ -152,7 +236,7 @@ export const MarketOutcomes: React.FC<MarketOutcomesProps> = ({
           </div>
         </div>
         <div className="lot-panel divide-y divide-paper/10 overflow-hidden">
-          {ranked.map(({ label, odds: outcomeOdds, index }, rankIdx) => (
+          {ranked.map(({ label, odds: outcomeOdds, index, assets }, rankIdx) => (
             <OutcomeCard
               key={index}
               market={market}
@@ -160,6 +244,8 @@ export const MarketOutcomes: React.FC<MarketOutcomesProps> = ({
               label={label}
               odds={outcomeOdds}
               rank={rankIdx + 1}
+              assets={assets}
+              onViewImages={onViewImages}
             />
           ))}
         </div>
@@ -171,6 +257,13 @@ export const MarketOutcomes: React.FC<MarketOutcomesProps> = ({
         </h2>
         <MarketChart market={market} />
       </div>
+
+      <SubmissionLightbox
+        open={lightbox != null}
+        title={lightbox?.title ?? ''}
+        images={lightbox?.images ?? []}
+        onClose={() => setLightbox(null)}
+      />
     </section>
   );
 };

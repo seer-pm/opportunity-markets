@@ -5,6 +5,13 @@ export const DEFAULT_MARKET_CHAIN_ID = CHAIN_IDS.gnosis;
 export type MarketOverride = {
   title: string;
   description?: string;
+  /** Key under `submissions/ipfs-manifest.json` → `markets` */
+  submissionsMarket?: string;
+  /**
+   * Exact outcome title → submission folder id in the manifest.
+   * Also matches when the outcome title equals the folder id.
+   */
+  submissions?: Record<string, string>;
 };
 
 export const MARKET_OVERRIDES: Record<string, MarketOverride> = {
@@ -17,6 +24,16 @@ export const MARKET_OVERRIDES: Record<string, MarketOverride> = {
     title: 'Seer Rebrand Contest',
     description:
       'This market is used to choose which visual identity Seer will select for its rebrand.\n\nEvery submission is listed as an outcome of this multi-scalar market. Traders buy shares in the direction they believe the team will pick. Final selection stays with the team, with market prices as the community signal.\n\nThe winning entry receives $3,000. The top 5 submissions by price also receive Seer credits.',
+    submissionsMarket: 'seer-rebrand',
+    // Provisional until on-chain outcome titles match submission folder ids.
+    submissions: {
+      'Design 1': '@2reb_fl-Datum',
+      'Design 2': '@Ergamjee-Sleek for Seer',
+      'Design 3': '@Kaysolo58-Your only base layer for decision infrastructure',
+      'Design 4': '@abiyebee-Convergent',
+      'Design 5': '@ajitu871287-Signal Dark',
+      'Design 6': '@sue2432-Crow Minimal',
+    },
   },
 };
 

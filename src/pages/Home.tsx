@@ -72,54 +72,66 @@ export const Home: React.FC = () => {
     runViewTransition(() => setShowAll(false));
   };
 
+  const processList = (placement: 'hero' | 'after-lot') => (
+    <ul
+      className={
+        placement === 'hero'
+          ? lotsReady
+            ? 'hero-process mt-2 hidden max-w-xl text-sm leading-snug text-muted sm:flex'
+            : 'hero-process mt-2 flex max-w-xl text-sm leading-snug text-muted'
+          : 'hero-process max-w-xl text-sm leading-snug text-muted sm:hidden'
+      }
+      aria-label="How opportunity markets work"
+    >
+      {PROCESS_BEATS.map((beat, i) => (
+        <li
+          key={`${placement}-${beat}`}
+          className="hero-process-beat"
+          style={{ '--beat-i': i } as React.CSSProperties}
+        >
+          {i > 0 && (
+            <span className="hero-process-sep" aria-hidden>
+              ·
+            </span>
+          )}
+          <span>{beat}</span>
+        </li>
+      ))}
+    </ul>
+  );
+
+  const [firstMarket, ...restMarkets] = visibleMarkets;
+
   return (
     <div className="flex min-h-screen flex-col bg-wall">
       <MainHeader />
-      <main className="mx-auto flex w-full max-w-shell flex-1 flex-col px-6 pb-16 pt-5 sm:pt-8 lg:px-10 lg:pt-10">
+      <main className="mx-auto flex w-full max-w-shell flex-1 flex-col px-6 pb-16 pt-3 sm:pt-8 lg:px-10 lg:pt-10">
         <section
           className="hero-rail"
           aria-label="Community picks, markets decide"
         >
           <div className="max-w-2xl">
-            <h1 className="font-display text-[clamp(2rem,7vw,4.5rem)] font-bold leading-[0.95] tracking-[-0.03em] text-paper sm:text-[clamp(2.5rem,7vw,4.5rem)]">
+            <h1 className="font-display text-[clamp(1.75rem,8vw,4.5rem)] font-bold leading-[0.95] tracking-[-0.03em] text-paper sm:text-[clamp(2.5rem,7vw,4.5rem)]">
               <span className="hero-entrance-word">Community picks,</span>{' '}
               <span className="hero-entrance-word text-up">markets decide</span>
             </h1>
-            <p className="hero-entrance-lead mt-3 max-w-xl text-base leading-relaxed text-muted sm:mt-4 sm:text-lg">
+            <p className="hero-entrance-lead mt-2 max-w-xl text-sm leading-snug text-muted sm:mt-4 sm:text-lg sm:leading-relaxed">
               Community proposals become market outcomes. Trade on which ideas
               get chosen, and earn rewards when yours wins.
             </p>
-            <ul
-              className="hero-process mt-2 max-w-xl text-sm leading-snug text-muted"
-              aria-label="How opportunity markets work"
-            >
-              {PROCESS_BEATS.map((beat, i) => (
-                <li
-                  key={beat}
-                  className="hero-process-beat"
-                  style={{ '--beat-i': i } as React.CSSProperties}
-                >
-                  {i > 0 && (
-                    <span className="hero-process-sep" aria-hidden>
-                      ·
-                    </span>
-                  )}
-                  <span>{beat}</span>
-                </li>
-              ))}
-            </ul>
+            {processList('hero')}
           </div>
         </section>
 
         <section
-          className="mt-5 sm:mt-8"
+          className="mt-3 sm:mt-8"
           aria-labelledby="opportunities-heading"
           aria-busy={isLoading || isFetching}
         >
-          <div className="opportunities-call mb-4 flex items-baseline justify-between gap-3">
+          <div className="opportunities-call mb-3 flex items-baseline justify-between gap-3 sm:mb-4">
             <h2
               id="opportunities-heading"
-              className="font-display text-lg font-semibold text-paper sm:text-xl"
+              className="font-display text-base font-semibold text-paper sm:text-xl"
             >
               Opportunities
             </h2>
@@ -133,9 +145,9 @@ export const Home: React.FC = () => {
             className={
               lotsReady
                 ? cascadeLate
-                  ? 'lot-stack--ready lot-stack--late flex flex-col gap-5'
-                  : 'lot-stack--ready flex flex-col gap-5'
-                : 'flex flex-col gap-5'
+                  ? 'lot-stack--ready lot-stack--late flex flex-col gap-4 sm:gap-5'
+                  : 'lot-stack--ready flex flex-col gap-4 sm:gap-5'
+                : 'flex flex-col gap-4 sm:gap-5'
             }
           >
             {isLoading && (
@@ -165,11 +177,19 @@ export const Home: React.FC = () => {
                 </p>
               </div>
             )}
-            {visibleMarkets.map((market: Market, index) => (
+            {firstMarket && (
+              <MarketPreviewCard
+                key={`${firstMarket.chainId}-${firstMarket.id}`}
+                market={firstMarket}
+                cascadeIndex={0}
+              />
+            )}
+            {lotsReady && processList('after-lot')}
+            {restMarkets.map((market: Market, index) => (
               <MarketPreviewCard
                 key={`${market.chainId}-${market.id}`}
                 market={market}
-                cascadeIndex={index}
+                cascadeIndex={index + 1}
               />
             ))}
             {!isLoading && !isError && hiddenCount > 0 && !showAll && (

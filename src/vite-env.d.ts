@@ -8,6 +8,8 @@ declare module 'wagmi';
 interface ImportMetaEnv {
   readonly VITE_REOWN_PROJECT_ID?: string;
   readonly VITE_GNOSIS_RPC_URL?: string;
+  /** IPFS HTTP gateway origin. Defaults to https://cdn.kleros.link */
+  readonly VITE_IPFS_GATEWAY?: string;
 }
 
 interface ImportMeta {
