@@ -41,7 +41,7 @@ function PortfolioImage({
             setFailed(false);
             setRetryKey((k) => k + 1);
           }}
-          className="rounded-control bg-paper px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.08em] text-wall transition-colors hover:bg-up focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
+          className="rounded-control bg-brand px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.08em] text-paper transition-colors hover:bg-up focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
         >
           Retry
         </button>
@@ -130,7 +130,7 @@ export function SubmissionLightbox({
         aria-label={`${title} images`}
         className="lot-panel relative flex max-h-[min(92vh,900px)] w-full max-w-5xl flex-col overflow-hidden shadow-panel"
       >
-        <div className="flex shrink-0 items-center justify-between gap-4 border-b border-paper/10 px-5 py-4">
+        <div className="flex shrink-0 items-center justify-between gap-4 border-b border-edge px-5 py-4">
           <h2 className="min-w-0 truncate font-display text-lg font-semibold text-paper">
             {title}
           </h2>

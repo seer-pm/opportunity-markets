@@ -4,18 +4,21 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        display: ['Archivo', 'system-ui', 'sans-serif'],
-        sans: ['"Source Sans 3"', 'system-ui', 'sans-serif'],
+        display: ['Urbanist', 'system-ui', 'sans-serif'],
+        sans: ['Urbanist', 'system-ui', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       colors: {
-        wall: '#0b0d10',
-        plaque: '#161a20',
-        'plaque-edge': '#2c323c',
-        paper: '#f2f4f6',
-        muted: '#9aa3b2',
-        up: '#8250fe',
+        wall: '#0A0814',
+        plaque: '#110d1c',
+        'plaque-edge': '#1e1830',
+        paper: '#ECE8F5',
+        muted: '#8B83A3',
+        brand: '#520078',
+        up: '#A774D1',
         down: '#ea3943',
+        edge: 'rgba(167, 116, 209, 0.12)',
+        'edge-strong': 'rgba(167, 116, 209, 0.25)',
       },
       borderRadius: {
         panel: '8px',
@@ -24,7 +27,7 @@ export default {
       },
       boxShadow: {
         panel: '0 12px 40px rgba(0, 0, 0, 0.45)',
-        lot: '0 8px 28px rgba(0, 0, 0, 0.35)',
+        lot: '0 8px 28px rgba(10, 8, 20, 0.55)',
       },
       maxWidth: {
         shell: '1350px',

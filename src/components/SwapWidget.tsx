@@ -24,16 +24,16 @@ import { toastify, toastifyTx } from '../lib/toastify';
 import { TokensDropdown } from './TokensDropdown';
 
 const amountInputClass =
-  'w-full rounded-panel border border-paper/10 bg-wall px-4 py-3 pr-20 text-xl font-semibold text-paper placeholder:text-muted/50 focus:border-up focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-up disabled:opacity-60';
+  'w-full rounded-panel border border-edge bg-wall px-4 py-3 pr-20 text-xl font-semibold text-paper placeholder:text-muted/50 focus:border-up focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-up disabled:opacity-60';
 
 const labelClass =
   'text-xs font-semibold uppercase tracking-[0.08em] text-muted';
 
 const presetBtnClass =
-  'rounded-control border border-paper/10 bg-wall px-2.5 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:border-paper/25 hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up disabled:cursor-not-allowed disabled:opacity-40';
+  'rounded-control border border-edge bg-wall px-2.5 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:border-paper/25 hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up disabled:cursor-not-allowed disabled:opacity-40';
 
 const primaryBtnClass =
-  'mt-6 w-full rounded-control bg-paper px-5 py-3.5 text-xs font-semibold uppercase tracking-[0.08em] text-wall transition-colors hover:bg-up focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up disabled:cursor-not-allowed disabled:opacity-60';
+  'mt-6 w-full rounded-control bg-brand px-5 py-3.5 text-xs font-semibold uppercase tracking-[0.08em] text-paper transition-colors hover:bg-up focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up disabled:cursor-not-allowed disabled:opacity-60';
 
 const warnBtnClass =
   'mt-6 w-full rounded-control bg-down px-5 py-3.5 text-xs font-semibold uppercase tracking-[0.08em] text-paper transition-colors hover:bg-down/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up disabled:cursor-not-allowed disabled:opacity-60';
@@ -420,7 +420,7 @@ export function SwapWidget({
     <div
       className={`lot-panel p-6 md:p-8 ${isDisabled ? 'opacity-90' : ''}`}
     >
-      <div className="mb-5 flex justify-start border-b border-paper/10">
+      <div className="mb-5 flex justify-start border-b border-edge">
         <div className="flex" role="group" aria-label="Trade mode">
           <button
             type="button"
@@ -476,7 +476,7 @@ export function SwapWidget({
               onSelect={handleSelectOutcome}
             />
           ) : (
-            <div className="rounded-panel border border-paper/10 bg-wall px-4 py-3 text-sm text-muted">
+            <div className="rounded-panel border border-edge bg-wall px-4 py-3 text-sm text-muted">
               No outcomes
             </div>
           )}
@@ -542,7 +542,7 @@ export function SwapWidget({
           </p>
         )}
 
-        <div className="flex flex-col gap-2.5 border-t border-paper/10 pt-4">
+        <div className="flex flex-col gap-2.5 border-t border-edge pt-4">
           <div className="flex justify-between gap-3">
             <span className={labelClass}>{receiveLabel}</span>
             <span className="font-mono text-sm font-semibold text-paper">

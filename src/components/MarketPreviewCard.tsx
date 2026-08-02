@@ -189,7 +189,7 @@ export const MarketPreviewCard: React.FC<MarketPreviewCardProps> = ({
         </ul>
       )}
 
-      <div className="mt-auto flex flex-wrap items-end justify-between gap-4 border-t border-paper/10 pt-4 sm:pt-5">
+      <div className="mt-auto flex flex-wrap items-end justify-between gap-4 border-t border-edge pt-4 sm:pt-5">
         <div className="flex flex-col items-start gap-2">
           <span className="text-xs font-semibold uppercase tracking-[0.08em] text-muted">
             {hasLeader ? `Leading · ${leadingLabel}` : 'Leading odds'}

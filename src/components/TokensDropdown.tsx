@@ -48,7 +48,7 @@ export function TokensDropdown({
   if (options.length <= 1) {
     if (isBlock) {
       return (
-        <div className="flex w-full items-center rounded-panel border border-paper/10 bg-wall px-4 py-3">
+        <div className="flex w-full items-center rounded-panel border border-edge bg-wall px-4 py-3">
           <span className="truncate text-sm font-semibold uppercase tracking-[0.08em] text-paper">
             {label}
           </span>
@@ -56,7 +56,7 @@ export function TokensDropdown({
       );
     }
     return (
-      <div className="flex h-full w-[108px] cursor-default items-center rounded-r-panel border-l border-paper/10 bg-wall/60 px-3">
+      <div className="flex h-full w-[108px] cursor-default items-center rounded-r-panel border-l border-edge bg-wall/60 px-3">
         <span className="truncate text-xs font-semibold uppercase tracking-[0.08em] text-paper">
           {label}
         </span>
@@ -73,8 +73,8 @@ export function TokensDropdown({
         onClick={() => setOpen((o) => !o)}
         className={
           isBlock
-            ? 'flex w-full cursor-pointer items-center justify-between gap-2 rounded-panel border border-paper/10 bg-wall px-4 py-3 transition-colors hover:border-paper/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-up'
-            : 'flex h-full w-full cursor-pointer items-center justify-between gap-1.5 rounded-r-panel border-l border-paper/10 bg-wall/60 px-3 py-3 transition-colors hover:bg-wall focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-up'
+            ? 'flex w-full cursor-pointer items-center justify-between gap-2 rounded-panel border border-edge bg-wall px-4 py-3 transition-colors hover:border-paper/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-up'
+            : 'flex h-full w-full cursor-pointer items-center justify-between gap-1.5 rounded-r-panel border-l border-edge bg-wall/60 px-3 py-3 transition-colors hover:bg-wall focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-up'
         }
       >
         <span
@@ -95,7 +95,7 @@ export function TokensDropdown({
           />
           <div
             role="listbox"
-            className={`absolute top-full z-30 mt-1 max-h-60 overflow-y-auto overflow-x-hidden rounded-panel border border-paper/10 bg-plaque py-1 shadow-panel ${
+            className={`absolute top-full z-30 mt-1 max-h-60 overflow-y-auto overflow-x-hidden rounded-panel border border-edge bg-plaque py-1 shadow-panel ${
               isBlock ? 'left-0 right-0' : 'right-0 min-w-[12rem]'
             }`}
           >

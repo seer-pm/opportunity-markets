@@ -23,17 +23,17 @@ export interface IOutcomeData {
   data: Array<{ time: UTCTimestamp; value: number }>;
 }
 
-/** Auction Lot Wall series: violet up / red down / plaque-edge alternation */
+/** Seer Night Shell series: lavender up / red down / plaque-edge alternation */
 const CHART_COLORS = [
-  '#8250fe',
+  '#A774D1',
   '#ea3943',
-  '#9aa3b2',
-  '#2c323c',
-  '#8250fe',
+  '#8B83A3',
+  '#1e1830',
+  '#520078',
   '#ea3943',
 ];
 
-const FALLBACK_SERIES_COLOR = '#9aa3b2';
+const FALLBACK_SERIES_COLOR = '#8B83A3';
 
 function getSeries(market: Market, chartData: ChartData['chartData']) {
   if (market.type === 'Futarchy') {
@@ -271,7 +271,7 @@ function LightweightChart({
       <div ref={chartContainerRef} />
       {tooltipData && (
         <div
-          className="pointer-events-none absolute z-10 rounded-panel border border-paper/10 bg-plaque p-3 shadow-panel"
+          className="pointer-events-none absolute z-10 rounded-panel border border-edge bg-plaque p-3 shadow-panel"
           style={{
             left: `${tooltipData.x + 10}px`,
             top: `${tooltipData.y - 10}px`,

@@ -42,11 +42,14 @@ export const wagmiConfig = createConfig(
     chains: [...networks],
     transports: { [gnosis.id]: gnosisTransport },
     walletConnectProjectId,
-    appName: 'Opportunity Markets',
+    appName: 'Seer · Opportunity Markets',
     appDescription:
       'Community proposals become market outcomes. Trade on which ideas get chosen, and earn rewards when yours wins.',
     appUrl: typeof window !== 'undefined' ? window.location.origin : '',
-    appIcon: 'https://avatars.githubusercontent.com/u/179229932',
+    appIcon:
+      typeof window !== 'undefined'
+        ? `${window.location.origin}/seer-mark.png`
+        : 'https://avatars.githubusercontent.com/u/179229932',
     ssr: false,
   })
 );

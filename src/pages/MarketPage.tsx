@@ -80,7 +80,7 @@ export const MarketPage: React.FC = () => {
             <button
               type="button"
               onClick={() => void refetch()}
-              className="rounded-control bg-paper px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.08em] text-wall hover:bg-up focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
+              className="rounded-control bg-brand px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.08em] text-paper hover:bg-up focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
             >
               Retry
             </button>
@@ -198,7 +198,7 @@ export const MarketPage: React.FC = () => {
                 ))}
               </div>
             )}
-            <dl className="flex min-w-0 flex-wrap items-center gap-x-5 gap-y-2 border-t border-paper/10 pt-4">
+            <dl className="flex min-w-0 flex-wrap items-center gap-x-5 gap-y-2 border-t border-edge pt-4">
               {metaItems.map((item) => (
                 <div
                   key={item.key}

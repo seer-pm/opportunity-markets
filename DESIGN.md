@@ -1,35 +1,38 @@
 ---
 name: Opportunity Markets
-description: Auction Lot Wall — dark auction wall with equal lot plaques and violet/red bid motion
+description: Seer Night Shell — seerrebrand purple-night identity with Opportunity Markets as the product line
 colors:
-  wall: "#0b0d10"
-  plaque: "#161a20"
-  plaque-edge: "#2c323c"
-  paper: "#f2f4f6"
-  muted: "#9aa3b2"
-  up: "#8250fe"
+  wall: "#0A0814"
+  plaque: "#110d1c"
+  plaque-edge: "#1e1830"
+  paper: "#ECE8F5"
+  muted: "#8B83A3"
+  brand: "#520078"
+  up: "#A774D1"
   down: "#ea3943"
+  edge: "rgba(167, 116, 209, 0.12)"
+  edge-strong: "rgba(167, 116, 209, 0.25)"
 typography:
   display:
-    fontFamily: "Archivo, system-ui, sans-serif"
+    fontFamily: "Urbanist, system-ui, sans-serif"
     fontSize: "clamp(2.5rem, 7vw, 4.5rem)"
     fontWeight: 700
     lineHeight: 0.95
     letterSpacing: "-0.03em"
   title:
-    fontFamily: "Archivo, system-ui, sans-serif"
+    fontFamily: "Urbanist, system-ui, sans-serif"
     fontSize: "1.25rem"
     fontWeight: 600
     lineHeight: 1.15
     letterSpacing: "-0.02em"
   body:
-    fontFamily: "Source Sans 3, system-ui, sans-serif"
+    fontFamily: "Urbanist, system-ui, sans-serif"
     fontSize: "1rem"
     fontWeight: 400
     lineHeight: 1.55
     letterSpacing: "normal"
   label:
-    fontFamily: "Source Sans 3, system-ui, sans-serif"
+    fontFamily: "Urbanist, system-ui, sans-serif"
     fontSize: "0.75rem"
     fontWeight: 600
     lineHeight: 1.2
@@ -51,13 +54,13 @@ spacing:
   2xl: "64px"
 components:
   button-primary:
-    backgroundColor: "{colors.paper}"
-    textColor: "{colors.wall}"
+    backgroundColor: "{colors.brand}"
+    textColor: "{colors.paper}"
     rounded: "{rounded.control}"
     padding: "10px 20px"
   button-primary-hover:
     backgroundColor: "{colors.up}"
-    textColor: "{colors.wall}"
+    textColor: "{colors.paper}"
   button-secondary:
     backgroundColor: "transparent"
     textColor: "{colors.paper}"
@@ -89,46 +92,51 @@ components:
 
 ## Overview
 
-**Creative North Star: "Auction Lot Wall"**
+**Creative North Star: "Seer Night Shell"**
 
-A matte black auction wall where two to four live opportunities hang as equal lot plaques. The wall is quiet; the lots carry the weight. Violet and red are bid motion (up/down), never decorative accent strips. Composition is Equal Stack: quiet sticky header, product proof, then full-width stacked lots — not a dense catalog grid, not a frost-glass mist world.
+A Seer-branded purple-night shell (aligned to seerrebrand.com) where Opportunity Markets is the product line. Deep `#0A0814` ground, elevated `#110d1c` plaques, Seer mark in header and footer, brand purple `#520078` for primary actions, lavender `#A774D1` for rising odds and focus. Composition stays Equal Stack: Seer chrome, product proof, then full-width stacked lots.
 
 Density stays deliberate. Home shows a capped hero set of lots; market detail opens one active lot with outcomes, price history, and a sticky trade plaque. Motion is sparse and meaningful: a short lot-reveal on brand words, a bid-tick when odds move.
 
 **Key Characteristics:**
-- Dark wall ground with elevated plaque lots
+- Seer logo + Opportunity Markets product label in the shell
+- Purple-night wall with elevated plaque lots
 - Equal hero lots (not a dense card grid)
-- Archivo display + Source Sans 3 body + JetBrains Mono odds
+- Urbanist for UI + JetBrains Mono for odds
 - Soft-square plaques and controls (tight radius, no pills)
-- Violet up / red down as the live board language
+- Lavender up / red down as the live board language; brand purple for primary CTAs
 
 ## Colors
 
-Dark auction wall with plaque elevation and signal motion only.
+Purple-night Seer shell with plaque elevation and signal motion.
 
 ### Primary
-- **Up** (#8250fe / lch(49 99.84 307.04)): Rising odds, brand highlight on “Markets”, primary hover fill, focus rings, positive bar segments.
+- **Brand** (#520078): Primary CTAs (Connect Wallet, decisive actions). Matches seerrebrand Submit.
+- **Up** (#A774D1): Rising odds, hero accent, focus rings, positive bar segments, hover wash on Brand.
 - **Down** (#ea3943): Falling odds and negative bar segments. Pair with Up as a motion pair — never as brand chrome alone.
 
 ### Neutral
-- **Wall** (#0b0d10): Page ground and sticky header wash.
-- **Plaque** (#161a20): Lot panels, filter shells, outcome lists, trade surfaces.
-- **Plaque Edge** (#2c323c): Reserved edge tone when a harder divider than paper/10 is needed.
-- **Paper** (#f2f4f6): Primary text and primary control fill.
-- **Muted** (#9aa3b2): Supporting copy, meta labels, idle filter text.
+- **Wall** (#0A0814): Page ground and sticky header wash.
+- **Plaque** (#110d1c): Lot panels, filter shells, outcome lists, trade surfaces.
+- **Plaque Edge** (#1e1830): Reserved edge tone when a harder divider than Edge is needed.
+- **Paper** (#ECE8F5): Primary text.
+- **Muted** (#8B83A3): Supporting copy, meta labels, idle filter text.
+- **Edge** / **Edge Strong**: Purple hairlines (`rgba(167, 116, 209, 0.12/0.25)`).
 
 ### Named Rules
-**The Bid Motion Rule.** Violet and red mark real odds direction and outcome share. Brand may also highlight the wordmark “Markets”, the hero verb phrase (“markets decide”), Active status, and primary hover/focus — not arbitrary chrome fills.
+**The Bid Motion Rule.** Lavender and red mark real odds direction and outcome share. Brand purple is for decisive chrome (primary buttons), not decorative fills.
 
 **The Wall/Plaque Rule.** Content sits on Plaque; the page is Wall. Do not invert that stack into light-mode cards on dark chrome.
 
+**The Seer Shell Rule.** Header and footer lead with the Seer mark; Opportunity Markets is the product line label beside or under it.
+
 ## Typography
 
-**Display Font:** Archivo (with system-ui)
-**Body Font:** Source Sans 3 (with system-ui)
+**Display Font:** Urbanist (with system-ui)
+**Body Font:** Urbanist (with system-ui)
 **Odds / Data Font:** JetBrains Mono (with ui-monospace)
 
-**Character:** Archivo is the auctioneer — condensed confidence for brand and lot titles. Source Sans 3 is the catalog voice — readable proof and UI. JetBrains Mono is the ticker — odds and measured liquidity only.
+**Character:** Urbanist carries the Seer contest-site voice for brand and UI. JetBrains Mono is the ticker — odds and measured liquidity only.
 
 ### Hierarchy
 - **Display** (700, clamp 2.5rem–4.5rem, line-height 0.95): Home hero brand line; market titles use a slightly smaller display clamp.
@@ -169,8 +177,8 @@ Soft-square language throughout: panels at 8px, controls at 6px. Status chips, f
 
 ### Buttons
 - **Shape:** Soft-square (6px)
-- **Primary:** Paper fill, Wall text, uppercase label tracking; hover fills Up. Used for Connect Wallet, Retry, and decisive actions.
-- **Secondary / Ghost:** Transparent with paper/15 border, Paper text; hover border shifts toward Up/40.
+- **Primary:** Brand fill, Paper text, uppercase label tracking; hover fills Up. Used for Connect Wallet, Retry, and decisive actions.
+- **Secondary / Ghost:** Transparent with Edge border, Paper text; hover border shifts toward Up/40.
 - **Focus:** 2px Up outline, 2px offset on all interactive controls.
 
 ### Chips / Filters
@@ -183,33 +191,34 @@ Soft-square language throughout: panels at 8px, controls at 6px. Status chips, f
 - **Corner Style:** Panel radius (8px)
 - **Background:** Plaque
 - **Shadow Strategy:** Lot shadow (see Elevation)
-- **Border:** 1px paper at 10% opacity; hover may tint border toward Up/40
+- **Border:** 1px Edge; hover may tint toward Up/40
 - **Internal Padding:** 24px default; 32px on larger lot previews
 
 ### Inputs / Fields
 - Trade inputs live inside the trade plaque (SwapWidget). Match plaque ground, soft-square controls, Paper/Muted text, and Up focus — no light-mode form islands.
 
 ### Navigation
-- Sticky header on Wall/90 with bottom paper/10 rule. Wordmark: Archivo “Opportunity” in Paper + “Markets” in Up. Primary action is the Connect Wallet chip. Footer mirrors the wordmark and a muted “Built on Seer” credit that hovers to Up.
+- Sticky header on Wall/90 with Edge bottom rule. Seer wordmark logo left, Opportunity Markets product label beside it, Brand-filled Connect Wallet on the right. Footer repeats the Seer logo, product blurb, and Seer links (Trade on Seer, seer.pm).
 
 ### Lot Preview (signature)
-Full-width Equal Stack plaque: status + liquidity meta, Archivo title, segmented outcome strip (Up/Down tones), then leading odds in mono with optional Up/Down tick label. Hover lifts border toward Up and title toward Up.
+Full-width Equal Stack plaque: status + liquidity meta, Urbanist title, segmented outcome strip (Up/Down tones), then leading odds in mono with optional Up/Down tick label. Hover lifts border toward Up and title toward Up.
 
 ### Outcome List (signature)
-Single lot-panel with divided rows: mono index, Archivo outcome name, mono odds with bid-tick, thin probability track. Held positions wash the row with Up/5.
+Single lot-panel with divided rows: mono index, Urbanist outcome name, mono odds with bid-tick, thin probability track. Held positions wash the row with Up/5.
 
 ## Do's and Don'ts
 
 ### Do:
+- **Do** lead chrome with the Seer mark; keep Opportunity Markets as the product line label.
 - **Do** keep Opportunity Markets product copy and Seer browse/trade flows intact.
 - **Do** give each of 2–4 featured markets equal hero presence in the stack.
-- **Do** use violet/red only for real odds motion and outcome share.
+- **Do** use lavender/red for real odds motion; Brand purple for primary CTAs.
 - **Do** keep controls soft-square (6px) and panels at 8px.
-- **Do** credit Seer as protocol (“Built on Seer”, “View on Seer”) without making Seer the product brand.
 
 ### Don't:
+- **Don't** present Opportunity Markets as a competing standalone brand without Seer chrome.
 - **Don't** revive Dusk Shader Mist, frost glass, or misty blur panels as the world.
 - **Don't** ship a dense many-card catalog grid as the home default.
 - **Don't** add submit-proposal CTAs on marketing or browse surfaces.
 - **Don't** use Paradigm scout/sponsor/talent framing.
-- **Don't** use pill radii, neon glow, or crypto-HUD chrome; Up violet is bid signal, not decoration.
+- **Don't** use pill radii, neon glow, or crypto-HUD chrome.

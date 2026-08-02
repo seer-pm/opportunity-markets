@@ -113,7 +113,9 @@ export const Home: React.FC = () => {
           <div className="max-w-2xl">
             <h1 className="font-display text-[clamp(1.75rem,8vw,4.5rem)] font-bold leading-[0.95] tracking-[-0.03em] text-paper sm:text-[clamp(2.5rem,7vw,4.5rem)]">
               <span className="hero-entrance-word">Community picks,</span>{' '}
-              <span className="hero-entrance-word text-up">markets decide</span>
+              <span className="hero-entrance-word font-semibold italic text-up">
+                markets decide
+              </span>
             </h1>
             <p className="hero-entrance-lead mt-2 max-w-xl text-sm leading-snug text-muted sm:mt-4 sm:text-lg sm:leading-relaxed">
               Community proposals become market outcomes. Trade on which ideas
@@ -164,7 +166,7 @@ export const Home: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => void refetch()}
-                  className="rounded-control bg-paper px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.08em] text-wall hover:bg-up focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
+                  className="rounded-control bg-brand px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.08em] text-paper hover:bg-up focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
                 >
                   Retry
                 </button>

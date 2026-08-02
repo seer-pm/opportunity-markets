@@ -28,11 +28,14 @@ Users browse opportunity markets in a Vite + React SPA, open a market detail pag
 - Market detail: outcomes, status, liquidity, on-chain trading via `@seer-pm/react`, price history charts.
 - English UI only; marketing prose must not use em dashes; do not frame markets as private.
 - Do not use Paradigm “scout / sponsor / talent / deals / research / startups” language.
-- Preserve Seer protocol credit (“Built on Seer”, “View on Seer”) without treating Seer as the product brand.
+- Present as a Seer property: Seer mark in header and footer, seerrebrand colourways, with Opportunity Markets as the product line inside that shell.
+- Keep “View on Seer” and app.seer.pm links for protocol navigation.
 
 ## Brand Commitments
 
-- Product name: **Opportunity Markets** (mark: Opportunity + highlighted Markets).
+- Shell brand: **Seer** (official mark + wordmark from the Seer / seerrebrand identity).
+- Product line: **Opportunity Markets** (secondary label beside or under the Seer mark; not a standalone competing wordmark).
+- Colourways: seerrebrand purple night (`#0A0814` ground, `#520078` / `#A774D1` accents, `#ECE8F5` text).
 - Canonical product sentence: “Community proposals become market outcomes. Trade on which ideas get chosen, and earn rewards when yours wins.”
 - Voice: clear, concrete, community-forward; no hype about private scouting or sponsor investigation.
 
@@ -45,7 +48,7 @@ Users browse opportunity markets in a Vite + React SPA, open a market detail pag
 
 1. **Proposals are the product** — every explanatory surface should make the submit → outcome → choose → reward loop obvious.
 2. **Trade the field** — traders and submitters share the same market; odds reflect belief about organizer choice.
-3. **Seer is infrastructure** — brand Opportunity Markets; credit Seer as protocol only.
+3. **Seer shell, Opportunity Markets product** — look like Seer; Opportunity Markets names the product line and job.
 4. **Public and plain** — markets are public; copy stays short, English, and free of scout/sponsor jargon.
 5. **Preserve the trading core** — design work must not break Seer market list, detail, chart, or swap flows.
 

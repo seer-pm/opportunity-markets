@@ -7,7 +7,7 @@
     min-height: 100vh;
     background-color: theme('colors.wall');
     color: theme('colors.paper');
-    font-family: "Source Sans 3", system-ui, sans-serif;
+    font-family: Urbanist, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -16,7 +16,7 @@
   }
 }
 
-/* Auction Lot Wall — react-toastify as plaque notices */
+/* Seer Night Shell — react-toastify as plaque notices */
 :root {
   --toastify-color-light: theme('colors.plaque');
   --toastify-color-dark: theme('colors.plaque');
@@ -37,7 +37,7 @@
   --toastify-toast-min-height: 3.5rem;
   --toastify-toast-bd-radius: theme('borderRadius.panel');
   --toastify-toast-shadow: theme('boxShadow.panel');
-  --toastify-font-family: "Source Sans 3", system-ui, sans-serif;
+  --toastify-font-family: Urbanist, system-ui, sans-serif;
   --toastify-z-index: 9999;
   --toastify-text-color-light: theme('colors.paper');
   --toastify-text-color-dark: theme('colors.paper');
@@ -57,13 +57,13 @@
 @layer components {
   .lot-panel {
     border-radius: theme('borderRadius.panel');
-    border: 1px solid color-mix(in srgb, theme('colors.paper') 10%, transparent);
+    border: 1px solid theme('colors.edge');
     background-color: theme('colors.plaque');
     box-shadow: theme('boxShadow.lot');
   }
 
   .Toastify__toast.lot-toast {
-    border: 1px solid color-mix(in srgb, theme('colors.paper') 10%, transparent);
+    border: 1px solid theme('colors.edge');
     background-color: theme('colors.plaque');
     color: theme('colors.paper');
     gap: 0.25rem;
