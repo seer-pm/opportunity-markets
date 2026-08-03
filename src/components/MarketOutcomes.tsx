@@ -15,6 +15,8 @@ import {
 export interface MarketOutcomesProps {
   readonly className?: string;
   readonly market: Market;
+  readonly selectedOutcomeIndex: number;
+  readonly onSelectOutcome: (index: number) => void;
 }
 
 interface OutcomeCardProps {
@@ -23,7 +25,9 @@ interface OutcomeCardProps {
   readonly label: string;
   readonly odds: number;
   readonly rank: number;
+  readonly selected: boolean;
   readonly assets?: SubmissionAssets;
+  readonly onSelect: () => void;
   readonly onViewImages: (label: string, assets: SubmissionAssets) => void;
 }
 
@@ -64,7 +68,9 @@ function OutcomeCard({
   label,
   odds,
   rank,
+  selected,
   assets,
+  onSelect,
   onViewImages,
 }: OutcomeCardProps) {
   const { address: account } = useAccount();
@@ -105,19 +111,32 @@ function OutcomeCard({
   const proposalLinkClass =
     'inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.08em] text-paper underline decoration-paper/35 underline-offset-[3px] transition-colors hover:text-up hover:decoration-up focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up';
 
+  const rowTone = selected
+    ? 'bg-up/10 ring-1 ring-inset ring-up/35'
+    : hasPosition
+      ? 'bg-up/5'
+      : '';
+
   return (
     <div
-      className={`grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-4 gap-y-2 px-5 py-4 ${
-        hasPosition ? 'bg-up/5' : ''
-      }`}
+      data-selected={selected ? 'true' : undefined}
+      onClick={onSelect}
+      className={`grid cursor-pointer grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-4 gap-y-2 px-5 py-4 transition-colors hover:bg-up/5 ${rowTone}`}
     >
       <span className="font-mono text-sm font-semibold tabular-nums text-muted">
         {rankLabel}
       </span>
       <div className="min-w-0">
-        <h3 className="font-display text-lg font-semibold leading-tight text-paper">
-          {label}
-        </h3>
+        <div className="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-1">
+          <h3 className="font-display text-lg font-semibold leading-tight text-paper">
+            {label}
+          </h3>
+          {selected ? (
+            <span className="text-xs font-semibold uppercase tracking-[0.08em] text-up">
+              Trading
+            </span>
+          ) : null}
+        </div>
         {showMeta ? (
           <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
             {hasPdf && assets?.pdfUrl ? (
@@ -126,6 +145,7 @@ function OutcomeCard({
                 target="_blank"
                 rel="noreferrer"
                 className={proposalLinkClass}
+                onClick={(event) => event.stopPropagation()}
               >
                 View proposal ↗
               </a>
@@ -133,7 +153,10 @@ function OutcomeCard({
             {hasImages && assets ? (
               <button
                 type="button"
-                onClick={() => onViewImages(label, assets)}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  onViewImages(label, assets);
+                }}
                 className={proposalLinkClass}
               >
                 {hasBothAssets ? 'View images' : 'View proposal'}
@@ -176,6 +199,8 @@ function OutcomeCard({
 export const MarketOutcomes: React.FC<MarketOutcomesProps> = ({
   className = '',
   market,
+  selectedOutcomeIndex,
+  onSelectOutcome,
 }: MarketOutcomesProps) => {
   const wrapped = market.wrappedTokens ?? [];
   const rawOutcomes = market.outcomes ?? [];
@@ -244,7 +269,9 @@ export const MarketOutcomes: React.FC<MarketOutcomesProps> = ({
               label={label}
               odds={outcomeOdds}
               rank={rankIdx + 1}
+              selected={selectedOutcomeIndex === index}
               assets={assets}
+              onSelect={() => onSelectOutcome(index)}
               onViewImages={onViewImages}
             />
           ))}

@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import MainHeader from '../components/MainHeader';
 import MarketOutcomes from '../components/MarketOutcomes';
 import TradingWidget from '../components/TradingWidget';
+import DesignCarousel from '../components/DesignCarousel';
 import Footer from '../components/Footer';
 import { useMarket } from '@seer-pm/react';
 import { Address, zeroAddress } from 'viem';
@@ -16,6 +17,7 @@ import {
   getMarketDisplayTitle,
   getMarketOverride,
 } from '../config/market';
+import { parseOutcomeSearchParam } from '../config/submissions';
 
 function MarketPageShell({
   children,
@@ -38,9 +40,30 @@ export const MarketPage: React.FC = () => {
     chainId: string;
     marketId: Address;
   }>();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { data: market, isLoading, isError, refetch } = useMarket(
     marketId,
     Number(chainId ?? 0) as SupportedChain
+  );
+
+  const outcomeCount = market?.wrappedTokens?.length ?? 0;
+  const selectedOutcomeIndex = parseOutcomeSearchParam(
+    searchParams.get('outcome'),
+    outcomeCount
+  );
+
+  const setSelectedOutcome = React.useCallback(
+    (index: number) => {
+      setSearchParams(
+        (prev) => {
+          const next = new URLSearchParams(prev);
+          next.set('outcome', String(index));
+          return next;
+        },
+        { replace: true }
+      );
+    },
+    [setSearchParams]
   );
 
   if (!chainId || !marketId) {
@@ -215,11 +238,24 @@ export const MarketPage: React.FC = () => {
             </dl>
           </section>
 
-          <MarketOutcomes market={market} />
+          <DesignCarousel
+            market={market}
+            variant="detail"
+            selectedOutcomeIndex={selectedOutcomeIndex}
+            onSelectOutcome={setSelectedOutcome}
+          />
+
+          <MarketOutcomes
+            market={market}
+            selectedOutcomeIndex={selectedOutcomeIndex}
+            onSelectOutcome={setSelectedOutcome}
+          />
         </div>
 
         <TradingWidget
           market={market}
+          outcomeIndex={selectedOutcomeIndex}
+          onOutcomeIndexChange={setSelectedOutcome}
           className="scroll-mt-28 lg:col-span-4 lg:sticky lg:top-24 lg:self-start"
         />
       </div>

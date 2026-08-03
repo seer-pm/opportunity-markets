@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { createPortal } from 'react-dom';
+import { imageNeedsLightBackground } from '../utils/imageNeedsLightBackground';
 
 export type SubmissionLightboxProps = {
   readonly open: boolean;
@@ -30,6 +31,21 @@ function PortfolioImage({
 }) {
   const [failed, setFailed] = React.useState(false);
   const [retryKey, setRetryKey] = React.useState(0);
+  const [needsLightBg, setNeedsLightBg] = React.useState(false);
+  const imgRef = React.useRef<HTMLImageElement>(null);
+
+  const resolveLightBg = React.useCallback((img: HTMLImageElement) => {
+    setNeedsLightBg(imageNeedsLightBackground(img));
+  }, []);
+
+  React.useEffect(() => {
+    setFailed(false);
+    setNeedsLightBg(false);
+    const img = imgRef.current;
+    if (img?.complete && img.naturalWidth > 0) {
+      resolveLightBg(img);
+    }
+  }, [url, retryKey, resolveLightBg]);
 
   if (failed) {
     return (
@@ -50,13 +66,27 @@ function PortfolioImage({
   }
 
   return (
-    <img
-      key={`${url}-${retryKey}`}
-      src={url}
-      alt={alt}
-      className="mx-auto h-auto w-full max-w-full"
-      onError={() => setFailed(true)}
-    />
+    <div
+      className={
+        needsLightBg
+          ? 'overflow-hidden rounded-panel bg-white p-4 sm:p-6'
+          : undefined
+      }
+    >
+      <img
+        key={`${url}-${retryKey}`}
+        ref={imgRef}
+        src={url}
+        alt={alt}
+        crossOrigin="anonymous"
+        className="mx-auto h-auto w-full max-w-full"
+        onLoad={(event) => resolveLightBg(event.currentTarget)}
+        onError={() => {
+          setFailed(true);
+          setNeedsLightBg(false);
+        }}
+      />
+    </div>
   );
 }
 

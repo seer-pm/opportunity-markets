@@ -12,6 +12,17 @@ export type MarketOverride = {
    * Also matches when the outcome title equals the folder id.
    */
   submissions?: Record<string, string>;
+  /**
+   * Carousel curation keys: `${submissionId}/${fileName}`.
+   * When `carouselInclude` is non-empty, only those images appear.
+   * Otherwise all images appear except `carouselExclude`.
+   */
+  carouselInclude?: string[];
+  carouselExclude?: string[];
+  /** Force white slide frame (dark logos the detector misses). */
+  carouselLightBg?: string[];
+  /** Never apply white slide frame (false positives). */
+  carouselNoLightBg?: string[];
 };
 
 export const MARKET_OVERRIDES: Record<string, MarketOverride> = {

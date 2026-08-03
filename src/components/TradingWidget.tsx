@@ -5,11 +5,15 @@ import { SwapWidget } from './SwapWidget';
 export interface TradingWidgetProps {
   readonly className?: string;
   readonly market: Market;
+  readonly outcomeIndex: number;
+  readonly onOutcomeIndexChange: (index: number) => void;
 }
 
 export const TradingWidget: React.FC<TradingWidgetProps> = ({
   className = '',
   market,
+  outcomeIndex,
+  onOutcomeIndexChange,
 }) => {
   return (
     <aside
@@ -17,7 +21,11 @@ export const TradingWidget: React.FC<TradingWidgetProps> = ({
       className={className}
       data-purpose="trading-interface"
     >
-      <SwapWidget market={market} />
+      <SwapWidget
+        market={market}
+        outcomeIndex={outcomeIndex}
+        onOutcomeIndexChange={onOutcomeIndexChange}
+      />
     </aside>
   );
 };

@@ -5,6 +5,7 @@ import { MarketStatus, getMarketStatus } from '@seer-pm/sdk';
 import { formatBigNumbers } from '../utils/format';
 import { useOddsDelta } from '../hooks/useOddsDelta';
 import { getMarketDisplayTitle } from '../config/market';
+import DesignCarousel from './DesignCarousel';
 
 export interface MarketPreviewCardProps {
   readonly market: Market;
@@ -102,12 +103,11 @@ export const MarketPreviewCard: React.FC<MarketPreviewCardProps> = ({
   const hiddenOutcomes = Math.max(ranked.length - PREVIEW_OUTCOME_CAP, 0);
   const displayTitle = getMarketDisplayTitle(market.id, market.marketName);
   const hasLeader = Boolean(leadingLabel && displayPrice);
+  const marketHref = `/markets/${market.chainId}/${market.id}`;
 
   return (
-    <Link
-      to={`/markets/${market.chainId}/${market.id}`}
-      aria-label={`Open opportunity: ${displayTitle}`}
-      className="lot-panel lot-cascade-item group flex flex-col gap-4 p-5 transition-[border-color,box-shadow] duration-300 hover:border-up/40 hover:shadow-lot focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up sm:gap-5 sm:p-6 md:gap-6 md:p-8"
+    <article
+      className="lot-panel lot-cascade-item group flex flex-col overflow-hidden transition-[border-color,box-shadow] duration-300 hover:border-up/40 hover:shadow-lot"
       style={
         {
           '--cascade-i': cascadeIndex,
@@ -115,81 +115,96 @@ export const MarketPreviewCard: React.FC<MarketPreviewCardProps> = ({
         } as React.CSSProperties
       }
     >
-      <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-semibold uppercase tracking-[0.08em] text-muted">
-        <span
-          className={
-            isClosed
-              ? 'rounded-control border border-paper/15 px-2.5 py-1 text-muted'
-              : 'rounded-control border border-up/35 px-2.5 py-1 text-up'
-          }
-        >
-          {marketStatusText}
-        </span>
-        <span>
-          Liquidity{' '}
-          <span className="text-paper">
-            {market.liquidityUSD !== undefined
-              ? `$${formatBigNumbers(Number(market.liquidityUSD))}`
-              : '—'}
+      <Link
+        to={marketHref}
+        aria-label={`Open opportunity: ${displayTitle}`}
+        className="flex flex-col gap-4 p-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-up sm:gap-5 sm:p-6 md:gap-6 md:p-8"
+      >
+        <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-semibold uppercase tracking-[0.08em] text-muted">
+          <span
+            className={
+              isClosed
+                ? 'rounded-control border border-paper/15 px-2.5 py-1 text-muted'
+                : 'rounded-control border border-up/35 px-2.5 py-1 text-up'
+            }
+          >
+            {marketStatusText}
           </span>
-        </span>
-      </div>
-
-      <h2 className="font-display text-[clamp(1.15rem,2.8vw,1.85rem)] font-semibold leading-[1.15] tracking-tight text-paper transition-colors group-hover:text-up">
-        {displayTitle}
-      </h2>
-
-      {outcomes.length > 0 && (
-        <div
-          className="flex h-1.5 w-full overflow-hidden rounded-control bg-wall"
-          aria-hidden
-        >
-          {hasOdds
-            ? outcomes.map((outcome, i) => {
-                const width = Math.max((outcome.percent / total) * 100, 0);
-                return (
-                  <div
-                    key={`${outcome.label}-${i}`}
-                    className={shareTone(i, leadingIndex, outcomes.length)}
-                    style={{ width: `${width}%` }}
-                  />
-                );
-              })
-            : null}
+          <span>
+            Liquidity{' '}
+            <span className="text-paper">
+              {market.liquidityUSD !== undefined
+                ? `$${formatBigNumbers(Number(market.liquidityUSD))}`
+                : '—'}
+            </span>
+          </span>
         </div>
-      )}
 
-      {topOutcomes.length > 0 && (
-        <ul className="flex flex-col gap-2">
-          {topOutcomes.map((outcome) => (
-            <li
-              key={outcome.label}
-              className="flex min-w-0 items-baseline justify-between gap-3"
-            >
-              <span className="min-w-0 truncate text-sm text-paper">
-                {outcome.label}
-              </span>
-              <span
-                className={
-                  outcome.label === leadingLabel &&
-                  displayPrice != null
-                    ? 'shrink-0 font-mono text-sm font-semibold tabular-nums text-up'
-                    : 'shrink-0 font-mono text-sm font-semibold tabular-nums text-muted'
-                }
+        <h2 className="font-display text-[clamp(1.15rem,2.8vw,1.85rem)] font-semibold leading-[1.15] tracking-tight text-paper transition-colors group-hover:text-up">
+          {displayTitle}
+        </h2>
+
+        {outcomes.length > 0 && (
+          <div
+            className="flex h-1.5 w-full overflow-hidden rounded-control bg-wall"
+            aria-hidden
+          >
+            {hasOdds
+              ? outcomes.map((outcome, i) => {
+                  const width = Math.max((outcome.percent / total) * 100, 0);
+                  return (
+                    <div
+                      key={`${outcome.label}-${i}`}
+                      className={shareTone(i, leadingIndex, outcomes.length)}
+                      style={{ width: `${width}%` }}
+                    />
+                  );
+                })
+              : null}
+          </div>
+        )}
+
+        {topOutcomes.length > 0 && (
+          <ul className="flex flex-col gap-2">
+            {topOutcomes.map((outcome) => (
+              <li
+                key={outcome.label}
+                className="flex min-w-0 items-baseline justify-between gap-3"
               >
-                {outcome.percent}%
-              </span>
-            </li>
-          ))}
-          {hiddenOutcomes > 0 && (
-            <li className="text-xs font-semibold uppercase tracking-[0.08em] text-muted">
-              +{hiddenOutcomes} more
-            </li>
-          )}
-        </ul>
-      )}
+                <span className="min-w-0 truncate text-sm text-paper">
+                  {outcome.label}
+                </span>
+                <span
+                  className={
+                    outcome.label === leadingLabel && displayPrice != null
+                      ? 'shrink-0 font-mono text-sm font-semibold tabular-nums text-up'
+                      : 'shrink-0 font-mono text-sm font-semibold tabular-nums text-muted'
+                  }
+                >
+                  {outcome.percent}%
+                </span>
+              </li>
+            ))}
+            {hiddenOutcomes > 0 && (
+              <li className="text-xs font-semibold uppercase tracking-[0.08em] text-muted">
+                +{hiddenOutcomes} more
+              </li>
+            )}
+          </ul>
+        )}
+      </Link>
 
-      <div className="mt-auto flex flex-wrap items-end justify-between gap-4 border-t border-edge pt-4 sm:pt-5">
+      <DesignCarousel
+        market={market}
+        variant="home"
+        embedded
+        className="border-t border-edge px-5 py-4 sm:px-6 sm:py-5 md:px-8"
+      />
+
+      <Link
+        to={marketHref}
+        className="mt-auto flex flex-wrap items-end justify-between gap-4 border-t border-edge px-5 py-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-up sm:px-6 sm:py-5 md:px-8"
+      >
         <div className="flex flex-col items-start gap-2">
           <span className="text-xs font-semibold uppercase tracking-[0.08em] text-muted">
             {hasLeader ? `Leading · ${leadingLabel}` : 'Leading odds'}
@@ -209,14 +224,11 @@ export const MarketPreviewCard: React.FC<MarketPreviewCardProps> = ({
             )}
           </div>
         </div>
-        <span
-          aria-hidden
-          className="text-xs font-semibold uppercase tracking-[0.08em] text-up transition-colors group-hover:text-paper group-focus-visible:text-paper"
-        >
+        <span className="text-xs font-semibold uppercase tracking-[0.08em] text-up transition-colors group-hover:text-paper">
           Open opportunity →
         </span>
-      </div>
-    </Link>
+      </Link>
+    </article>
   );
 };
 

@@ -48,6 +48,8 @@ const SELL_PRESETS = [
 
 export interface SwapWidgetProps {
   readonly market: Market;
+  readonly outcomeIndex: number;
+  readonly onOutcomeIndexChange: (index: number) => void;
 }
 
 function useDebounce<T>(value: T, delay: number): T {
@@ -108,6 +110,8 @@ function getSelectedCollateral(
 
 export function SwapWidget({
   market,
+  outcomeIndex,
+  onOutcomeIndexChange,
 }: SwapWidgetProps): React.ReactElement {
   const { address: account, chainId: connectedChainId } = useAccount();
   const { switchChain, isPending: isSwitchPending } = useSwitchChain();
@@ -126,7 +130,6 @@ export function SwapWidget({
   }, [account, connectedChainId, market.chainId, switchChain]);
 
   const [mode, setMode] = React.useState<'buy' | 'sell'>('buy');
-  const [outcomeIndex, setOutcomeIndex] = React.useState(0);
   const [amount, setAmount] = React.useState('');
 
   const outcomeTokens = React.useMemo(
@@ -342,9 +345,9 @@ export function SwapWidget({
 
   const handleSelectOutcome = React.useCallback(
     (token: Token) => {
-      setOutcomeIndex(mapTokenToIndex(token));
+      onOutcomeIndexChange(mapTokenToIndex(token));
     },
-    [mapTokenToIndex]
+    [mapTokenToIndex, onOutcomeIndexChange]
   );
 
   const handleApprove = React.useCallback(async () => {
