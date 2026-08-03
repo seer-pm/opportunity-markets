@@ -26,7 +26,7 @@ export type MarketOverride = {
 };
 
 export const MARKET_OVERRIDES: Record<string, MarketOverride> = {
-  '0xddc6A1C3908DA00D1C2bf1728320C9306D40CEd9': {
+  '0xc2b8E25675db9977AD14BcA62b655E4aa6B36683': {
     title: 'Seer Merch for Devcon Mumbai',
     description:
       'This market is used to choose which Seer merch designs will be produced for Devcon Mumbai.\n\nCommunity ideas were collected and turned into design mockups. Each design is listed as an outcome of this multicategorical market. Once the market resolves, 5 designs become the official Seer merch for Devcon Mumbai.\n\nWinning submissions get printed and earn $100 in trading credits each.',
@@ -36,7 +36,7 @@ export const MARKET_OVERRIDES: Record<string, MarketOverride> = {
       'Proof of Belonging Tshirt': 'Proof of Belonging Tshirt',
       'See What The Market Believes T shirt': 'See What The Market Believes T shirt',
       'Seer Apparel Purple Set : Hoodie+hat': 'Seer Apparel Purple Set (Hoodie+hat)_',
-      'Seer Polo :  "Predict Everything. See Tomorrow." b':
+      'Seer Polo : Predict Everything. See Tomorrow.':
         'Seer Polo _  _Predict Everything. See Tomorrow._',
       'Seer Falcon Hoodie': 'Seer Falcon Hoodie_',
       'Seer merch full set: Tshirt, stickers and bottles':
