@@ -55,9 +55,9 @@ export const wagmiConfig = createConfig(
 );
 
 if (typeof window !== 'undefined') {
-  import('@seer-pm/sdk').then(({ configureRpcProviders, ChainId }) => {
-    configureRpcProviders({
-      [ChainId.GNOSIS]: gnosisPrimaryRpcUrl,
+  import('@seer-pm/sdk').then(({ configurePublicRpcUrls }) => {
+    configurePublicRpcUrls({
+      [gnosis.id]: gnosisPrimaryRpcUrl,
     });
   });
 }

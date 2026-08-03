@@ -20,7 +20,7 @@ import {
   useApproveTokens,
 } from '@seer-pm/react';
 import { ConnectKitButton } from 'connectkit';
-import { toastify, toastifyTx } from '../lib/toastify';
+import { toastifyTx } from '../lib/toastify';
 import { TokensDropdown } from './TokensDropdown';
 
 const amountInputClass =
@@ -205,7 +205,8 @@ export function SwapWidget({
     mode,
     TradeType.EXACT_INPUT,
     '1',
-    false
+    market,
+    safeOutcomeIndex
   );
 
   const requiredAmount = quoteData?.trade
@@ -222,7 +223,12 @@ export function SwapWidget({
   const {
     data: missingApprovals = [],
     isLoading: isApprovalLoading,
-  } = useMissingTradeApproval(account, quoteData?.trade);
+  } = useMissingTradeApproval(
+    account,
+    quoteData?.trade,
+    quoteData?.psm3Leg,
+    quoteData?.completeSetLeg
+  );
 
   const needsTokenApproval =
     !isSeerCreditsCollateral && missingApprovals.length > 0;
@@ -237,8 +243,10 @@ export function SwapWidget({
       setAmount('');
     },
     false,
-    toastify,
-    toastifyTx
+    toastifyTx,
+    market,
+    quoteData?.psm3Leg,
+    quoteData?.completeSetLeg
   );
 
   const executeTrade = tradeTokens.mutateAsync;
