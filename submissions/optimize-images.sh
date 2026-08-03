@@ -3,7 +3,35 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-echo "Optimizing images under: $SCRIPT_DIR"
+if (( $# > 1 )); then
+  echo "Usage: $0 [subdirectory]"
+  exit 1
+fi
+
+if (( $# == 1 )); then
+  sub="${1#./}"
+  sub="${sub%/}"
+  TARGET_DIR="$SCRIPT_DIR/$sub"
+else
+  TARGET_DIR="$SCRIPT_DIR"
+fi
+
+if [[ ! -d "$TARGET_DIR" ]]; then
+  echo "Not a directory: $TARGET_DIR"
+  exit 1
+fi
+
+SCRIPT_REAL="$(cd "$SCRIPT_DIR" && pwd -P)"
+TARGET_REAL="$(cd "$TARGET_DIR" && pwd -P)"
+case "$TARGET_REAL" in
+  "$SCRIPT_REAL"|"$SCRIPT_REAL"/*) ;;
+  *)
+    echo "Path escapes submissions directory: $1"
+    exit 1
+    ;;
+esac
+
+echo "Optimizing images under: $TARGET_REAL"
 echo
 
 WORK="$(mktemp -d)"
@@ -145,4 +173,4 @@ console.log(
 );
 EOF
 
-SUBMISSIONS_ROOT="$SCRIPT_DIR" node "$WORK/optimize.mjs"
+SUBMISSIONS_ROOT="$TARGET_REAL" node "$WORK/optimize.mjs"

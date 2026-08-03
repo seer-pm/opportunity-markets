@@ -1,4 +1,4 @@
-import { readdir, readFile, writeFile } from "node:fs/promises";
+import { readdir, readFile, realpath, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import ipfsPublish from "./ipfs-publish.js";
@@ -142,14 +142,59 @@ async function mapPool(items, concurrency, worker) {
   await Promise.all(runners);
 }
 
+/**
+ * @returns {Promise<string[]>} paths relative to ROOT to walk
+ */
+async function resolveScanRoots() {
+  const args = process.argv.slice(2);
+  if (args.length > 1) {
+    console.error("Usage: node upload-to-ipfs.js [subdirectory]");
+    process.exit(1);
+  }
+
+  const rootReal = await realpath(ROOT);
+
+  if (args.length === 0) {
+    const rootEntries = await readdir(ROOT, { withFileTypes: true });
+    console.log(`Uploading under: ${rootReal}`);
+    return rootEntries.filter((e) => e.isDirectory()).map((e) => e.name);
+  }
+
+  let sub = args[0];
+  if (sub.startsWith("./")) sub = sub.slice(2);
+  if (sub.endsWith("/")) sub = sub.slice(0, -1);
+
+  const targetDir = path.join(ROOT, sub);
+
+  let targetStat;
+  try {
+    targetStat = await stat(targetDir);
+  } catch {
+    console.error(`Not a directory: ${targetDir}`);
+    process.exit(1);
+  }
+  if (!targetStat.isDirectory()) {
+    console.error(`Not a directory: ${targetDir}`);
+    process.exit(1);
+  }
+
+  const targetReal = await realpath(targetDir);
+  if (targetReal !== rootReal && !targetReal.startsWith(`${rootReal}${path.sep}`)) {
+    console.error(`Path escapes submissions directory: ${args[0]}`);
+    process.exit(1);
+  }
+
+  console.log(`Uploading under: ${targetReal}`);
+  return [path.relative(ROOT, targetDir).split(path.sep).join("/")];
+}
+
 async function main() {
-  const rootEntries = await readdir(ROOT, { withFileTypes: true });
-  const marketDirs = rootEntries.filter((e) => e.isDirectory()).map((e) => e.name);
+  const scanRoots = await resolveScanRoots();
 
   /** @type {string[]} */
   const candidates = [];
-  for (const marketDir of marketDirs) {
-    const files = await walkFiles(path.join(ROOT, marketDir));
+  for (const scanRoot of scanRoots) {
+    const files = await walkFiles(path.join(ROOT, scanRoot));
     candidates.push(...files);
   }
 

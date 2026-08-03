@@ -2,13 +2,42 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-cd "$SCRIPT_DIR"
 
 if ! command -v gs >/dev/null 2>&1; then
   echo "Ghostscript (gs) is not installed."
   echo "Install it with: sudo apt install ghostscript"
   exit 1
 fi
+
+if (( $# > 1 )); then
+  echo "Usage: $0 [subdirectory]"
+  exit 1
+fi
+
+if (( $# == 1 )); then
+  sub="${1#./}"
+  sub="${sub%/}"
+  TARGET_DIR="$SCRIPT_DIR/$sub"
+else
+  TARGET_DIR="$SCRIPT_DIR"
+fi
+
+if [[ ! -d "$TARGET_DIR" ]]; then
+  echo "Not a directory: $TARGET_DIR"
+  exit 1
+fi
+
+SCRIPT_REAL="$(cd "$SCRIPT_DIR" && pwd -P)"
+TARGET_REAL="$(cd "$TARGET_DIR" && pwd -P)"
+case "$TARGET_REAL" in
+  "$SCRIPT_REAL"|"$SCRIPT_REAL"/*) ;;
+  *)
+    echo "Path escapes submissions directory: $1"
+    exit 1
+    ;;
+esac
+
+cd "$TARGET_DIR"
 
 format_bytes() {
   awk -v n="$1" 'BEGIN {
@@ -21,7 +50,7 @@ format_bytes() {
   }'
 }
 
-echo "Optimizing PDFs under: $SCRIPT_DIR"
+echo "Optimizing PDFs under: $TARGET_REAL"
 echo
 
 mapfile -d '' files < <(

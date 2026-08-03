@@ -47,7 +47,9 @@ function resolveSubmissionId(
   outcomeTitle: string,
   explicit?: Record<string, string>
 ): string | undefined {
-  const mapped = explicit?.[outcomeTitle];
+  const title = outcomeTitle.trim();
+
+  const mapped = explicit?.[title] ?? explicit?.[outcomeTitle];
   if (mapped && findSubmissionFiles(marketKey, mapped)) {
     return mapped;
   }
@@ -55,9 +57,10 @@ function resolveSubmissionId(
   const submissions = manifest.markets[marketKey];
   if (!submissions) return undefined;
 
+  if (submissions[title]) return title;
   if (submissions[outcomeTitle]) return outcomeTitle;
 
-  const lower = outcomeTitle.toLowerCase();
+  const lower = title.toLowerCase();
   const ci = Object.keys(submissions).find((id) => id.toLowerCase() === lower);
   return ci;
 }
