@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-02T23:58:21.986Z",
+  "generatedAt": "2026-08-03T11:50:37.960Z",
   "markets": {
     "seer-rebrand": {
       "@2reb_fl-Datum": [
@@ -744,6 +744,21 @@
         }
       ],
       "Seer prediction Journal_": [
+        {
+          "name": "Seer Journal 1.png",
+          "localPath": "seer-devcon-2026-merch/Seer prediction Journal_/Seer Journal 1.png",
+          "ipfsPath": "/ipfs/QmamZPueKYUViCtBCfLQL4JdDhePndNXrUfkogzb3yVhGm"
+        },
+        {
+          "name": "Seer journal 2.png",
+          "localPath": "seer-devcon-2026-merch/Seer prediction Journal_/Seer journal 2.png",
+          "ipfsPath": "/ipfs/QmX3MpHrmDqzAXKjnpoLEJUEiX9fo4GW18tyuk3Zyb7Azw"
+        },
+        {
+          "name": "Seer Journal 3.png",
+          "localPath": "seer-devcon-2026-merch/Seer prediction Journal_/Seer Journal 3.png",
+          "ipfsPath": "/ipfs/QmTvJ3Fq7HSGYga2xagMo5RT5tmmEooFH64LxbWrAKTPkJ"
+        },
         {
           "name": "Seer prediction Journal_.pdf",
           "localPath": "seer-devcon-2026-merch/Seer prediction Journal_/Seer prediction Journal_.pdf",
