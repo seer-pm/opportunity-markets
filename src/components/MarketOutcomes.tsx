@@ -5,6 +5,7 @@ import { WRAPPED_OUTCOME_TOKEN_DECIMALS } from '@seer-pm/sdk';
 import { useTokenBalance } from '@seer-pm/react';
 import type { Market } from '@seer-pm/sdk';
 import MarketChart from './MarketChart/MarketChart';
+import MarketDiscussion from './MarketDiscussion';
 import SubmissionLightbox from './SubmissionLightbox';
 import { useOddsDelta } from '../hooks/useOddsDelta';
 import {
@@ -284,6 +285,8 @@ export const MarketOutcomes: React.FC<MarketOutcomesProps> = ({
         </h2>
         <MarketChart market={market} />
       </div>
+
+      <MarketDiscussion market={market} />
 
       <SubmissionLightbox
         open={lightbox != null}

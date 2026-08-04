@@ -938,20 +938,25 @@
     "@noble/hashes" "~1.8.0"
     "@scure/base" "~1.2.5"
 
+"@seer-pm/discussions@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@seer-pm/discussions/-/discussions-0.0.2.tgz#b2cf18e61e33178cf6388e6e4f6f4510bc528daa"
+  integrity sha512-gDLbNsEqmDF1M8FnewCrQesFiIAgdMQ+NFkU8t6W6gWAQCNVc8a3vYgB1CwkMn2rQfyqBnmLxFuUBU5wLacFiw==
+
 "@seer-pm/lens@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@seer-pm/lens/-/lens-1.4.0.tgz#33c218a142a10e73ee25852c4c5a97b23bdda068"
   integrity sha512-6kCOJd+GyF7849wyRPPDN9k7/3LCUC+6Wsx3LqgTct40dNCIG9HI7PtQt6wTt2KsrEdnWcW2ZcWJm0yjYXCRQQ==
 
-"@seer-pm/react@^0.0.14":
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/@seer-pm/react/-/react-0.0.14.tgz#a7e3eec36e56ff2bc07efa07a3b824ac7eeb9d56"
-  integrity sha512-uQ8+c1F0nPN8h6Ui+IHZXeC/GjXRFx0meXBPJhcQC6KvJbKGj3gOuss/TVJyU+eXPbiL1ddYuQke47aYjFKM1w==
+"@seer-pm/react@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/@seer-pm/react/-/react-0.0.15.tgz#cd17390d912f37e80c6e377a554a5c11ae911459"
+  integrity sha512-jOHeNx5Arg4EFL8qj3c4VCLlAljrgxbj1Bx+LkD/re/XdzFswXbUi1rq+GRhGRwBCKYMHELGGWXvo+ijvwSdhA==
 
-"@seer-pm/sdk@^0.0.16":
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/@seer-pm/sdk/-/sdk-0.0.16.tgz#40b2acb657a7c9de5d3a5a746a86196a5ff87f5d"
-  integrity sha512-WdkpjNGMXf3LJw8G3+H4f/ILlgSgn5PyZGqAgT8+f5DqlYa7XIPDZ45fm5olXIEWLwqSe/DlHGbXT6Hv87aj7Q==
+"@seer-pm/sdk@^0.0.17":
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/@seer-pm/sdk/-/sdk-0.0.17.tgz#735e52c111dffb3738081ef33c79e8ea5105489b"
+  integrity sha512-ZT6mXEJml4CldKFHzAQfljlAjgyELB5Tk44viYh1btIfQCg0IryB4deYXlrdBAbvaU0NaIPFNkrGWPdI6Iq07g==
   dependencies:
     "@seer-pm/lens" "^1.4.0"
     "@uniswap/v3-sdk" "^3.19.0"

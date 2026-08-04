@@ -54,6 +54,25 @@
   --toastify-color-progress-bgo: 0.14;
 }
 
+/* @seer-pm/discussions — map tokens onto Seer Night Shell */
+.sd-root {
+  --sd-bg-main: theme('colors.plaque');
+  --sd-bg-secondary: color-mix(in srgb, theme('colors.up') 6%, theme('colors.plaque'));
+  --sd-bg-tertiary: color-mix(in srgb, theme('colors.up') 10%, theme('colors.plaque'));
+  --sd-color-main: theme('colors.paper');
+  --sd-color-secondary: theme('colors.muted');
+  --sd-color-tertiary: color-mix(in srgb, theme('colors.muted') 70%, transparent);
+  --sd-color-active: theme('colors.up');
+  --sd-focus-border: theme('colors.up');
+  --sd-color-danger: theme('colors.down');
+  --sd-color-success: theme('colors.up');
+  --sd-border-main: theme('colors.edge-strong');
+  --sd-border-secondary: theme('colors.edge');
+  --sd-badge-bg: color-mix(in srgb, theme('colors.up') 12%, theme('colors.plaque'));
+  --sd-badge-color: theme('colors.paper');
+  --sd-input-placeholder: theme('colors.muted');
+}
+
 @layer components {
   .lot-panel {
     border-radius: theme('borderRadius.panel');

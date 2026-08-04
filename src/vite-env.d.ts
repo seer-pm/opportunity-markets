@@ -10,6 +10,8 @@ interface ImportMetaEnv {
   readonly VITE_GNOSIS_RPC_URL?: string;
   /** IPFS HTTP gateway origin. Defaults to https://cdn.kleros.link */
   readonly VITE_IPFS_GATEWAY?: string;
+  /** Seer app origin for discussion / SIWE APIs. Defaults to https://app.seer.pm */
+  readonly VITE_SEER_APP_URL?: string;
 }
 
 interface ImportMeta {

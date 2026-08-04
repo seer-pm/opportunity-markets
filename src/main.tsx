@@ -6,10 +6,15 @@ import { WagmiProvider } from 'wagmi';
 import { Buffer } from 'buffer';
 import { Slide, ToastContainer } from 'react-toastify';
 import { ConnectKitProvider } from 'connectkit';
+import { initApiHost } from '@seer-pm/sdk';
 import App from './App';
 import { wagmiConfig } from './config/wagmi';
+import { getSeerAppUrl } from './lib/seerAuth';
 import './styles/toastify-slide.css';
 import './index.css';
+import '@seer-pm/discussions/style.css';
+
+initApiHost(getSeerAppUrl());
 
 const queryClient = new QueryClient();
 

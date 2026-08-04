@@ -1,6 +1,13 @@
 /** @type {import('tailwindcss').Config} */
+import discussionsPreset from '@seer-pm/discussions/tailwind';
+
 export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  presets: [discussionsPreset],
+  content: [
+    './index.html',
+    './src/**/*.{js,ts,jsx,tsx}',
+    './node_modules/@seer-pm/discussions/dist/**/*.{js,mjs}',
+  ],
   theme: {
     extend: {
       fontFamily: {

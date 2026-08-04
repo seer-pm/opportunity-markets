@@ -1,6 +1,6 @@
 import { getDefaultConfig } from 'connectkit';
 import { createConfig } from 'wagmi';
-import { gnosis } from 'wagmi/chains';
+import { gnosis, mainnet } from 'wagmi/chains';
 import { fallback, http, type Chain } from 'viem';
 
 const walletConnectProjectId =
@@ -39,8 +39,12 @@ export const networks = [gnosis] as const;
 
 export const wagmiConfig = createConfig(
   getDefaultConfig({
-    chains: [...networks],
-    transports: { [gnosis.id]: gnosisTransport },
+    // mainnet is included so discussion author labels can resolve ENS names
+    chains: [...networks, mainnet],
+    transports: {
+      [gnosis.id]: gnosisTransport,
+      [mainnet.id]: http(),
+    },
     walletConnectProjectId,
     appName: 'Seer · Opportunity Markets',
     appDescription:
