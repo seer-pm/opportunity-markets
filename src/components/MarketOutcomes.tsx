@@ -107,8 +107,9 @@ function OutcomeCard({
 
   const hasImages = (assets?.images.length ?? 0) > 0;
   const hasPdf = Boolean(assets?.pdfUrl);
+  const hasPortfolio = Boolean(assets?.portfolioUrl);
   const hasBothAssets = hasImages && hasPdf;
-  const showMeta = hasImages || hasPdf || account != null;
+  const showMeta = hasImages || hasPdf || hasPortfolio || account != null;
   const proposalLinkClass =
     'inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.08em] text-paper underline decoration-paper/35 underline-offset-[3px] transition-colors hover:text-up hover:decoration-up focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up';
 
@@ -140,6 +141,17 @@ function OutcomeCard({
         </div>
         {showMeta ? (
           <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
+            {hasPortfolio && assets?.portfolioUrl ? (
+              <a
+                href={assets.portfolioUrl}
+                target="_blank"
+                rel="noreferrer"
+                className={proposalLinkClass}
+                onClick={(event) => event.stopPropagation()}
+              >
+                View portfolio ↗
+              </a>
+            ) : null}
             {hasPdf && assets?.pdfUrl ? (
               <a
                 href={assets.pdfUrl}
@@ -160,7 +172,7 @@ function OutcomeCard({
                 }}
                 className={proposalLinkClass}
               >
-                {hasBothAssets ? 'View images' : 'View proposal'}
+                {hasBothAssets || hasPortfolio ? 'View images' : 'View proposal'}
                 <ImageIcon />
               </button>
             ) : null}

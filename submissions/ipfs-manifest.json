@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-03T11:50:37.960Z",
+  "generatedAt": "2026-08-04T11:59:17.417Z",
   "markets": {
     "seer-rebrand": {
       "@2reb_fl-Datum": [
@@ -83,49 +83,79 @@
         {
           "name": "Billboard - Èrgamjee.jpg",
           "localPath": "seer-rebrand/@Ergamjee-Sleek for Seer/Billboard - Èrgamjee.jpg",
-          "ipfsPath": "/ipfs/QmQAGtk76W7jbxpeRqab8imiu4LXT8tnMPPBbS7pgxoPh9"
+          "ipfsPath": "/ipfs/QmSB4gQSsBBkegiK1eJFBr7JD2wp2UQ5fT2KTgdBx6yFt1"
         },
         {
           "name": "Seer Logo 63 - Èrgamjee.png",
           "localPath": "seer-rebrand/@Ergamjee-Sleek for Seer/Seer Logo 63 - Èrgamjee.png",
-          "ipfsPath": "/ipfs/QmeFi5brGG9xuV2CAyXcY1cGfsAGgkyb3hTkeKk3EosiEj"
+          "ipfsPath": "/ipfs/QmNxrG2D4N2pptn9ujwVzijfJMiaogzenjrRYiA1tBBpcG"
         },
         {
           "name": "Seer Logo 79 - Èrgamjee.png",
           "localPath": "seer-rebrand/@Ergamjee-Sleek for Seer/Seer Logo 79 - Èrgamjee.png",
-          "ipfsPath": "/ipfs/QmP66Gxxny6w3DdbSw1zFHa8bTVcADkRqg9vbopZnNUXuB"
+          "ipfsPath": "/ipfs/QmXT6hDWjzPunRXXzu8Uog6vikRVd9tAWPxPM8keLPPSvX"
         },
         {
           "name": "Seer Logo 81 - Èrgamjee.png",
           "localPath": "seer-rebrand/@Ergamjee-Sleek for Seer/Seer Logo 81 - Èrgamjee.png",
           "ipfsPath": "/ipfs/QmaUaBMzgF36oH5EFTVWLkQr5FbcqiUvhjavRCNtrCSemJ"
+        },
+        {
+          "name": "To be added 1.PNG",
+          "localPath": "seer-rebrand/@Ergamjee-Sleek for Seer/To be added 1.PNG",
+          "ipfsPath": "/ipfs/QmNVhtx1h2j6GmUb4yMZXN2tHfUEKKdWp9gZSjtAwiXUNv"
+        },
+        {
+          "name": "To be added 2.PNG",
+          "localPath": "seer-rebrand/@Ergamjee-Sleek for Seer/To be added 2.PNG",
+          "ipfsPath": "/ipfs/QmZPAvQgBydrqZ2sFimR8QmWEFxf8FqpDtVJhyD8ihAduE"
+        },
+        {
+          "name": "To be added 3.PNG",
+          "localPath": "seer-rebrand/@Ergamjee-Sleek for Seer/To be added 3.PNG",
+          "ipfsPath": "/ipfs/QmRPk9ezrGepkxApTrWxgXJHbjPsCfaUPqWpawEcVMzY5a"
+        },
+        {
+          "name": "To be added 4.PNG",
+          "localPath": "seer-rebrand/@Ergamjee-Sleek for Seer/To be added 4.PNG",
+          "ipfsPath": "/ipfs/QmSTHZWP79cATnhnTGLhBf88QhkZZReLtbwQyGByX5JDYf"
+        },
+        {
+          "name": "To be added 5.PNG",
+          "localPath": "seer-rebrand/@Ergamjee-Sleek for Seer/To be added 5.PNG",
+          "ipfsPath": "/ipfs/QmWCRA2NTTQo32EfwYHuNiazR8yiAwzuRv3a36nzg6aFKJ"
+        },
+        {
+          "name": "To be added 6 .PNG",
+          "localPath": "seer-rebrand/@Ergamjee-Sleek for Seer/To be added 6 .PNG",
+          "ipfsPath": "/ipfs/QmWTjBa16fN7HAEHuebaXPwdqwYPRfzLvqH7qfcvUNGECD"
         }
       ],
       "@Kaysolo58-Your only base layer for decision infrastructure": [
         {
           "name": "Seer 3 - Odewole Kehinde.png",
           "localPath": "seer-rebrand/@Kaysolo58-Your only base layer for decision infrastructure/Seer 3 - Odewole Kehinde.png",
-          "ipfsPath": "/ipfs/QmWfr1Vpnney4gP6thATwS8ot8d5ga772pVCXs18gNq2Qi"
+          "ipfsPath": "/ipfs/QmaszVtLWG71begXNRmuy5K3BsMcDGkBwjEEYxUPNSaiaT"
         },
         {
           "name": "Seer 4 - Odewole Kehinde.png",
           "localPath": "seer-rebrand/@Kaysolo58-Your only base layer for decision infrastructure/Seer 4 - Odewole Kehinde.png",
-          "ipfsPath": "/ipfs/QmYXWjJdKQkrtBGaVQeMSFCSYipmJB96MwZ3MQN8Hb5XEU"
+          "ipfsPath": "/ipfs/QmcbDTEAXmzsTRY7AdrVhFyjTXTCdjuzfEz8x6WHFTb2YN"
         },
         {
           "name": "Seer Ban M - Odewole Kehinde.png",
           "localPath": "seer-rebrand/@Kaysolo58-Your only base layer for decision infrastructure/Seer Ban M - Odewole Kehinde.png",
-          "ipfsPath": "/ipfs/QmQVKrChyqoLzxYReMHovdxa2dWwsPi4j3VxSc9jfYkHAq"
+          "ipfsPath": "/ipfs/QmZSMst7uxAvKkXGaxCB2LExZgoRYGhZcJiRVgkCBcy31B"
         },
         {
           "name": "SUB 1 - Odewole Kehinde.png",
           "localPath": "seer-rebrand/@Kaysolo58-Your only base layer for decision infrastructure/SUB 1 - Odewole Kehinde.png",
-          "ipfsPath": "/ipfs/QmUaABUis2j3SHKeNLg391kR5iYkt9DLW3m7nTardjz4Yg"
+          "ipfsPath": "/ipfs/QmW5dYWDPtBSVbTo4XoKV6JHL2krDejmjAVktHcPQDDX79"
         },
         {
           "name": "Sub 3a - Odewole Kehinde.png",
           "localPath": "seer-rebrand/@Kaysolo58-Your only base layer for decision infrastructure/Sub 3a - Odewole Kehinde.png",
-          "ipfsPath": "/ipfs/QmTFUEbcCTo3U9ZMwvQ91LApxopAKC1CZjgxVeLaQJfqUL"
+          "ipfsPath": "/ipfs/QmbG6aoSNPwfjybJPhMqUFJkAxi5SSbE1hCvBV3g5wnavr"
         }
       ],
       "@abiyebee-Convergent": [
@@ -157,12 +187,17 @@
         {
           "name": "Asset 1logo - Abi.png",
           "localPath": "seer-rebrand/@abiyebee-Convergent/Asset 1logo - Abi.png",
-          "ipfsPath": "/ipfs/QmYhEkekostCjivWFmcRF48v8Tk638K4EUskBaFJ3x7vSM"
+          "ipfsPath": "/ipfs/QmQKN49VvkPqmZRjaaQd9bNjxw5d6YH9ZNY3JobDUAXXQy"
         },
         {
           "name": "Asset 2logo - Abi.svg",
           "localPath": "seer-rebrand/@abiyebee-Convergent/Asset 2logo - Abi.svg",
           "ipfsPath": "/ipfs/QmYqiu2AK71GS82Hi7fxsGxzCytLkKxzefvuz7pDF9HD2x"
+        },
+        {
+          "name": "seer_branding-abi - Abi.pdf",
+          "localPath": "seer-rebrand/@abiyebee-Convergent/seer_branding-abi - Abi.pdf",
+          "ipfsPath": "/ipfs/Qmdi2fr7X1B191LFQ4ZcW8Ap15HhwnPczMVcLxLN5iz9zw"
         }
       ],
       "@ajitu871287-Signal Dark": [
@@ -274,13 +309,53 @@
           "name": "Logomark - Dani van der Laars.svg",
           "localPath": "seer-rebrand/@hypedsgn-Electric Foundation/Logomark - Dani van der Laars.svg",
           "ipfsPath": "/ipfs/QmSAWhCHitQjQiVVbVugJWGQ6wPpcbinRFyFCFduhyyN9b"
+        },
+        {
+          "name": "To be added 2 .PNG",
+          "localPath": "seer-rebrand/@hypedsgn-Electric Foundation/To be added 2 .PNG",
+          "ipfsPath": "/ipfs/QmTKXQ78t7Zjm5Zspb5xTxcctoyKsLjXwxX3p8sckxAP4g"
+        },
+        {
+          "name": "To be added 3.PNG",
+          "localPath": "seer-rebrand/@hypedsgn-Electric Foundation/To be added 3.PNG",
+          "ipfsPath": "/ipfs/QmR2gQMd4EwVuh9CMPxq7eCikLPpFtLeAUH6VnCxfz5vfy"
+        },
+        {
+          "name": "To be added 4 .PNG",
+          "localPath": "seer-rebrand/@hypedsgn-Electric Foundation/To be added 4 .PNG",
+          "ipfsPath": "/ipfs/QmPprwRWpUxN7xr3fvfesMn2ywTp9xWgq4q3A8BCJUAXSS"
+        },
+        {
+          "name": "To be added 5.PNG",
+          "localPath": "seer-rebrand/@hypedsgn-Electric Foundation/To be added 5.PNG",
+          "ipfsPath": "/ipfs/QmVk8N5MHicDvPTzxEipTXStVxFfYLdSBJz8dHTWA8wdM1"
+        },
+        {
+          "name": "To be added 6.PNG",
+          "localPath": "seer-rebrand/@hypedsgn-Electric Foundation/To be added 6.PNG",
+          "ipfsPath": "/ipfs/Qmc1TT3g4RyKQM4QdiM8GeLCLLhyH2AKy9BKFQLVb7uC3F"
+        },
+        {
+          "name": "To be added 7.PNG",
+          "localPath": "seer-rebrand/@hypedsgn-Electric Foundation/To be added 7.PNG",
+          "ipfsPath": "/ipfs/QmcXRG74MDcKKGR5DwXP5aj7abQZ2e2cRFS6u6S72ZY5WU"
+        },
+        {
+          "name": "To be added 8.PNG",
+          "localPath": "seer-rebrand/@hypedsgn-Electric Foundation/To be added 8.PNG",
+          "ipfsPath": "/ipfs/QmbDSQ9K5j9XKoof6tG2JDyk6FqG6qYxjkJEBDS6FD69wZ"
+        },
+        {
+          "name": "To be added.PNG",
+          "localPath": "seer-rebrand/@hypedsgn-Electric Foundation/To be added.PNG",
+          "ipfsPath": "/ipfs/QmbxZZAuzEGgTBgnF5z4Tea8YtdR9bTgDXubCp8uT83GxZ"
         }
       ],
       "@posifer001-Geometric + Initial": [
         {
           "name": "7a543fec-dc03-4fa9-ba87-52720f248420 - Posifer.png",
           "localPath": "seer-rebrand/@posifer001-Geometric + Initial/7a543fec-dc03-4fa9-ba87-52720f248420 - Posifer.png",
-          "ipfsPath": "/ipfs/QmYJDs3AVShGACMNyArQCyh1MxJekBVFZB2QZuSiC1xkPW"
+          "ipfsPath": "/ipfs/QmRMJ62KVZhLjMbFxwsRiyUkoHDFPMtKd9aPZECbznd7Yh"
         },
         {
           "name": "App Icon - Posifer.png",
@@ -323,6 +398,46 @@
           "ipfsPath": "/ipfs/QmNjzg98iUYLW8hHkuSg5ahurdV8j4DDH91wdNFLiDcyqz"
         },
         {
+          "name": "To be added 2 .PNG",
+          "localPath": "seer-rebrand/@posifer001-Geometric + Initial/To be added 2 .PNG",
+          "ipfsPath": "/ipfs/Qmaz1uyq4zUeXwm4Qp1e1jT9ojCahzffAXiNnRoDkwfFiJ"
+        },
+        {
+          "name": "To be added 3.PNG",
+          "localPath": "seer-rebrand/@posifer001-Geometric + Initial/To be added 3.PNG",
+          "ipfsPath": "/ipfs/QmZM5Z5j7ULrbTHeNXQEbJV85DBbK9svcvHRVp2SkiXSRh"
+        },
+        {
+          "name": "To be added 4.PNG",
+          "localPath": "seer-rebrand/@posifer001-Geometric + Initial/To be added 4.PNG",
+          "ipfsPath": "/ipfs/QmPGiPsgA9q3vQgeihuzu2rigfNi9GaomeSYBqnjKjzPwz"
+        },
+        {
+          "name": "To be added 5.PNG",
+          "localPath": "seer-rebrand/@posifer001-Geometric + Initial/To be added 5.PNG",
+          "ipfsPath": "/ipfs/QmQhtgKgxevZq8mXKCu2o5JCZMuwiKmK63pdyGFQMhsk35"
+        },
+        {
+          "name": "To be added 6.PNG",
+          "localPath": "seer-rebrand/@posifer001-Geometric + Initial/To be added 6.PNG",
+          "ipfsPath": "/ipfs/QmU6hXA9USh8e6Y5j2cDBFnaZdAbyjVBoKw7BXyadaJZxe"
+        },
+        {
+          "name": "To be added 7.PNG",
+          "localPath": "seer-rebrand/@posifer001-Geometric + Initial/To be added 7.PNG",
+          "ipfsPath": "/ipfs/QmXgoS1VipjZNhdu3dHK2iy2AY7tMQYRW13kswjp3cxA1B"
+        },
+        {
+          "name": "To be added 8.PNG",
+          "localPath": "seer-rebrand/@posifer001-Geometric + Initial/To be added 8.PNG",
+          "ipfsPath": "/ipfs/QmcyMnAtGW1iqmEXGRLxQLxqJkC1iPk5htx65VeKikqg6K"
+        },
+        {
+          "name": "To be added1 .PNG",
+          "localPath": "seer-rebrand/@posifer001-Geometric + Initial/To be added1 .PNG",
+          "ipfsPath": "/ipfs/QmZHgti3W4oMn1q1i3gRXePkBSY7TfVtQJYTpCDSJc3X7k"
+        },
+        {
           "name": "Tote bag Seer - Posifer.png",
           "localPath": "seer-rebrand/@posifer001-Geometric + Initial/Tote bag Seer - Posifer.png",
           "ipfsPath": "/ipfs/QmUexooYA7tsccyk3UvUQom2S5cVqrPDSHSJKPznG1jn37"
@@ -342,14 +457,14 @@
         {
           "name": "Seer_Rebrand - Hsu Lae Yadanar.pdf",
           "localPath": "seer-rebrand/@sue2432-Crow Minimal/Seer_Rebrand - Hsu Lae Yadanar.pdf",
-          "ipfsPath": "/ipfs/QmXSeVnA9sjgQvsLeZgcf2yhH1KEYGBgkJ11BbN89L4Ncf"
+          "ipfsPath": "/ipfs/QmSKJnFmBgjDNYtLic9kRQr1AKbkF39BdBaAc2barGv42w"
         }
       ],
       "@syntropicregen-Constellation Oracle": [
         {
           "name": "Seer Dark Background - Ahau Alux.JPG",
           "localPath": "seer-rebrand/@syntropicregen-Constellation Oracle/Seer Dark Background - Ahau Alux.JPG",
-          "ipfsPath": "/ipfs/QmU9g5CFb5sEBuaiNnXRi2kF89Bn7jeK3kuWNwr8kFBTpw"
+          "ipfsPath": "/ipfs/QmWzb33fRzwkhPkLTw4y3kDX3CLqe44Cda34mt6ZqSUBq3"
         },
         {
           "name": "Seer Hero 1 - Ahau Alux.png",
@@ -359,17 +474,17 @@
         {
           "name": "Seer Light Background - Ahau Alux.JPG",
           "localPath": "seer-rebrand/@syntropicregen-Constellation Oracle/Seer Light Background - Ahau Alux.JPG",
-          "ipfsPath": "/ipfs/QmWznLPymCbCL7DCQCjFEKNjxNvd8nguWtTWcBzhGG8QXL"
+          "ipfsPath": "/ipfs/QmZ786dEPmiQGCqoMvg47Hcf7uDKYGxGcThgCKnhxYJsm2"
         },
         {
           "name": "Seer Logo Dark - Ahau Alux.PNG",
           "localPath": "seer-rebrand/@syntropicregen-Constellation Oracle/Seer Logo Dark - Ahau Alux.PNG",
-          "ipfsPath": "/ipfs/QmdMUNQqncgnpHeiUsZn7QFBQHJCXdBEeAkR91L6AWJCs4"
+          "ipfsPath": "/ipfs/QmaMzip2sEVcdSwdxDmi79N8SWsrJoxk8avornYNwWS2xe"
         },
         {
           "name": "Seer Logo Light - Ahau Alux.PNG",
           "localPath": "seer-rebrand/@syntropicregen-Constellation Oracle/Seer Logo Light - Ahau Alux.PNG",
-          "ipfsPath": "/ipfs/QmUQscqU8v1SJqnjmHYMBuoWg6JTktNLGJPSor7DPTTczJ"
+          "ipfsPath": "/ipfs/QmfAieuTDQ4ojDyCxaU8GxAnbzMLXGaNayvAwgEcBpHqjr"
         },
         {
           "name": "Seer Xpost 1 - Ahau Alux.png",
@@ -411,17 +526,17 @@
         {
           "name": "seer-logo-monochrome - On Base.png",
           "localPath": "seer-rebrand/Elijah- Resolution Mark/seer-logo-monochrome - On Base.png",
-          "ipfsPath": "/ipfs/QmNxJsKdyT3WZBynfhgipKMww5aGTUZHKLJVqEQa5d4qBu"
+          "ipfsPath": "/ipfs/Qma99RnPtogAyXvCpDxww4pJDjuDQVt67i6Bbj9yjdPFqb"
         },
         {
           "name": "seer-logo-primary - On Base.png",
           "localPath": "seer-rebrand/Elijah- Resolution Mark/seer-logo-primary - On Base.png",
-          "ipfsPath": "/ipfs/QmQQX9jdpr95NRDG1qhgtWS3Pr161pMgeWkDK1crmcTi8M"
+          "ipfsPath": "/ipfs/Qmci4r4ZCXMt6v6Q5dDjJ1cLpBPMCi2fqAcgGWzbkURrc7"
         },
         {
           "name": "seer-logo-primary-reversed - On Base.png",
           "localPath": "seer-rebrand/Elijah- Resolution Mark/seer-logo-primary-reversed - On Base.png",
-          "ipfsPath": "/ipfs/QmUKHmAUV3kzzQDEANUqPDaEnqzUCbexwNiyfuCcfLwHtX"
+          "ipfsPath": "/ipfs/QmT72dxC1X54PowLKevNWb6cxF1aNDJpfUPTfpMkFm16qg"
         },
         {
           "name": "seer-wordmark - On Base.svg",
@@ -429,125 +544,125 @@
           "ipfsPath": "/ipfs/QmYWCiTJ5NruuN3a6KWksEf4yQofFxG6rLCbcDMPTFM5uh"
         }
       ],
-      "Melissa": [
+      "Melissa-The Composable Identity": [
         {
           "name": "1.png",
-          "localPath": "seer-rebrand/Melissa/1.png",
-          "ipfsPath": "/ipfs/QmTa346HgZJJPDMKk6GbwLKxs2oz8ZtXp563JsbDjHTdSh"
+          "localPath": "seer-rebrand/Melissa-The Composable Identity/1.png",
+          "ipfsPath": "/ipfs/QmdsAJpUMvQyvnyZ2hrKqnYHktKY6Zv5GNaoAoP9f7GYND"
         },
         {
           "name": "10.png",
-          "localPath": "seer-rebrand/Melissa/10.png",
-          "ipfsPath": "/ipfs/QmRw6rPMN1BkjmFyQWPJuyLHFmUYCheBbhASNuGd4ubRMc"
+          "localPath": "seer-rebrand/Melissa-The Composable Identity/10.png",
+          "ipfsPath": "/ipfs/QmWhNn7uY85JrSzppBfY1HY2skGRaGX5HTD6HVuC5FDaXF"
         },
         {
           "name": "11.png",
-          "localPath": "seer-rebrand/Melissa/11.png",
-          "ipfsPath": "/ipfs/QmYGFSarE5iMM4hxd2Hq4KR5TVS7wJBRnX1Kednh9Hrjoc"
+          "localPath": "seer-rebrand/Melissa-The Composable Identity/11.png",
+          "ipfsPath": "/ipfs/QmPQQJsMnaSPvKNsfNkTtoodxKHkPF5xpTiuDQtrkTXEV5"
         },
         {
           "name": "2.png",
-          "localPath": "seer-rebrand/Melissa/2.png",
-          "ipfsPath": "/ipfs/QmcXFeX9cp2L1Q88a6JNFsE9fCWz2ajQNaCME8dNusSADy"
+          "localPath": "seer-rebrand/Melissa-The Composable Identity/2.png",
+          "ipfsPath": "/ipfs/QmQHjv8k5L3WRSbbRaF127a56wfUtEKfN55JreMUYaySK7"
         },
         {
           "name": "3.png",
-          "localPath": "seer-rebrand/Melissa/3.png",
-          "ipfsPath": "/ipfs/QmfLwctUMK1fWUKvsS3U2PoYXovKvaeXbaHswSy5B2iMN8"
+          "localPath": "seer-rebrand/Melissa-The Composable Identity/3.png",
+          "ipfsPath": "/ipfs/QmZiEJv8sqdUBpaC9qvKp1mVLWsxvcAoWbaRCKPus3uRit"
         },
         {
           "name": "4.png",
-          "localPath": "seer-rebrand/Melissa/4.png",
-          "ipfsPath": "/ipfs/QmU68dC1oQGjfcgvy7F4u9jFZ9THo8XpypGbhtffhKguPN"
+          "localPath": "seer-rebrand/Melissa-The Composable Identity/4.png",
+          "ipfsPath": "/ipfs/QmUSJeZ64naGnrMyu24XCHcSjX8LdTXxLEFfDX39BoiTeL"
         },
         {
           "name": "5.png",
-          "localPath": "seer-rebrand/Melissa/5.png",
-          "ipfsPath": "/ipfs/Qmb47HzZJnHFWUEGh8FDkiVM2J4QNR7hB1GQ73iSLH7YCa"
+          "localPath": "seer-rebrand/Melissa-The Composable Identity/5.png",
+          "ipfsPath": "/ipfs/QmV1n5THhzXh13HLQy9j35TcWM8W3KNVJep21wssom6obB"
         },
         {
           "name": "6.png",
-          "localPath": "seer-rebrand/Melissa/6.png",
-          "ipfsPath": "/ipfs/QmNqHaFKQ4kdVWuCtR2JbxMijFB4A5gMBkxfkgQF3C5Ysr"
+          "localPath": "seer-rebrand/Melissa-The Composable Identity/6.png",
+          "ipfsPath": "/ipfs/QmbqTaXXgfo5sWPhPz1MAK4ZkC3zeSDJkexNYXy7J5c9M9"
         },
         {
           "name": "7.png",
-          "localPath": "seer-rebrand/Melissa/7.png",
-          "ipfsPath": "/ipfs/QmWXxvuQVxBZWt1BcN81GzzFZ3zrg16X13QXK1wbWbCo1B"
+          "localPath": "seer-rebrand/Melissa-The Composable Identity/7.png",
+          "ipfsPath": "/ipfs/QmSRYAJw5tijhhvvK7vf4rDN8nDWi6pThDGawNEg6bGDnK"
         },
         {
           "name": "8.png",
-          "localPath": "seer-rebrand/Melissa/8.png",
-          "ipfsPath": "/ipfs/QmWw96GkeBYvY8DRmm5pDoHv68EupNVWRF6TQEd7tczjM1"
+          "localPath": "seer-rebrand/Melissa-The Composable Identity/8.png",
+          "ipfsPath": "/ipfs/Qmb5uGeDKZ9x6Pm4F351LeN19JY4HPw9vCiuaf188JHeJH"
         },
         {
           "name": "9.png",
-          "localPath": "seer-rebrand/Melissa/9.png",
-          "ipfsPath": "/ipfs/QmbUipbSdqmgR5etLSRrAPmTirzdmg1NqWrpt7vEGmLfz5"
+          "localPath": "seer-rebrand/Melissa-The Composable Identity/9.png",
+          "ipfsPath": "/ipfs/QmXi9hQFmCtZtu7dXz4R25YZUyZEqMBu8Vb1PYtxKvYkM8"
         },
         {
           "name": "Logo Dark .png",
-          "localPath": "seer-rebrand/Melissa/Logo Dark .png",
+          "localPath": "seer-rebrand/Melissa-The Composable Identity/Logo Dark .png",
           "ipfsPath": "/ipfs/QmNT9jeZgSUJ1zogCLjDBETDMt4xEqApqrV182c2FjEEUz"
         },
         {
           "name": "Logo Light.png",
-          "localPath": "seer-rebrand/Melissa/Logo Light.png",
+          "localPath": "seer-rebrand/Melissa-The Composable Identity/Logo Light.png",
           "ipfsPath": "/ipfs/QmTFTUnNt4KJycaLr7Xde6K7ok5T7FrK67hUHrHUCbHskM"
         },
         {
           "name": "Seer rebrand submission.pdf",
-          "localPath": "seer-rebrand/Melissa/Seer rebrand submission.pdf",
-          "ipfsPath": "/ipfs/QmRcs5vSAnX4DWWDZ5ityDxwuQSdEdy2puSoND63LaKFba"
+          "localPath": "seer-rebrand/Melissa-The Composable Identity/Seer rebrand submission.pdf",
+          "ipfsPath": "/ipfs/QmeGsJCFLMSimSrfyPtc6n6vEsTui1d2nAUzknYC93anPP"
         },
         {
           "name": "Wordmark.png",
-          "localPath": "seer-rebrand/Melissa/Wordmark.png",
+          "localPath": "seer-rebrand/Melissa-The Composable Identity/Wordmark.png",
           "ipfsPath": "/ipfs/QmVZHhjymUxXd9s5pVV8vGqrqwGANtvjRY95cPLPC2JSa8"
         }
       ],
-      "Mohammad": [
+      "Mohammad-Prism": [
         {
           "name": "conference stand 3.png",
-          "localPath": "seer-rebrand/Mohammad/conference stand 3.png",
+          "localPath": "seer-rebrand/Mohammad-Prism/conference stand 3.png",
           "ipfsPath": "/ipfs/QmaSusR1PDi3DuavJQVEt7aGhFhTo8KKAvbPSwSSExnwJK"
         },
         {
           "name": "conference stand.png",
-          "localPath": "seer-rebrand/Mohammad/conference stand.png",
-          "ipfsPath": "/ipfs/QmPSuA1QoaX3Y6NKMrTNTFn1NcedBLuD5gKX4b7eRorPfX"
+          "localPath": "seer-rebrand/Mohammad-Prism/conference stand.png",
+          "ipfsPath": "/ipfs/QmbuFCRDpB6MTzPC3pwxw3DcpVrRxeosoCpmPabGVT6bMY"
         },
         {
           "name": "seer modern 1.png",
-          "localPath": "seer-rebrand/Mohammad/seer modern 1.png",
+          "localPath": "seer-rebrand/Mohammad-Prism/seer modern 1.png",
           "ipfsPath": "/ipfs/QmWmj47tSCoaL2Qeo6zbiDhNK119LCSQ7gtDjmBVD3pLhb"
         },
         {
           "name": "seer-lockup-circle-black.png",
-          "localPath": "seer-rebrand/Mohammad/seer-lockup-circle-black.png",
+          "localPath": "seer-rebrand/Mohammad-Prism/seer-lockup-circle-black.png",
           "ipfsPath": "/ipfs/QmVp2qYKJBKtdmsb82FSJpExkmTQhFGMeqpbXjNjQEykz5"
         },
         {
           "name": "t-shirt.png",
-          "localPath": "seer-rebrand/Mohammad/t-shirt.png",
-          "ipfsPath": "/ipfs/QmZYXDbFjx4NVTT78WhwTnzBoy49dDJ8wvCmrUvzf1H6yq"
+          "localPath": "seer-rebrand/Mohammad-Prism/t-shirt.png",
+          "ipfsPath": "/ipfs/QmYiSYhG6vaY1RBKRET6PxwvC8HPwJFH2Rp8j9bstp5zQf"
         }
       ],
       "MrFroggert -Signal Convergence": [
         {
           "name": "brand-overview - Brock Nass.png",
           "localPath": "seer-rebrand/MrFroggert -Signal Convergence/brand-overview - Brock Nass.png",
-          "ipfsPath": "/ipfs/QmVKNkz7puLpnDrn3qf5WkTKQzFUZmrNZAmQCJB3D64RUE"
+          "ipfsPath": "/ipfs/QmZfoykwQjD8gxYFHqGMkQsskQZcgeD5b87PGip9BJknjV"
         },
         {
           "name": "dashboard - Brock Nass.png",
           "localPath": "seer-rebrand/MrFroggert -Signal Convergence/dashboard - Brock Nass.png",
-          "ipfsPath": "/ipfs/QmYjrjfd12PqTntgnpggfUNLYp6eGdH6gvUEZvEceioRCf"
+          "ipfsPath": "/ipfs/QmSkvjR4B8kdFEeheEETEwn2hbDDfTF4TvvReVYwDV12Xc"
         },
         {
           "name": "docs - Brock Nass.png",
           "localPath": "seer-rebrand/MrFroggert -Signal Convergence/docs - Brock Nass.png",
-          "ipfsPath": "/ipfs/QmbS84GFQEaStptD8gTS2XzwQKWZSpYx2bWoESa2C4p52h"
+          "ipfsPath": "/ipfs/QmeoyAviP61mjhDFn3Y5FZuJoN2PoeV2xb4NQHCoRDqvfk"
         },
         {
           "name": "icon - Brock Nass.svg",
@@ -562,7 +677,7 @@
         {
           "name": "landing-page - Brock Nass.png",
           "localPath": "seer-rebrand/MrFroggert -Signal Convergence/landing-page - Brock Nass.png",
-          "ipfsPath": "/ipfs/QmTeSzPfdJKWUgEAVDCTF3A5uam6feZa5YeEakeT2VMY1H"
+          "ipfsPath": "/ipfs/QmeK1Mo1CaE4icA593ARRTdp6qoqSmbRrAGLS4vbDAEiYD"
         },
         {
           "name": "primary-logo - Brock Nass.svg",
@@ -572,7 +687,7 @@
         {
           "name": "twitter banner - Brock Nass.png",
           "localPath": "seer-rebrand/MrFroggert -Signal Convergence/twitter banner - Brock Nass.png",
-          "ipfsPath": "/ipfs/QmXXhdtVNkUsKN5TCdV8txQhtXmBecZ4hWmK79U9vymvBF"
+          "ipfsPath": "/ipfs/QmRYbQZdmUVWxT12BR4DYN1zeKihsMwyfsR6ZDx3aeHsS6"
         },
         {
           "name": "wordmark - Brock Nass.svg",
@@ -580,56 +695,56 @@
           "ipfsPath": "/ipfs/QmYX8jXdhXJBTr9uW3nrF2fRCQuo3gKArY6UaNTdXj77Qt"
         }
       ],
-      "Schofield": [
+      "Schofield-Purple Horizon": [
         {
           "name": "1.png",
-          "localPath": "seer-rebrand/Schofield/1.png",
-          "ipfsPath": "/ipfs/QmVLNCrk9gZTR9wzvsJ9AVSYe9wz8SUyo7AcKGfFKZeEpa"
+          "localPath": "seer-rebrand/Schofield-Purple Horizon/1.png",
+          "ipfsPath": "/ipfs/QmUGNErBgXKjvaLWwK1jCG6zF68mLFWYKGz5FKFVATr8Ed"
         },
         {
           "name": "10.png",
-          "localPath": "seer-rebrand/Schofield/10.png",
-          "ipfsPath": "/ipfs/QmZABEWwbuNkK2t3Sgtkuyyi7JmXqjNSg1CM2SYWH9AXsV"
+          "localPath": "seer-rebrand/Schofield-Purple Horizon/10.png",
+          "ipfsPath": "/ipfs/QmXGx3KGVKXGKuLND2cWq9wNLz523TWRAU9FtBQb2dEt5h"
         },
         {
           "name": "2.png",
-          "localPath": "seer-rebrand/Schofield/2.png",
-          "ipfsPath": "/ipfs/QmUeDbHZ1qA3neQYqk2vVgCQHEM7hPwCteKnQ53ULy54MJ"
+          "localPath": "seer-rebrand/Schofield-Purple Horizon/2.png",
+          "ipfsPath": "/ipfs/QmS8DmGYo4hb8b2DQSjWQVkKVnSqvUU3TC3DXdkvLRz4CF"
         },
         {
           "name": "3.png",
-          "localPath": "seer-rebrand/Schofield/3.png",
-          "ipfsPath": "/ipfs/QmVyf5c4nhu5F71mqQdmqJSoywgYaSQHHULpQVPwCpJdyL"
+          "localPath": "seer-rebrand/Schofield-Purple Horizon/3.png",
+          "ipfsPath": "/ipfs/QmXgYZVGEyH5EyaTzhEkGLqHCq7wNh8XuEYgUtxSQBACTF"
         },
         {
           "name": "4.png",
-          "localPath": "seer-rebrand/Schofield/4.png",
-          "ipfsPath": "/ipfs/QmfC1JHkm42MZSVTMcDaYQ3yjgXYdyvD6RGPawRxTTVZ4P"
+          "localPath": "seer-rebrand/Schofield-Purple Horizon/4.png",
+          "ipfsPath": "/ipfs/QmeKgNah4kMZ2wzL6Y4phpJ8QWG5HAmG5dUKGTWurxQyEd"
         },
         {
           "name": "5.png",
-          "localPath": "seer-rebrand/Schofield/5.png",
-          "ipfsPath": "/ipfs/QmQfQbQxSqqYMBhMnyRDks9f3kVrE65GnUwUgKZNkL3xcF"
+          "localPath": "seer-rebrand/Schofield-Purple Horizon/5.png",
+          "ipfsPath": "/ipfs/QmP21mpSntrtZ8xE1eZWYMKNpEingTmjmQYvvn98AHsytv"
         },
         {
           "name": "6.png",
-          "localPath": "seer-rebrand/Schofield/6.png",
-          "ipfsPath": "/ipfs/QmZK3vwwk9cN168AVP46rh6w2QfnjgfTiZPJeNXB826xLA"
+          "localPath": "seer-rebrand/Schofield-Purple Horizon/6.png",
+          "ipfsPath": "/ipfs/QmToS9zx6At2bv8uYxPZanP2XeeU1ZxVqh4rkYFcfkfe7i"
         },
         {
           "name": "7.png",
-          "localPath": "seer-rebrand/Schofield/7.png",
-          "ipfsPath": "/ipfs/QmfNrxSAW75brGhSjHRtedTifjpHjEHHMnCFAvpdm2HpAR"
+          "localPath": "seer-rebrand/Schofield-Purple Horizon/7.png",
+          "ipfsPath": "/ipfs/QmZAUXrSyWgrEmWcZ6daLutwj1xAF8b1J95f4xb3WNVSUt"
         },
         {
           "name": "8.png",
-          "localPath": "seer-rebrand/Schofield/8.png",
-          "ipfsPath": "/ipfs/Qmb86ryVnCQpp8acq4T2MkNTgGA4T1BGyifp1KAHg9E91A"
+          "localPath": "seer-rebrand/Schofield-Purple Horizon/8.png",
+          "ipfsPath": "/ipfs/QmR2sUccGaBf6M67r5tWPJPTyv57dFLKUNhw6KYMkA1QaQ"
         },
         {
           "name": "9.png",
-          "localPath": "seer-rebrand/Schofield/9.png",
-          "ipfsPath": "/ipfs/QmRCRVP1AUc7G27QCw5u5UUnNTazk7qBPtga2sTR9xNUiW"
+          "localPath": "seer-rebrand/Schofield-Purple Horizon/9.png",
+          "ipfsPath": "/ipfs/QmX6mmwTGR7T9NfJP5KBapVosB1Jh7CKjmSRYFSm9qKoPZ"
         }
       ],
       "asa_wagmi-Converge": [
@@ -646,7 +761,7 @@
         {
           "name": "converge_wordmark - Āsā Wagmi.png",
           "localPath": "seer-rebrand/asa_wagmi-Converge/converge_wordmark - Āsā Wagmi.png",
-          "ipfsPath": "/ipfs/QmbbQXymnERGLK7Zd3YFrWMoVY4bYAqJPvhVvZxjndNGcq"
+          "ipfsPath": "/ipfs/QmPLurKrRMQtuxYx7jDdwhPceRG31wna6Pa5thfTGkv7yh"
         },
         {
           "name": "converge_wordmark&logo - Āsā Wagmi.png",
@@ -656,7 +771,7 @@
         {
           "name": "Seer_Converge_Brand_Guide_Final - Āsā Wagmi.pdf",
           "localPath": "seer-rebrand/asa_wagmi-Converge/Seer_Converge_Brand_Guide_Final - Āsā Wagmi.pdf",
-          "ipfsPath": "/ipfs/QmRo72qEXpbn6rLALjTnHbjd3xAvrdZ6nsxruyQdfpZ29B"
+          "ipfsPath": "/ipfs/Qma4sKFCgaLR96wyWEX6k824GEXZpcJH7YvUqv8Hch8xLX"
         }
       ]
     },

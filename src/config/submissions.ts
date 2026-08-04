@@ -17,6 +17,7 @@ export type SubmissionAssets = {
   submissionId: string;
   images: { name: string; url: string }[];
   pdfUrl?: string;
+  portfolioUrl?: string;
 };
 
 export type CarouselSlide = {
@@ -119,15 +120,22 @@ export function getOutcomeSubmissionAssets(
   const marketKey = override?.submissionsMarket;
   if (!marketKey) return undefined;
 
+  const portfolioUrl =
+    override.portfolios?.[outcomeTitle.trim()] ??
+    override.portfolios?.[outcomeTitle];
+
   const submissionId = resolveSubmissionId(
     marketKey,
     outcomeTitle,
     override.submissions
   );
-  if (!submissionId) return undefined;
 
-  const files = findSubmissionFiles(marketKey, submissionId);
-  if (!files?.length) return undefined;
+  if (!submissionId) {
+    if (!portfolioUrl) return undefined;
+    return { submissionId: '', images: [], portfolioUrl };
+  }
+
+  const files = findSubmissionFiles(marketKey, submissionId) ?? [];
 
   const images = files
     .filter((f) => IMAGE_EXT.test(f.name))
@@ -135,12 +143,13 @@ export function getOutcomeSubmissionAssets(
 
   const pdf = files.find((f) => PDF_EXT.test(f.name));
 
-  if (images.length === 0 && !pdf) return undefined;
+  if (images.length === 0 && !pdf && !portfolioUrl) return undefined;
 
   return {
     submissionId,
     images,
     pdfUrl: pdf ? ipfsUrl(pdf.ipfsPath) : undefined,
+    portfolioUrl,
   };
 }
 

@@ -12,6 +12,8 @@ export type MarketOverride = {
    * Also matches when the outcome title equals the folder id.
    */
   submissions?: Record<string, string>;
+  /** Exact outcome title → public portfolio / website URL. */
+  portfolios?: Record<string, string>;
   /**
    * Carousel curation keys: `${submissionId}/${fileName}`.
    * When `carouselInclude` is non-empty, only those images appear.
@@ -65,7 +67,7 @@ export const MARKET_OVERRIDES: Record<string, MarketOverride> = {
       'Electric Foundation': '@hypedsgn-Electric Foundation',
       Convergent: '@abiyebee-Convergent',
       'Constellation Oracle': '@syntropicregen-Constellation Oracle',
-      Prism: 'Mohammad',
+      Prism: 'Mohammad-Prism',
       'Civic Signal': '@brodaviktor-Civic Signal',
       'Your only base layer for decision infrastructure.':
         '@Kaysolo58-Your only base layer for decision infrastructure',
@@ -77,8 +79,19 @@ export const MARKET_OVERRIDES: Record<string, MarketOverride> = {
       Converge: 'asa_wagmi-Converge',
       'Sleek for Seer': '@Ergamjee-Sleek for Seer',
       'Signal Convergence': 'MrFroggert -Signal Convergence',
-      'Purple Horizon': 'Schofield',
-      'The Composable Identity': 'Melissa',
+      'Purple Horizon': 'Schofield-Purple Horizon',
+      'The Composable Identity': 'Melissa-The Composable Identity',
+    },
+    portfolios: {
+      'Electric Foundation':
+        'https://www.behance.net/gallery/252825507/Seer-Brand-Identity-App-Redesign',
+      //'Civic Signal': 'https://calm-sprinkles-b9465d.netlify.app/',
+      'Your only base layer for decision infrastructure.':
+        'https://www.behance.net/gallery/253579443/Seer-Rebrand',
+      'Geometric + Initial': 'https://www.behance.net/gallery/253587035/_',
+      'Signal Dark': 'https://seer-app--chiomashura400.replit.app',
+      'Sleek for Seer':
+        'https://www.behance.net/gallery/253606531/Seer-Brand-Identity',
     },
   },
 };
