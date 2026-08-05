@@ -80,7 +80,6 @@ export default function MarketDiscussion({ market }: { market: Market }) {
         Discussion
       </h2>
       <Discussion
-        context={market.id.toLowerCase()}
         client={client}
         user={user}
         onRequestConnect={requestConnect}

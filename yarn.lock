@@ -938,10 +938,12 @@
     "@noble/hashes" "~1.8.0"
     "@scure/base" "~1.2.5"
 
-"@seer-pm/discussions@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@seer-pm/discussions/-/discussions-0.0.2.tgz#b2cf18e61e33178cf6388e6e4f6f4510bc528daa"
-  integrity sha512-gDLbNsEqmDF1M8FnewCrQesFiIAgdMQ+NFkU8t6W6gWAQCNVc8a3vYgB1CwkMn2rQfyqBnmLxFuUBU5wLacFiw==
+"@seer-pm/discussions@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@seer-pm/discussions/-/discussions-0.0.4.tgz#a0dc36096965a5093310cab55fe5850e8cd2d95c"
+  integrity sha512-nZO1S8OrcZ84IYr5WxprrEiXzfhgnh63WS5PR3H94Ybh3dKaPv7mjkW8jfw9baG2iZ0Ou0NhTKszLREw9qRwZQ==
+  dependencies:
+    unique-names-generator "^4.7.1"
 
 "@seer-pm/lens@^1.4.0":
   version "1.4.0"
@@ -2935,6 +2937,11 @@ unicorn-magic@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/unicorn-magic/-/unicorn-magic-0.3.0.tgz#4efd45c85a69e0dd576d25532fbfa22aa5c8a104"
   integrity sha512-+QBBXBCvifc56fsbuxZQ6Sic3wqqc3WWaqxs58gvJrcOuN83HGTCwz3oS5phzU9LthRNE9VrJCFCLUgHeeFnfA==
+
+unique-names-generator@^4.7.1:
+  version "4.7.1"
+  resolved "https://registry.yarnpkg.com/unique-names-generator/-/unique-names-generator-4.7.1.tgz#966407b12ba97f618928f77322cfac8c80df5597"
+  integrity sha512-lMx9dX+KRmG8sq6gulYYpKWZc9RlGsgBR6aoO8Qsm3qvkSJ+3rAymr+TnV8EDMrIrwuFJ4kruzMWM/OpYzPoow==
 
 update-browserslist-db@^1.2.0:
   version "1.2.3"
