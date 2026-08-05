@@ -7,7 +7,7 @@ import {
   isSeerCredits,
   getMaximumAmountIn,
   WRAPPED_OUTCOME_TOKEN_DECIMALS,
-  getActivePrimaryCollateral,
+  getActiveCollateralProfile,
 } from '@seer-pm/sdk';
 import {
   useMarket,
@@ -90,11 +90,10 @@ function buildOutcomeTokens(market: Market): Token[] {
   return tokens;
 }
 
-function getSelectedCollateral(
+function getCollateralOptions(
   market: Market,
-  outcomeToken: Token,
   parentCollateral?: Token
-): Token {
+): Token[] {
   const parentId = market.parentMarket.id;
   const hasParent =
     typeof parentId === 'string' &&
@@ -102,10 +101,15 @@ function getSelectedCollateral(
     parentCollateral;
 
   if (hasParent && parentCollateral) {
-    return parentCollateral;
+    return [parentCollateral];
   }
 
-  return getActivePrimaryCollateral(market.chainId) ?? outcomeToken;
+  const profile = getActiveCollateralProfile(market.chainId);
+  const options: Token[] = [profile.primary];
+  if (profile.secondary) {
+    options.push(profile.secondary);
+  }
+  return options;
 }
 
 export function SwapWidget({
@@ -131,6 +135,9 @@ export function SwapWidget({
 
   const [mode, setMode] = React.useState<'buy' | 'sell'>('buy');
   const [amount, setAmount] = React.useState('');
+  const [collateralAddress, setCollateralAddress] = React.useState<
+    string | null
+  >(null);
 
   const outcomeTokens = React.useMemo(
     () => buildOutcomeTokens(market),
@@ -161,6 +168,34 @@ export function SwapWidget({
     market.chainId
   );
 
+  const collateralOptions = React.useMemo(
+    () => getCollateralOptions(market, parentCollateral),
+    [market, parentCollateral]
+  );
+
+  const selectedCollateral = React.useMemo(() => {
+    if (collateralOptions.length === 0) {
+      return getActiveCollateralProfile(market.chainId).primary;
+    }
+    if (collateralAddress) {
+      const match = collateralOptions.find((token) =>
+        isAddressEqual(
+          token.address,
+          collateralAddress as `0x${string}`
+        )
+      );
+      if (match) return match;
+    }
+    return collateralOptions[0];
+  }, [collateralOptions, collateralAddress, market.chainId]);
+
+  React.useEffect(() => {
+    setCollateralAddress(null);
+    setAmount('');
+  }, [market.id, market.chainId]);
+
+  const canChooseCollateral = collateralOptions.length > 1;
+
   const debouncedAmount = useDebounce(amount, 500);
 
   const safeOutcomeIndex =
@@ -172,12 +207,6 @@ export function SwapWidget({
     outcomeTokens[safeOutcomeIndex] ?? outcomeTokens[0];
 
   const hasLiquidity = useMarketHasLiquidity(market, safeOutcomeIndex);
-
-  const selectedCollateral = getSelectedCollateral(
-    market,
-    outcomeToken,
-    parentCollateral
-  );
 
   const amountForQuote =
     isAddressEqual(selectedCollateral.address, outcomeToken.address)
@@ -295,7 +324,10 @@ export function SwapWidget({
 
   const setTradeMode = React.useCallback((next: 'buy' | 'sell') => {
     setMode(next);
-    setAmount('');
+  }, []);
+
+  const selectCollateral = React.useCallback((token: Token) => {
+    setCollateralAddress(token.address);
   }, []);
 
   const payBalance =
@@ -394,8 +426,6 @@ export function SwapWidget({
         await executeTrade({
           trade: quoteData.trade,
           account,
-          isBuyExactOutputNative: false,
-          isSellToNative: false,
           isSeerCredits: isSeerCreditsCollateral,
         });
       } catch (err) {
@@ -492,6 +522,42 @@ export function SwapWidget({
             </div>
           )}
         </div>
+
+        {canChooseCollateral ? (
+          <div className="flex flex-col gap-2">
+            <span className={labelClass} id="collateral-label">
+              {mode === 'buy' ? 'Pay with' : 'Receive as'}
+            </span>
+            <div
+              className="flex rounded-control border border-edge bg-wall p-1"
+              role="group"
+              aria-labelledby="collateral-label"
+            >
+              {collateralOptions.map((token) => {
+                const selected = isAddressEqual(
+                  token.address,
+                  selectedCollateral.address
+                );
+                return (
+                  <button
+                    key={token.address}
+                    type="button"
+                    aria-pressed={selected}
+                    onClick={() => selectCollateral(token)}
+                    disabled={isDisabled}
+                    className={`flex-1 rounded-control px-3 py-2 text-xs font-semibold uppercase tracking-[0.08em] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up disabled:cursor-not-allowed disabled:opacity-40 ${
+                      selected
+                        ? 'bg-paper text-wall'
+                        : 'text-muted hover:text-paper'
+                    }`}
+                  >
+                    {token.symbol}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ) : null}
 
         <div className="flex flex-col gap-2">
           <div className="flex items-end justify-between gap-3">
