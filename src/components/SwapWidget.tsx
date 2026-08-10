@@ -9,6 +9,7 @@ import {
   WRAPPED_OUTCOME_TOKEN_DECIMALS,
   getActiveCollateralProfile,
 } from '@seer-pm/sdk';
+import { seerCreditsAddress } from '@seer-pm/sdk/contracts/trading-credits';
 import {
   useMarket,
   useMarketHasLiquidity,
@@ -92,6 +93,7 @@ function buildOutcomeTokens(market: Market): Token[] {
 
 function getCollateralOptions(
   market: Market,
+  mode: 'buy' | 'sell',
   parentCollateral?: Token
 ): Token[] {
   const parentId = market.parentMarket.id;
@@ -106,9 +108,33 @@ function getCollateralOptions(
 
   const profile = getActiveCollateralProfile(market.chainId);
   const options: Token[] = [profile.primary];
+
   if (profile.secondary) {
     options.push(profile.secondary);
   }
+
+  if (profile.secondary?.wrapped) {
+    options.push(profile.secondary.wrapped);
+  }
+
+  if (profile.swap) {
+    options.push(...profile.swap);
+  }
+
+  // SEER_CREDITS can only be used when buying (pay with credits), not as receive collateral
+  if (mode === 'buy') {
+    const creditsAddress =
+      seerCreditsAddress[market.chainId as keyof typeof seerCreditsAddress];
+    if (creditsAddress) {
+      options.push({
+        address: creditsAddress,
+        chainId: market.chainId,
+        symbol: 'SEER_CREDITS',
+        decimals: 18,
+      });
+    }
+  }
+
   return options;
 }
 
@@ -169,8 +195,8 @@ export function SwapWidget({
   );
 
   const collateralOptions = React.useMemo(
-    () => getCollateralOptions(market, parentCollateral),
-    [market, parentCollateral]
+    () => getCollateralOptions(market, mode, parentCollateral),
+    [market, mode, parentCollateral]
   );
 
   const selectedCollateral = React.useMemo(() => {
@@ -193,6 +219,17 @@ export function SwapWidget({
     setCollateralAddress(null);
     setAmount('');
   }, [market.id, market.chainId]);
+
+  // Drop SEER_CREDITS (and any other mode-gated token) when leaving buy mode
+  React.useEffect(() => {
+    if (!collateralAddress) return;
+    const stillValid = collateralOptions.some((token) =>
+      isAddressEqual(token.address, collateralAddress as `0x${string}`)
+    );
+    if (!stillValid) {
+      setCollateralAddress(null);
+    }
+  }, [collateralOptions, collateralAddress]);
 
   const canChooseCollateral = collateralOptions.length > 1;
 
@@ -525,37 +562,15 @@ export function SwapWidget({
 
         {canChooseCollateral ? (
           <div className="flex flex-col gap-2">
-            <span className={labelClass} id="collateral-label">
+            <label className={labelClass} id="collateral-label">
               {mode === 'buy' ? 'Pay with' : 'Receive as'}
-            </span>
-            <div
-              className="flex rounded-control border border-edge bg-wall p-1"
-              role="group"
-              aria-labelledby="collateral-label"
-            >
-              {collateralOptions.map((token) => {
-                const selected = isAddressEqual(
-                  token.address,
-                  selectedCollateral.address
-                );
-                return (
-                  <button
-                    key={token.address}
-                    type="button"
-                    aria-pressed={selected}
-                    onClick={() => selectCollateral(token)}
-                    disabled={isDisabled}
-                    className={`flex-1 rounded-control px-3 py-2 text-xs font-semibold uppercase tracking-[0.08em] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up disabled:cursor-not-allowed disabled:opacity-40 ${
-                      selected
-                        ? 'bg-paper text-wall'
-                        : 'text-muted hover:text-paper'
-                    }`}
-                  >
-                    {token.symbol}
-                  </button>
-                );
-              })}
-            </div>
+            </label>
+            <TokensDropdown
+              layout="block"
+              options={collateralOptions}
+              value={selectedCollateral}
+              onSelect={selectCollateral}
+            />
           </div>
         ) : null}
 
