@@ -85,7 +85,7 @@ export const MARKET_OVERRIDES: Record<string, MarketOverride> = {
     portfolios: {
       'Electric Foundation':
         'https://www.behance.net/gallery/252825507/Seer-Brand-Identity-App-Redesign',
-      //'Civic Signal': 'https://calm-sprinkles-b9465d.netlify.app/',
+      'Civic Signal': 'https://seercivicsignal.netlify.app',
       'Your only base layer for decision infrastructure.':
         'https://www.behance.net/gallery/253579443/Seer-Rebrand',
       'Geometric + Initial': 'https://www.behance.net/gallery/253587035/_',
