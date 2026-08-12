@@ -4,12 +4,14 @@ import { formatUnits, isAddressEqual, zeroAddress } from 'viem';
 import type { Market, Token } from '@seer-pm/sdk';
 import {
   TradeType,
-  isSeerCredits,
+  isTradingCredits,
   getMaximumAmountIn,
   WRAPPED_OUTCOME_TOKEN_DECIMALS,
   getActiveCollateralProfile,
+  getActiveCreditsTokenAddress,
+  getActiveCreditsSymbol,
+  hasTradingCredits,
 } from '@seer-pm/sdk';
-import { seerCreditsAddress } from '@seer-pm/sdk/contracts/trading-credits';
 import {
   useMarket,
   useMarketHasLiquidity,
@@ -121,15 +123,14 @@ function getCollateralOptions(
     options.push(...profile.swap);
   }
 
-  // SEER_CREDITS can only be used when buying (pay with credits), not as receive collateral
-  if (mode === 'buy') {
-    const creditsAddress =
-      seerCreditsAddress[market.chainId as keyof typeof seerCreditsAddress];
+  // Trading credits can only be used when buying (pay with credits), not as receive collateral
+  if (mode === 'buy' && hasTradingCredits(market.chainId)) {
+    const creditsAddress = getActiveCreditsTokenAddress(market.chainId);
     if (creditsAddress) {
       options.push({
         address: creditsAddress,
         chainId: market.chainId,
-        symbol: 'SEER_CREDITS',
+        symbol: getActiveCreditsSymbol(),
         decimals: 18,
       });
     }
@@ -220,7 +221,7 @@ export function SwapWidget({
     setAmount('');
   }, [market.id, market.chainId]);
 
-  // Drop SEER_CREDITS (and any other mode-gated token) when leaving buy mode
+  // Drop trading credits (and any other mode-gated token) when leaving buy mode
   React.useEffect(() => {
     if (!collateralAddress) return;
     const stillValid = collateralOptions.some((token) =>
@@ -282,8 +283,8 @@ export function SwapWidget({
   const insufficientBalance =
     !!quoteData?.trade && requiredAmount > 0n && balance < requiredAmount;
 
-  const isSeerCreditsCollateral = selectedCollateral
-    ? isSeerCredits(market.chainId, selectedCollateral.address)
+  const isTradingCreditsCollateral = selectedCollateral
+    ? isTradingCredits(market.chainId, selectedCollateral.address)
     : false;
 
   const {
@@ -297,14 +298,14 @@ export function SwapWidget({
   );
 
   const needsTokenApproval =
-    !isSeerCreditsCollateral && missingApprovals.length > 0;
+    !isTradingCreditsCollateral && missingApprovals.length > 0;
 
   const approveTokensMutation = useApproveTokens(toastifyTx);
 
   const { tradeTokens } = useTrade(
     account,
     quoteData?.trade,
-    isSeerCreditsCollateral,
+    isTradingCreditsCollateral,
     () => {
       setAmount('');
     },
@@ -463,7 +464,7 @@ export function SwapWidget({
         await executeTrade({
           trade: quoteData.trade,
           account,
-          isSeerCredits: isSeerCreditsCollateral,
+          isTradingCredits: isTradingCreditsCollateral,
         });
       } catch (err) {
         console.error('Trade failed:', err);
@@ -475,7 +476,7 @@ export function SwapWidget({
       insufficientBalance,
       isTradePending,
       executeTrade,
-      isSeerCreditsCollateral,
+      isTradingCreditsCollateral,
     ]
   );
 

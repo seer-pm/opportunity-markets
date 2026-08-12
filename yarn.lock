@@ -938,10 +938,10 @@
     "@noble/hashes" "~1.8.0"
     "@scure/base" "~1.2.5"
 
-"@seer-pm/discussions@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@seer-pm/discussions/-/discussions-0.0.4.tgz#a0dc36096965a5093310cab55fe5850e8cd2d95c"
-  integrity sha512-nZO1S8OrcZ84IYr5WxprrEiXzfhgnh63WS5PR3H94Ybh3dKaPv7mjkW8jfw9baG2iZ0Ou0NhTKszLREw9qRwZQ==
+"@seer-pm/discussions@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@seer-pm/discussions/-/discussions-0.0.5.tgz#d300ab75c05e6d81a55ed94168d6c6fc8974ec70"
+  integrity sha512-bCf1Ljj/uRZHC2GcwvC2yebRh8M1vfTrrgp9b9zqpByRs8tRml/fq5pSecc6yr5xR3uSbFk6OkF8udERXNoSFQ==
   dependencies:
     unique-names-generator "^4.7.1"
 
@@ -950,15 +950,15 @@
   resolved "https://registry.yarnpkg.com/@seer-pm/lens/-/lens-1.4.0.tgz#33c218a142a10e73ee25852c4c5a97b23bdda068"
   integrity sha512-6kCOJd+GyF7849wyRPPDN9k7/3LCUC+6Wsx3LqgTct40dNCIG9HI7PtQt6wTt2KsrEdnWcW2ZcWJm0yjYXCRQQ==
 
-"@seer-pm/react@^0.0.15":
-  version "0.0.15"
-  resolved "https://registry.yarnpkg.com/@seer-pm/react/-/react-0.0.15.tgz#cd17390d912f37e80c6e377a554a5c11ae911459"
-  integrity sha512-jOHeNx5Arg4EFL8qj3c4VCLlAljrgxbj1Bx+LkD/re/XdzFswXbUi1rq+GRhGRwBCKYMHELGGWXvo+ijvwSdhA==
+"@seer-pm/react@^0.0.16":
+  version "0.0.16"
+  resolved "https://registry.yarnpkg.com/@seer-pm/react/-/react-0.0.16.tgz#e4b4f9b26cb04c6d02cb76efea36ac606a4c4d96"
+  integrity sha512-XcxIFl7ZwMecFA+twdpMnU0WT3sV3WyeXpw3fN1Yf1bmyKoggYkY371T+hIVfYEJJyMTRoBJ81Mn8hevKD8Y6A==
 
-"@seer-pm/sdk@^0.0.17":
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/@seer-pm/sdk/-/sdk-0.0.17.tgz#735e52c111dffb3738081ef33c79e8ea5105489b"
-  integrity sha512-ZT6mXEJml4CldKFHzAQfljlAjgyELB5Tk44viYh1btIfQCg0IryB4deYXlrdBAbvaU0NaIPFNkrGWPdI6Iq07g==
+"@seer-pm/sdk@^0.0.18":
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/@seer-pm/sdk/-/sdk-0.0.18.tgz#1b8d3c1dd638d076ce3105410ce6a65adfb2c08f"
+  integrity sha512-ub30qebwMyxuDAwo9JxL+WtM+Z0p/4wHLBd/UF10sJBRPC9Rm+BSqnuMEyIiY2Sk78AQv8aDwsAGc5S8fVL/+w==
   dependencies:
     "@seer-pm/lens" "^1.4.0"
     "@uniswap/v3-sdk" "^3.19.0"

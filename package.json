@@ -19,9 +19,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@seer-pm/discussions": "^0.0.4",
-    "@seer-pm/react": "^0.0.15",
-    "@seer-pm/sdk": "^0.0.17",
+    "@seer-pm/discussions": "^0.0.5",
+    "@seer-pm/react": "^0.0.16",
+    "@seer-pm/sdk": "^0.0.18",
     "@tanstack/react-query": "^5.90.21",
     "buffer": "^6.0.3",
     "clsx": "^2.1.1",
