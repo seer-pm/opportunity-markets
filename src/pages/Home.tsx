@@ -108,18 +108,19 @@ export const Home: React.FC = () => {
       <main className="mx-auto flex w-full max-w-shell flex-1 flex-col px-6 pb-16 pt-3 sm:pt-8 lg:px-10 lg:pt-10">
         <section
           className="hero-rail"
-          aria-label="Community picks, markets decide"
+          aria-label="Submit. Trade. Decide."
         >
           <div className="max-w-2xl">
             <h1 className="font-display text-[clamp(1.75rem,8vw,4.5rem)] font-bold leading-[0.95] tracking-[-0.03em] text-paper sm:text-[clamp(2.5rem,7vw,4.5rem)]">
-              <span className="hero-entrance-word">Community picks,</span>{' '}
+              <span className="hero-entrance-word">Submit.</span>{' '}
+              <span className="hero-entrance-word">Trade.</span>{' '}
               <span className="hero-entrance-word font-semibold italic text-up">
-                markets decide
+                Decide.
               </span>
             </h1>
             <p className="hero-entrance-lead mt-2 max-w-xl text-sm leading-snug text-muted sm:mt-4 sm:text-lg sm:leading-relaxed">
-              Community proposals become market outcomes. Trade on which ideas
-              get chosen, and earn rewards when yours wins.
+              Every submission becomes a market outcome. Prices show real
+              conviction, and the Seer team picks the winning submission.
             </p>
             {processList('hero')}
           </div>
