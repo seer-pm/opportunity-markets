@@ -15,10 +15,22 @@ colors:
 typography:
   display:
     fontFamily: "Urbanist, system-ui, sans-serif"
-    fontSize: "clamp(2.5rem, 7vw, 4.5rem)"
-    fontWeight: 700
-    lineHeight: 0.95
-    letterSpacing: "-0.03em"
+    fontSize: "clamp(3rem, 7vw, 4.5rem)"
+    fontWeight: 600
+    lineHeight: 1.05
+    letterSpacing: "-0.04em"
+  lead:
+    fontFamily: "Urbanist, system-ui, sans-serif"
+    fontSize: "clamp(1.25rem, 2.2vw, 1.5rem)"
+    fontWeight: 400
+    lineHeight: 1.45
+    letterSpacing: "normal"
+  section:
+    fontFamily: "Urbanist, system-ui, sans-serif"
+    fontSize: "clamp(1.875rem, 3vw, 2.25rem)"
+    fontWeight: 600
+    lineHeight: 1.15
+    letterSpacing: "-0.025em"
   title:
     fontFamily: "Urbanist, system-ui, sans-serif"
     fontSize: "1.25rem"
@@ -96,7 +108,7 @@ components:
 
 A Seer-branded purple-night shell (aligned to seerrebrand.com) where Opportunity Markets is the product line. Deep `#0A0814` ground, elevated `#110d1c` plaques, Seer mark in header and footer, brand purple `#520078` for primary actions, lavender `#A774D1` for rising odds and focus. Composition stays Equal Stack: Seer chrome, product proof, then full-width stacked lots.
 
-Density stays deliberate. Home shows a capped hero set of lots; market detail opens one active lot with outcomes, price history, and a sticky trade plaque. Motion is sparse and meaningful: a short lot-reveal on brand words, a bid-tick when odds move.
+Density stays deliberate. Home opens with a centered persuasion hero and protocol roadmap, then Equal Stack pilot lots; market detail opens one active lot with outcomes, price history, and a sticky trade plaque. Motion is sparse and meaningful: a short entrance on the hero lead, a bid-tick when odds move.
 
 **Key Characteristics:**
 - Seer logo + Opportunity Markets product label in the shell
@@ -139,10 +151,12 @@ Purple-night Seer shell with plaque elevation and signal motion.
 **Character:** Urbanist carries the Seer contest-site voice for brand and UI. JetBrains Mono is the ticker — odds and measured liquidity only.
 
 ### Hierarchy
-- **Display** (700, clamp 2.5rem–4.5rem, line-height 0.95): Home hero brand line; market titles use a slightly smaller display clamp.
-- **Title** (600, ~1.25rem–1.85rem clamp on lots): Lot headings and section titles (Outcomes).
-- **Body** (400/500, 1rem–1.125rem, relaxed): Product proof, descriptions, empty states.
-- **Label** (600, 0.75rem, uppercase, 0.08em tracking): Filters, status chips, meta keys, primary button text.
+- **Display** (600, clamp 3rem–4.5rem, line-height 1.05): Home hero headline.
+- **Lead** (400, clamp 1.25rem–1.5rem): Hero supporting sentence under the display line.
+- **Section** (600, clamp ~1.875rem–2.25rem): Protocol and pilot section headings.
+- **Title** (600, ~1.25rem–1.85rem clamp on lots): Lot headings and detail section titles (Outcomes).
+- **Body** (400, 1rem–1.125rem, relaxed): Paragraphs, UI copy, hero step chips, empty states.
+- **Label** (600, 0.75rem, uppercase, 0.08em tracking): Status chips, section kickers, meta rows, primary button text.
 - **Mono** (600, ~1.125rem–1.875rem tabular): Leading odds and liquidity figures.
 
 ### Named Rules
@@ -198,7 +212,7 @@ Soft-square language throughout: panels at 8px, controls at 6px. Status chips, f
 - Trade inputs live inside the trade plaque (SwapWidget). Match plaque ground, soft-square controls, Paper/Muted text, and Up focus — no light-mode form islands.
 
 ### Navigation
-- Sticky header on Wall/90 with Edge bottom rule. Seer wordmark logo left, Opportunity Markets product label beside it, Brand-filled Connect Wallet on the right. Footer repeats the Seer logo, product blurb, and Seer links (Trade on Seer, seer.pm).
+- Sticky header on Wall/90 with Edge bottom rule. Seer mark + “Seer” + Beta pill left; section links (The protocol, The pilot) and Brand-filled pill Connect wallet on the right. Footer repeats the Seer logo and Opportunity Markets blurb.
 
 ### Lot Preview (signature)
 Full-width Equal Stack plaque: status + liquidity meta, Urbanist title, segmented outcome strip (Up/Down tones), then leading odds in mono with optional Up/Down tick label. Hover lifts border toward Up and title toward Up.
@@ -209,16 +223,16 @@ Single lot-panel with divided rows: mono index, Urbanist outcome name, mono odds
 ## Do's and Don'ts
 
 ### Do:
-- **Do** lead chrome with the Seer mark; keep Opportunity Markets as the product line label.
+- **Do** lead chrome with the Seer mark and Beta; keep Opportunity Markets as the product line in prose and footer.
 - **Do** keep Opportunity Markets product copy and Seer browse/trade flows intact.
-- **Do** give each of 2–4 featured markets equal hero presence in the stack.
+- **Do** give each pilot market equal presence in the stack.
 - **Do** use lavender/red for real odds motion; Brand purple for primary CTAs.
-- **Do** keep controls soft-square (6px) and panels at 8px.
+- **Do** keep lot panels soft-square (8px); header Connect wallet and home CTAs may use pill radii to match the marketing open.
 
 ### Don't:
 - **Don't** present Opportunity Markets as a competing standalone brand without Seer chrome.
 - **Don't** revive Dusk Shader Mist, frost glass, or misty blur panels as the world.
 - **Don't** ship a dense many-card catalog grid as the home default.
 - **Don't** add submit-proposal CTAs on marketing or browse surfaces.
-- **Don't** use Paradigm scout/sponsor/talent framing.
-- **Don't** use pill radii, neon glow, or crypto-HUD chrome.
+- **Don't** use Paradigm scout/talent framing; sponsor is fine when it means who launches or resolves a market.
+- **Don't** use neon glow or crypto-HUD chrome on lot panels.

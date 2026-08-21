@@ -107,7 +107,7 @@ export const MarketPreviewCard: React.FC<MarketPreviewCardProps> = ({
 
   return (
     <article
-      className="lot-panel lot-cascade-item group flex flex-col overflow-hidden transition-[border-color,box-shadow] duration-300 hover:border-up/40 hover:shadow-lot"
+      className="lot-panel lot-cascade-item group flex min-w-0 flex-col overflow-hidden transition-[border-color,box-shadow] duration-300 hover:border-up/40 hover:shadow-lot"
       style={
         {
           '--cascade-i': cascadeIndex,

@@ -255,10 +255,10 @@ export function DesignCarousel({
         </p>
       </div>
 
-      <div className="relative">
+      <div className="relative min-w-0">
         <ul
           ref={scrollerRef}
-          className="flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="flex max-w-full snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           tabIndex={0}
           aria-label="Design submissions"
           onKeyDown={(event) => {
