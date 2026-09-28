@@ -18,3 +18,8 @@ export function formatSharePrice(price: number): string {
   return `$${(price / 100).toFixed(2)} / share`;
 }
 
+
+/** Odds come from `normalizeOdds` with one decimal; a trailing ".0" is dropped. */
+export function formatOddsPercent(odds: number): string {
+  return `${Number(odds.toFixed(1))}%`;
+}

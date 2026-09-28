@@ -4,6 +4,7 @@ import { formatUnits } from 'viem';
 import { WRAPPED_OUTCOME_TOKEN_DECIMALS } from '@seer-pm/sdk';
 import type { Market } from '@seer-pm/sdk';
 import { useOutcomeBalances } from '../hooks/useOutcomeBalances';
+import { formatOddsPercent } from '../utils/format';
 import MarketChart from './MarketChart/MarketChart';
 import MarketDiscussion from './MarketDiscussion';
 import SubmissionLightbox from './SubmissionLightbox';
@@ -77,7 +78,7 @@ function OutcomeCard({
 }: OutcomeCardProps) {
   const { address: account } = useAccount();
 
-  const percent = Math.round(Number(odds));
+  const percent = Number(odds);
   const balanceFormatted = account
     ? Number(formatUnits(balance, WRAPPED_OUTCOME_TOKEN_DECIMALS)).toFixed(2)
     : '0.00';
@@ -170,10 +171,10 @@ function OutcomeCard({
       </div>
       <div className="text-right">
         <span className={oddsClass}>
-          {Number.isFinite(percent) ? `${percent}%` : '—'}
+          {Number.isFinite(percent) ? formatOddsPercent(percent) : '—'}
         </span>
         <p className="mt-0.5 text-xs font-semibold uppercase tracking-[0.08em] text-muted">
-          {Number.isFinite(percent) ? `$${(percent / 100).toFixed(2)}` : '—'}
+          {Number.isFinite(percent) ? `$${(percent / 100).toFixed(3)}` : '—'}
         </p>
       </div>
       <div

@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import type { Market } from '@seer-pm/sdk';
 import { MarketStatus, getMarketStatus } from '@seer-pm/sdk';
-import { formatBigNumbers } from '../utils/format';
+import { formatBigNumbers, formatOddsPercent } from '../utils/format';
 import { getMarketDisplayTitle } from '../config/market';
 import DesignCarousel from './DesignCarousel';
 
@@ -25,7 +25,7 @@ function getBestOddsOutcome(market: Market): {
   const rawOutcomes = market.outcomes ?? [];
 
   const outcomes = odds.map((value, i) => {
-    const percent = Math.round(Number(value ?? 0));
+    const percent = Number(value ?? 0);
     const label =
       typeof rawOutcomes[i] === 'string'
         ? (rawOutcomes[i] as string)
@@ -43,11 +43,11 @@ function getBestOddsOutcome(market: Market): {
     }
   }
 
-  const leadingPercent = Math.round(leadingOdds);
+  const leadingPercent = leadingOdds;
   const label = outcomes[leadingIndex]?.label ?? null;
   const displayPrice =
     Number.isFinite(leadingPercent) && leadingPercent > 0
-      ? `${leadingPercent}%`
+      ? formatOddsPercent(leadingPercent)
       : null;
 
   const ranked = [...outcomes].sort((a, b) => b.percent - a.percent);
@@ -172,7 +172,7 @@ export const MarketPreviewCard: React.FC<MarketPreviewCardProps> = ({
                       : 'shrink-0 font-mono text-sm font-semibold tabular-nums text-muted'
                   }
                 >
-                  {outcome.percent}%
+                  {formatOddsPercent(outcome.percent)}
                 </span>
               </li>
             ))}
