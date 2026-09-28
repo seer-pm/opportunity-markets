@@ -7,8 +7,14 @@ import { type Market } from '@seer-pm/sdk';
 import {
   CONFIGURED_MARKET_IDS,
   DEFAULT_MARKET_CHAIN_ID,
+  getChainedLevels,
 } from '../config/market';
+import { useChainedMarkets } from '../hooks/useChainedMarket';
 import { MarketPreviewCard } from '../components/MarketPreviewCard';
+
+// Chained opportunities are loaded as one flattened market each, not as raw Seer markets.
+const CHAINED_MARKET_IDS = CONFIGURED_MARKET_IDS.filter((id) => getChainedLevels(id));
+const PLAIN_MARKET_IDS = CONFIGURED_MARKET_IDS.filter((id) => !getChainedLevels(id));
 
 const REBRAND_MARKET_ID = '0xe7850b0d928aa40ab8732BD323Fa4F6Ef3c24B8a';
 
@@ -53,15 +59,29 @@ export const Home: React.FC = () => {
     typeof performance !== 'undefined' ? performance.now() : 0
   );
 
-  const { data, isLoading, isError, refetch, isFetching } = useMarkets({
+  const {
+    data,
+    isLoading: isPlainLoading,
+    isError,
+    refetch,
+    isFetching: isPlainFetching,
+  } = useMarkets({
     chainsList: [String(DEFAULT_MARKET_CHAIN_ID)],
-    marketIds: CONFIGURED_MARKET_IDS,
+    marketIds: PLAIN_MARKET_IDS,
   });
-
-  const markets = React.useMemo(
-    () => rankMarkets(data?.markets ?? []),
-    [data?.markets]
+  const chainedQueries = useChainedMarkets(
+    CHAINED_MARKET_IDS,
+    DEFAULT_MARKET_CHAIN_ID
   );
+  const isLoading =
+    isPlainLoading || chainedQueries.some((q) => q.isLoading);
+  const isFetching =
+    isPlainFetching || chainedQueries.some((q) => q.isFetching);
+  const chainedMarkets = chainedQueries
+    .map((q) => q.data?.market)
+    .filter((m): m is Market => m !== undefined);
+
+  const markets = rankMarkets([...(data?.markets ?? []), ...chainedMarkets]);
   const lotsReady = !isLoading && !isError && markets.length > 0;
   const cascadeModeRef = React.useRef<'synced' | 'late' | null>(null);
   if (lotsReady && cascadeModeRef.current === null) {
@@ -153,11 +173,11 @@ export const Home: React.FC = () => {
             >
               {!isLoading && !isError && markets.length > 0
                 ? liveCountLabel(markets.length)
-                : 'Two markets live.'}
+                : liveCountLabel(CONFIGURED_MARKET_IDS.length)}
             </h2>
             <p className="mt-4 max-w-2xl text-base leading-relaxed text-paper/85 sm:text-lg">
               Edition one is Seer&apos;s own rebrand, with a Devcon merch market
-              alongside it.
+              and the naming of Seer&apos;s AI job board alongside it.
             </p>
           </div>
 

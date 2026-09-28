@@ -1,4 +1,4 @@
-import { useChartData, type ChartData } from '../../hooks/chart/useChartData';
+import { useMarketChartData, type ChartData } from '../../hooks/chart/useChartData';
 import {
   INVALID_RESULT_OUTCOME_TEXT,
   Market,
@@ -105,7 +105,7 @@ function getFilteredSeries(market: Market, chartData: ChartData['chartData']) {
 }
 
 export default function MarketChart({ market }: { market: Market }) {
-  const { data, isPending: isPendingChart } = useChartData(market);
+  const { data, isPending: isPendingChart } = useMarketChartData(market);
   const { chartData = [] } = data ?? {};
   const series = useMemo(() => getFilteredSeries(market, chartData), [market, chartData]);
 

@@ -5,7 +5,7 @@ import MarketOutcomes from '../components/MarketOutcomes';
 import TradingWidget from '../components/TradingWidget';
 import DesignCarousel from '../components/DesignCarousel';
 import Footer from '../components/Footer';
-import { useMarket } from '@seer-pm/react';
+import { useOpportunityMarket } from '../hooks/useChainedMarket';
 import { Address, zeroAddress } from 'viem';
 import {
   SupportedChain,
@@ -41,7 +41,7 @@ export const MarketPage: React.FC = () => {
     marketId: Address;
   }>();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data: market, isLoading, isError, refetch } = useMarket(
+  const { data: market, isLoading, isError, refetch } = useOpportunityMarket(
     marketId,
     Number(chainId ?? 0) as SupportedChain
   );

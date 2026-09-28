@@ -9,6 +9,9 @@ export interface TokensDropdownProps {
   readonly layout?: 'rail' | 'block';
 }
 
+/** Past this many options the list gets a search box. */
+const SEARCH_THRESHOLD = 20;
+
 function addressesEqual(a: string, b: string): boolean {
   return a.toLowerCase() === b.toLowerCase();
 }
@@ -39,6 +42,16 @@ export function TokensDropdown({
   layout = 'rail',
 }: TokensDropdownProps): React.ReactElement {
   const [open, setOpen] = React.useState(false);
+  const [query, setQuery] = React.useState('');
+  const searchable = options.length > SEARCH_THRESHOLD;
+  const needle = query.trim().toLowerCase();
+  const filtered = needle
+    ? options.filter((t) => t.symbol.toLowerCase().includes(needle))
+    : options;
+  const close = () => {
+    setOpen(false);
+    setQuery('');
+  };
   const selected = options.find((t) =>
     addressesEqual(t.address, value.address)
   );
@@ -91,15 +104,31 @@ export function TokensDropdown({
           <div
             className="fixed inset-0 z-20"
             aria-hidden
-            onClick={() => setOpen(false)}
+            onClick={close}
           />
           <div
             role="listbox"
-            className={`absolute top-full z-30 mt-1 max-h-60 overflow-y-auto overflow-x-hidden rounded-panel border border-edge bg-plaque py-1 shadow-panel ${
+            className={`absolute top-full z-30 mt-1 ${searchable ? 'max-h-80' : 'max-h-60'} overflow-y-auto overflow-x-hidden rounded-panel border border-edge bg-plaque py-1 shadow-panel ${
               isBlock ? 'left-0 right-0' : 'right-0 min-w-[12rem]'
             }`}
           >
-            {options.map((token) => {
+            {searchable ? (
+              <div className="sticky top-0 z-10 bg-plaque px-2 pb-1 pt-1">
+                <input
+                  type="search"
+                  autoFocus
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  placeholder={`Search ${options.length}`}
+                  aria-label="Search options"
+                  className="w-full rounded-control border border-edge bg-wall px-3 py-2 text-xs text-paper caret-up placeholder:text-muted focus:border-up focus:outline-none"
+                />
+              </div>
+            ) : null}
+            {searchable && filtered.length === 0 ? (
+              <p className="px-3 py-2 text-xs text-muted">No matches</p>
+            ) : null}
+            {filtered.map((token) => {
               const isSelected = addressesEqual(token.address, value.address);
               return (
                 <button
@@ -109,7 +138,7 @@ export function TokensDropdown({
                   aria-selected={isSelected}
                   onClick={() => {
                     onSelect(token);
-                    setOpen(false);
+                    close();
                   }}
                   className={`w-full px-3 py-2 text-left text-xs font-semibold uppercase tracking-[0.08em] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-up ${
                     isSelected

@@ -2,8 +2,8 @@ import * as React from 'react';
 import { useAccount } from 'wagmi';
 import { formatUnits } from 'viem';
 import { WRAPPED_OUTCOME_TOKEN_DECIMALS } from '@seer-pm/sdk';
-import { useTokenBalance } from '@seer-pm/react';
 import type { Market } from '@seer-pm/sdk';
+import { useOutcomeBalances } from '../hooks/useOutcomeBalances';
 import MarketChart from './MarketChart/MarketChart';
 import MarketDiscussion from './MarketDiscussion';
 import SubmissionLightbox from './SubmissionLightbox';
@@ -19,10 +19,13 @@ export interface MarketOutcomesProps {
   readonly onSelectOutcome: (index: number) => void;
 }
 
+/** Past this many outcomes the list gets a search box and is collapsed. */
+const COLLAPSE_THRESHOLD = 20;
+const COLLAPSED_COUNT = 15;
+
 interface OutcomeCardProps {
-  readonly market: Market;
-  readonly outcomeIndex: number;
   readonly label: string;
+  readonly balance: bigint;
   readonly odds: number;
   readonly rank: number;
   readonly selected: boolean;
@@ -63,9 +66,8 @@ function ImageIcon() {
 }
 
 function OutcomeCard({
-  market,
-  outcomeIndex,
   label,
+  balance,
   odds,
   rank,
   selected,
@@ -74,14 +76,6 @@ function OutcomeCard({
   onViewImages,
 }: OutcomeCardProps) {
   const { address: account } = useAccount();
-  const tokenAddress = market.wrappedTokens[outcomeIndex] as
-    | `0x${string}`
-    | undefined;
-  const { data: balance = 0n } = useTokenBalance(
-    account,
-    tokenAddress,
-    market.chainId
-  );
 
   const percent = Math.round(Number(odds));
   const balanceFormatted = account
@@ -175,7 +169,9 @@ function OutcomeCard({
         ) : null}
       </div>
       <div className="text-right">
-        <span className={oddsClass}>{percent}%</span>
+        <span className={oddsClass}>
+          {Number.isFinite(percent) ? `${percent}%` : '—'}
+        </span>
         <p className="mt-0.5 text-xs font-semibold uppercase tracking-[0.08em] text-muted">
           {Number.isFinite(percent) ? `$${(percent / 100).toFixed(2)}` : '—'}
         </p>
@@ -226,9 +222,36 @@ export const MarketOutcomes: React.FC<MarketOutcomesProps> = ({
   );
 
   const ranked = React.useMemo(
-    () => [...outcomes].sort((a, b) => b.odds - a.odds),
+    () =>
+      [...outcomes]
+        // Outcomes without a price (NaN) sink to the bottom.
+        .sort((a, b) => (b.odds || 0) - (a.odds || 0))
+        .map((outcome, rankIdx) => ({ ...outcome, rank: rankIdx + 1 })),
     [outcomes]
   );
+
+  const { address: account } = useAccount();
+  const { data: balances } = useOutcomeBalances(
+    account,
+    wrapped,
+    market.chainId
+  );
+
+  const isLong = ranked.length > COLLAPSE_THRESHOLD;
+  const [query, setQuery] = React.useState('');
+  const [expanded, setExpanded] = React.useState(false);
+  const needle = query.trim().toLowerCase();
+
+  const visible = React.useMemo(() => {
+    if (!isLong) return ranked;
+    if (needle) {
+      return ranked.filter((o) => o.label.toLowerCase().includes(needle));
+    }
+    if (expanded) return ranked;
+    const top = ranked.slice(0, COLLAPSED_COUNT);
+    const selected = ranked.find((o) => o.index === selectedOutcomeIndex);
+    return selected && !top.includes(selected) ? [...top, selected] : top;
+  }, [isLong, ranked, needle, expanded, selectedOutcomeIndex]);
 
   function onViewImages(label: string, assets: SubmissionAssets) {
     setLightbox({ title: label, images: assets.images });
@@ -257,15 +280,29 @@ export const MarketOutcomes: React.FC<MarketOutcomesProps> = ({
             </span>
           </div>
         </div>
+        {isLong ? (
+          <input
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder={`Search ${ranked.length} outcomes`}
+            aria-label="Search outcomes"
+            className="mb-3 w-full rounded-panel border border-edge bg-wall px-4 py-3 text-sm text-paper caret-up placeholder:text-muted focus:border-up focus:outline-none"
+          />
+        ) : null}
         <div className="lot-panel divide-y divide-paper/10 overflow-hidden">
-          {ranked.map(({ label, odds: outcomeOdds, index, assets }, rankIdx) => (
+          {visible.length === 0 ? (
+            <p className="px-5 py-4 text-sm text-muted">
+              No outcomes match “{query.trim()}”.
+            </p>
+          ) : null}
+          {visible.map(({ label, odds: outcomeOdds, index, assets, rank }) => (
             <OutcomeCard
               key={index}
-              market={market}
-              outcomeIndex={index}
               label={label}
+              balance={balances?.[index] ?? 0n}
               odds={outcomeOdds}
-              rank={rankIdx + 1}
+              rank={rank}
               selected={selectedOutcomeIndex === index}
               assets={assets}
               onSelect={() => onSelectOutcome(index)}
@@ -273,6 +310,15 @@ export const MarketOutcomes: React.FC<MarketOutcomesProps> = ({
             />
           ))}
         </div>
+        {isLong && !needle ? (
+          <button
+            type="button"
+            onClick={() => setExpanded((prev) => !prev)}
+            className="mt-3 text-xs font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
+          >
+            {expanded ? 'Show top outcomes' : `Show all ${ranked.length} outcomes`}
+          </button>
+        ) : null}
       </div>
 
       <div className="lot-panel p-6">

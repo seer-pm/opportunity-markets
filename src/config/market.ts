@@ -1,6 +1,17 @@
 import { CHAIN_IDS } from '@seer-pm/sdk';
+import type { Address } from 'viem';
 
 export const DEFAULT_MARKET_CHAIN_ID = CHAIN_IDS.gnosis;
+
+/**
+ * One level of a chained "Other" market (see chained-other-markets guide).
+ * Level i+1 is a conditional market whose parent outcome is level i's `otherIndex`.
+ */
+export type ChainedMarketLevel = {
+  marketId: Address;
+  /** Index of the "Other" outcome that feeds the next level; null on the last level. */
+  otherIndex: number | null;
+};
 
 export type MarketOverride = {
   title: string;
@@ -25,6 +36,13 @@ export type MarketOverride = {
   carouselLightBg?: string[];
   /** Never apply white slide frame (false positives). */
   carouselNoLightBg?: string[];
+  /**
+   * Ordered levels (root first) when the opportunity spans several chained markets.
+   * The UI shows them as a single flat list; the root market id is the config key.
+   */
+  chainedMarkets?: ChainedMarketLevel[];
+  /** Display label for the last level's "Other" outcome (a real "none of the listed" option). */
+  finalOtherLabel?: string;
 };
 
 export const MARKET_OVERRIDES: Record<string, MarketOverride> = {
@@ -94,6 +112,17 @@ export const MARKET_OVERRIDES: Record<string, MarketOverride> = {
         'https://www.behance.net/gallery/253606531/Seer-Brand-Identity',
     },
   },
+  '0x8b3C7f3f09f6A85353926D8ee0f12decc1C9A5e8': {
+    title: 'Seer AI Job Board Name',
+    description:
+      'Seer is experimenting with a futarchy-run organization that will build a job board for AI: humans and AIs post tasks, AI completes them and gets paid in crypto. Step one is picking the name.\n\nEvery name suggested by the community is listed as an outcome. Traders buy shares in the name they believe will be adopted.\n\nThe chosen name earns $1,000 in crypto (if Seer can use it). By suggesting a name, its author transfers all rights to it, effective only once the $1,000 is paid. If several people suggested the same name, the earliest reply wins.',
+    chainedMarkets: [
+      { marketId: '0x8b3C7f3f09f6A85353926D8ee0f12decc1C9A5e8', otherIndex: 78 },
+      { marketId: '0xf6A42aF200C181Df45e0f3Fd49D58F5D57bb7D35', otherIndex: 78 },
+      { marketId: '0x144364dB8EDD6225248fE9d02f77ECc3ec0E4C4c', otherIndex: null },
+    ],
+    finalOtherLabel: 'None of the listed names',
+  },
 };
 
 export const CONFIGURED_MARKET_IDS = Object.keys(MARKET_OVERRIDES);
@@ -109,4 +138,9 @@ export function getMarketDisplayTitle(
   fallbackName: string | null | undefined
 ): string {
   return getMarketOverride(marketId)?.title ?? fallbackName ?? 'Market';
+}
+
+export function getChainedLevels(marketId: string): ChainedMarketLevel[] | undefined {
+  const levels = getMarketOverride(marketId)?.chainedMarkets;
+  return levels && levels.length > 1 ? levels : undefined;
 }
