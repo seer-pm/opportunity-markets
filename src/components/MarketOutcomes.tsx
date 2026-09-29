@@ -35,6 +35,24 @@ interface OutcomeCardProps {
   readonly onViewImages: (label: string, assets: SubmissionAssets) => void;
 }
 
+function formatUsd(value: number | undefined): string {
+  if (value === undefined) return '—';
+  return `$${Number(value).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
+}
+
+function MarketStat({ label, value }: { label: string; value?: number }) {
+  return (
+    <div className="flex items-baseline gap-2">
+      <span className="text-xs font-semibold uppercase tracking-[0.08em] text-muted">
+        {label}
+      </span>
+      <span className="font-mono text-sm font-semibold tabular-nums text-paper">
+        {formatUsd(value)}
+      </span>
+    </div>
+  );
+}
+
 function ImageIcon() {
   return (
     <svg
@@ -268,17 +286,9 @@ export const MarketOutcomes: React.FC<MarketOutcomesProps> = ({
           <h2 className="font-display text-xl font-semibold text-paper">
             Outcomes
           </h2>
-          <div className="flex items-baseline gap-2">
-            <span className="text-xs font-semibold uppercase tracking-[0.08em] text-muted">
-              Liquidity
-            </span>
-            <span className="font-mono text-sm font-semibold tabular-nums text-paper">
-              {market.liquidityUSD !== undefined
-                ? `$${Number(market.liquidityUSD).toLocaleString(undefined, {
-                    maximumFractionDigits: 0,
-                  })}`
-                : '—'}
-            </span>
+          <div className="flex items-baseline gap-4">
+            <MarketStat label="Volume" value={market.volumeUSD} />
+            <MarketStat label="Liquidity" value={market.liquidityUSD} />
           </div>
         </div>
         {isLong ? (

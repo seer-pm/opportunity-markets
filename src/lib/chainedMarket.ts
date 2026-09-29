@@ -190,7 +190,9 @@ export async function fetchChainedMarket(
   }
 
   const root = levels[0];
-  const sum = (key: 'liquidityUSD' | 'openInterestUSD') =>
+  const sum = (
+    key: 'liquidityUSD' | 'openInterestUSD' | 'volumeUSD' | 'volumeNotionalUSD',
+  ) =>
     levels.reduce((acc, m) => acc + Number(m[key] ?? 0), 0);
 
   const market: Market = {
@@ -211,6 +213,8 @@ export async function fetchChainedMarket(
     odds: normalizeOdds(prices),
     liquidityUSD: sum('liquidityUSD'),
     openInterestUSD: sum('openInterestUSD'),
+    volumeUSD: sum('volumeUSD'),
+    volumeNotionalUSD: sum('volumeNotionalUSD'),
     hasLiquidity: Object.keys(poolByToken).length > 0,
   };
 

@@ -938,29 +938,29 @@
     "@noble/hashes" "~1.8.0"
     "@scure/base" "~1.2.5"
 
-"@seer-pm/discussions@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@seer-pm/discussions/-/discussions-0.0.6.tgz#eb3bd967959f43c5c6cfe5f775b808416b1ec760"
-  integrity sha512-c8DRVbAGAWBMbwX7tCAeIDRmRTOKv9j59mDVKnp0gdw5awikY6en2kxnm+donuhztR8PKMkVs9JcAz5HTGl/Hg==
+"@seer-pm/discussions@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@seer-pm/discussions/-/discussions-0.0.7.tgz#ae830dbb656590b807496b3408e5d85e3145399b"
+  integrity sha512-z8s4v2ljK9XGTJSDZ/mztpLBPyi+GTi6RJZ6f6cvyxqeroJIko+e/qRrIma7Zif4nureugsHVouMDx1bDbs6iw==
   dependencies:
-    unique-names-generator "^4.7.1"
+    unique-names-generator "4.7.1"
 
-"@seer-pm/lens@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@seer-pm/lens/-/lens-1.4.0.tgz#33c218a142a10e73ee25852c4c5a97b23bdda068"
-  integrity sha512-6kCOJd+GyF7849wyRPPDN9k7/3LCUC+6Wsx3LqgTct40dNCIG9HI7PtQt6wTt2KsrEdnWcW2ZcWJm0yjYXCRQQ==
+"@seer-pm/lens@^1.5.1":
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@seer-pm/lens/-/lens-1.5.1.tgz#307a54a2cbfc499bbed0668c6feb91c5fb48f064"
+  integrity sha512-xkpobHEuEhL08eti/KgImd/XXOUEte38kEhoDg0niNf+RnO8cRLfzscyPnupY7h4KRayO/IWMGTvJXnJq5rfWQ==
 
-"@seer-pm/react@^0.0.16":
-  version "0.0.16"
-  resolved "https://registry.yarnpkg.com/@seer-pm/react/-/react-0.0.16.tgz#e4b4f9b26cb04c6d02cb76efea36ac606a4c4d96"
-  integrity sha512-XcxIFl7ZwMecFA+twdpMnU0WT3sV3WyeXpw3fN1Yf1bmyKoggYkY371T+hIVfYEJJyMTRoBJ81Mn8hevKD8Y6A==
+"@seer-pm/react@^0.0.17":
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/@seer-pm/react/-/react-0.0.17.tgz#1c9888e9a73d9a31315f707d39b43cfbe0cfd820"
+  integrity sha512-3qOkSHZZ/SiTLle1VWm9wbmSSyPZr0tF30RtK9ENouazV5YTOmVo0zNkFyJVhxWHbdaOMzrOnP0NMVZWgLqt2w==
 
-"@seer-pm/sdk@^0.0.18":
-  version "0.0.18"
-  resolved "https://registry.yarnpkg.com/@seer-pm/sdk/-/sdk-0.0.18.tgz#1b8d3c1dd638d076ce3105410ce6a65adfb2c08f"
-  integrity sha512-ub30qebwMyxuDAwo9JxL+WtM+Z0p/4wHLBd/UF10sJBRPC9Rm+BSqnuMEyIiY2Sk78AQv8aDwsAGc5S8fVL/+w==
+"@seer-pm/sdk@^0.0.19":
+  version "0.0.19"
+  resolved "https://registry.yarnpkg.com/@seer-pm/sdk/-/sdk-0.0.19.tgz#cb233c3ce5b0b79d8e4f415a0afacc901329698e"
+  integrity sha512-wb8HwelytCSmylOlBofi4IzG3A4gDcH8+85LVd0py5w0psuNQ8O1aigld7rjTiC0F0WOw5SWKufrUKeM0nHtCA==
   dependencies:
-    "@seer-pm/lens" "^1.4.0"
+    "@seer-pm/lens" "^1.5.1"
     "@uniswap/v3-sdk" "^3.19.0"
     graphql "16.11.0"
 
@@ -2938,7 +2938,7 @@ unicorn-magic@^0.3.0:
   resolved "https://registry.yarnpkg.com/unicorn-magic/-/unicorn-magic-0.3.0.tgz#4efd45c85a69e0dd576d25532fbfa22aa5c8a104"
   integrity sha512-+QBBXBCvifc56fsbuxZQ6Sic3wqqc3WWaqxs58gvJrcOuN83HGTCwz3oS5phzU9LthRNE9VrJCFCLUgHeeFnfA==
 
-unique-names-generator@^4.7.1:
+unique-names-generator@4.7.1:
   version "4.7.1"
   resolved "https://registry.yarnpkg.com/unique-names-generator/-/unique-names-generator-4.7.1.tgz#966407b12ba97f618928f77322cfac8c80df5597"
   integrity sha512-lMx9dX+KRmG8sq6gulYYpKWZc9RlGsgBR6aoO8Qsm3qvkSJ+3rAymr+TnV8EDMrIrwuFJ4kruzMWM/OpYzPoow==
