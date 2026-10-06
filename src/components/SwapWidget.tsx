@@ -9,7 +9,9 @@ import {
   WRAPPED_OUTCOME_TOKEN_DECIMALS,
   getActiveCollateralProfile,
   getActiveCreditsTokenAddress,
+  getActiveCreditsManagerAddress,
   getActiveCreditsSymbol,
+  getTradeTokenIn,
   hasTradingCredits,
 } from '@seer-pm/sdk';
 import {
@@ -293,6 +295,40 @@ export function SwapWidget({
     ? isTradingCredits(market.chainId, selectedCollateral.address)
     : false;
 
+  // Credits trades are funded by the credits manager's own collateral balance,
+  // so the swap reverts if the manager can't cover the trade's input amount.
+  const creditsManagerAddress = isTradingCreditsCollateral
+    ? getActiveCreditsManagerAddress(market.chainId)
+    : undefined;
+  const tradeTokenIn = quoteData?.trade
+    ? getTradeTokenIn(quoteData.trade)
+    : undefined;
+
+  const { data: creditsManagerBalance } = useTokenBalance(
+    creditsManagerAddress,
+    tradeTokenIn?.address as `0x${string}` | undefined,
+    market.chainId
+  );
+
+  const insufficientCreditsLiquidity =
+    isTradingCreditsCollateral &&
+    !!quoteData?.trade &&
+    requiredAmount > 0n &&
+    creditsManagerBalance !== undefined &&
+    creditsManagerBalance < requiredAmount;
+
+  const creditsAvailable =
+    creditsManagerBalance !== undefined && tradeTokenIn
+      ? Number(formatUnits(creditsManagerBalance, tradeTokenIn.decimals))
+      : 0;
+
+  const creditsAvailableDisplay = (
+    Math.floor(creditsAvailable * 100) / 100
+  ).toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
   const {
     data: missingApprovals = [],
     isLoading: isApprovalLoading,
@@ -448,6 +484,7 @@ export function SwapWidget({
   const canSubmit =
     !isDisabled &&
     !insufficientBalance &&
+    !insufficientCreditsLiquidity &&
     !isTradePending &&
     !!account &&
     !!quoteData?.trade &&
@@ -464,7 +501,13 @@ export function SwapWidget({
   const onFormSubmit = React.useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
-      if (!account || !quoteData?.trade || insufficientBalance || isTradePending)
+      if (
+        !account ||
+        !quoteData?.trade ||
+        insufficientBalance ||
+        insufficientCreditsLiquidity ||
+        isTradePending
+      )
         return;
       try {
         await executeTrade({
@@ -480,6 +523,7 @@ export function SwapWidget({
       account,
       quoteData?.trade,
       insufficientBalance,
+      insufficientCreditsLiquidity,
       isTradePending,
       executeTrade,
       isTradingCreditsCollateral,
@@ -494,6 +538,7 @@ export function SwapWidget({
     if (quoteIsLoading) return 'Getting quote…';
     if (quoteError) return 'Quote unavailable';
     if (insufficientBalance) return 'Insufficient balance';
+    if (insufficientCreditsLiquidity) return 'Credits unavailable';
     if (!quoteData?.trade) return 'Enter an amount';
     return 'Place Trade';
   })();
@@ -552,6 +597,16 @@ export function SwapWidget({
         >
           Insufficient balance. You need more{' '}
           {sellTokenSymbol ?? 'tokens'} to complete this trade.
+        </p>
+      )}
+      {insufficientCreditsLiquidity && !isDisabled && !insufficientBalance && (
+        <p
+          role="status"
+          className="mb-4 border-y border-down/45 py-3 text-xs leading-relaxed text-down"
+        >
+          {creditsAvailable < 0.01
+            ? "Credits can't be used right now: there aren't enough funds backing them. Pay with another token."
+            : `Credits can cover up to ${creditsAvailableDisplay} ${collateralSymbol} right now. Lower the amount or pay with another token.`}
         </p>
       )}
 
