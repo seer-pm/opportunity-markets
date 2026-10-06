@@ -93,6 +93,23 @@
     box-shadow: theme('boxShadow.lot');
   }
 
+  .trade-notice {
+    animation: trade-notice-in 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes trade-notice-in {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .trade-notice {
+      animation: none;
+    }
+  }
+
   .Toastify__toast.lot-toast {
     border: 1px solid theme('colors.edge');
     background-color: theme('colors.plaque');

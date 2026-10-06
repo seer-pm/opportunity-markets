@@ -24,6 +24,8 @@ export default {
         brand: '#520078',
         up: '#A774D1',
         down: '#ea3943',
+        // Legible red for text on the night ground (down alone is ~4.3:1 on plaque)
+        'down-ink': '#FF8E95',
         edge: 'rgba(167, 116, 209, 0.12)',
         'edge-strong': 'rgba(167, 116, 209, 0.25)',
       },

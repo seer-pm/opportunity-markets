@@ -27,6 +27,7 @@ import {
 import { ConnectKitButton } from 'connectkit';
 import { toastifyTx } from '../lib/toastify';
 import { TokensDropdown } from './TokensDropdown';
+import { TradeNotice } from './TradeNotice';
 
 const amountFieldClass =
   'flex w-full items-center gap-3 rounded-panel border border-edge bg-wall px-4 py-3 transition-colors focus-within:border-up has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:-outline-offset-2 has-[:focus-visible]:outline-up';
@@ -543,6 +544,12 @@ export function SwapWidget({
     return 'Place Trade';
   })();
 
+  const amountHasProblem =
+    !isDisabled &&
+    (insufficientBalance ||
+      insufficientCreditsLiquidity ||
+      (!!quoteError && Number(amount) > 0));
+
   const amountLabel = mode === 'buy' ? 'Amount' : 'Shares';
   const receiveLabel = mode === 'buy' ? 'You receive' : 'You get';
 
@@ -583,31 +590,21 @@ export function SwapWidget({
       </div>
 
       {isDisabled && (
-        <p
-          role="status"
-          className="mb-4 border-y border-down/35 py-3 text-xs leading-relaxed text-paper"
-        >
+        <TradeNotice title="No liquidity" className="mb-5">
           This outcome lacks enough liquidity to trade right now.
-        </p>
+        </TradeNotice>
       )}
       {insufficientBalance && !isDisabled && (
-        <p
-          role="status"
-          className="mb-4 border-y border-down/45 py-3 text-xs leading-relaxed text-down"
-        >
-          Insufficient balance. You need more{' '}
-          {sellTokenSymbol ?? 'tokens'} to complete this trade.
-        </p>
+        <TradeNotice title="Insufficient balance" className="mb-5">
+          You need more {sellTokenSymbol ?? 'tokens'} to complete this trade.
+        </TradeNotice>
       )}
       {insufficientCreditsLiquidity && !isDisabled && !insufficientBalance && (
-        <p
-          role="status"
-          className="mb-4 border-y border-down/45 py-3 text-xs leading-relaxed text-down"
-        >
+        <TradeNotice title="Credits unavailable" className="mb-5">
           {creditsAvailable < 0.01
             ? "Credits can't be used right now: there aren't enough funds backing them. Pay with another token."
             : `Credits can cover up to ${creditsAvailableDisplay} ${collateralSymbol} right now. Lower the amount or pay with another token.`}
-        </p>
+        </TradeNotice>
       )}
 
       <form className="space-y-5" onSubmit={onFormSubmit}>
@@ -651,7 +648,9 @@ export function SwapWidget({
             </span>
           </div>
           <div
-            className={`${amountFieldClass} ${isDisabled ? 'opacity-60' : ''}`}
+            className={`${amountFieldClass} ${isDisabled ? 'opacity-60' : ''} ${
+              amountHasProblem ? '!border-down/50 focus-within:!border-down' : ''
+            }`}
           >
             <input
               id="trade-amount"
@@ -697,11 +696,17 @@ export function SwapWidget({
         </div>
 
         {quoteError && Number(amount) > 0 && (
-          <p className="text-xs text-down">
+          <TradeNotice
+            title={
+              quoteError.message === 'No route found'
+                ? 'Not enough liquidity'
+                : 'Quote unavailable'
+            }
+          >
             {quoteError.message === 'No route found'
-              ? 'Not enough liquidity. Try a smaller amount.'
+              ? 'Try a smaller amount.'
               : quoteError.message}
-          </p>
+          </TradeNotice>
         )}
 
         <div className="flex flex-col gap-2.5 border-t border-edge pt-4">
