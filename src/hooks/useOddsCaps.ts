@@ -4,7 +4,7 @@ import { fetchOddsCaps } from '../lib/liquidityCap';
 
 /**
  * Per outcome of `market`: the odds where its pool runs out of liquidity, when
- * that edge is cheap to reach (see liquidityCap.ts), else null.
+ * the price is at or near that edge (see liquidityCap.ts), else null.
  */
 export function useOddsCaps(market: Market | undefined) {
   const tokens = market?.wrappedTokens ?? [];

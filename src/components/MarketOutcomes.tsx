@@ -29,7 +29,7 @@ interface OutcomeCardProps {
   readonly label: string;
   readonly balance: bigint;
   readonly odds: number;
-  /** Odds where the pool's liquidity runs out, when it is cheap to reach. */
+  /** Odds where the pool's liquidity runs out, when the price is at or near it. */
   readonly oddsCap?: number | null;
   readonly rank: number;
   readonly selected: boolean;

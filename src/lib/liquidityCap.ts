@@ -4,13 +4,13 @@ import { fetchCollateralPools, getBestPoolByToken, type SwaprPool } from './chai
 
 /**
  * Concentrated-liquidity pools can run out of liquidity just above the current
- * price. Once a few collateral tokens can push an outcome to that edge, its
+ * price. Once an outcome's price sits at (or right below) that edge, its
  * displayed odds are only a floor: nobody can buy above it, so the market's
  * real belief may be much higher. Such outcomes are shown as "20%+".
  */
 
-/** Collateral (sDAI) it may cost at most to reach the edge for odds to count as capped. */
-const MAX_COST_TO_EDGE = 10;
+/** How far (in price, 0.01 = 1 point of odds) the edge may sit above the current price to count as capped. */
+const MAX_GAP_TO_EDGE = 0.01;
 /** Edges this close to 100% say nothing useful. */
 const MAX_EDGE_PRICE = 0.99;
 const SUBGRAPH_PAGE = 1000;
@@ -53,48 +53,48 @@ async function fetchTicksByPool(
   return byPool;
 }
 
-const sqrtAt = (tick: number) => 1.0001 ** (tick / 2);
+const priceAt = (tick: number, outcomeIsToken0: boolean) =>
+  outcomeIsToken0 ? 1.0001 ** tick : 1.0001 ** -tick;
+/** Float rounding can leave dust instead of an exact zero. */
+const isEmpty = (liquidity: number) => liquidity <= 1e-9;
 
 /**
- * Walks liquidity in the direction that raises the outcome price, adding up
- * the collateral needed to cross each range. Returns the outcome price where
- * liquidity runs out, or null when that edge is too expensive to reach.
+ * Walks liquidity in the direction that raises the outcome price. Returns the
+ * outcome price where liquidity runs out, or null when that edge is more than
+ * MAX_GAP_TO_EDGE above the current price.
  */
 function getEdgePrice(pool: SwaprPool, ticks: Tick[], outcomeIsToken0: boolean): number | null {
   if (pool.tick == null) return null;
   const current = Number(pool.tick);
+  const currentPrice = priceAt(current, outcomeIsToken0);
   let liquidity = Number(pool.liquidity) / WAD;
-  let cost = 0;
-  let position = current;
 
-  // Outcome is token0: its price (in token1) rises with the tick, and buying
-  // pays token1. Outcome is token1: its price rises as the tick falls, and
-  // buying pays token0.
+  // Outcome is token0: its price (in token1) rises with the tick. Outcome is
+  // token1: its price rises as the tick falls.
   const path = outcomeIsToken0
     ? ticks.filter((t) => Number(t.tickIdx) > current)
     : ticks.filter((t) => Number(t.tickIdx) <= current).reverse();
 
+  // Already past the last range: the price sits at the edge. With a range
+  // further up, a dust trade jumps there instead, so the price isn't capped.
+  if (isEmpty(liquidity)) {
+    return path.length === 0 && currentPrice < MAX_EDGE_PRICE ? currentPrice : null;
+  }
+
   for (const tick of path) {
     const next = Number(tick.tickIdx);
-    cost += outcomeIsToken0
-      ? liquidity * (sqrtAt(next) - sqrtAt(position))
-      : liquidity * (1 / sqrtAt(next) - 1 / sqrtAt(position));
-    if (cost > MAX_COST_TO_EDGE) return null;
+    const price = priceAt(next, outcomeIsToken0);
+    if (price - currentPrice > MAX_GAP_TO_EDGE) return null;
     const net = Number(tick.liquidityNet) / WAD;
     liquidity += outcomeIsToken0 ? net : -net;
-    position = next;
-    // Float rounding can leave dust instead of an exact zero.
-    if (liquidity <= 1e-9) {
-      const price = outcomeIsToken0 ? 1.0001 ** next : 1.0001 ** -next;
-      return price < MAX_EDGE_PRICE ? price : null;
-    }
+    if (isEmpty(liquidity)) return price < MAX_EDGE_PRICE ? price : null;
   }
   return null;
 }
 
 /**
  * Per outcome token: the odds (percent, one decimal) where liquidity runs out
- * when that edge is cheap to reach, else null.
+ * when the current price is at or near that edge, else null.
  */
 export async function fetchOddsCaps(
   chainId: SupportedChain,
@@ -112,7 +112,7 @@ export async function fetchOddsCaps(
   return tokens.map((token) => {
     const key = token.toLowerCase();
     const pool = best[key];
-    if (!pool || BigInt(pool.liquidity) === 0n) return null;
+    if (!pool) return null;
     const price = getEdgePrice(
       pool,
       ticksByPool[pool.id] ?? [],
