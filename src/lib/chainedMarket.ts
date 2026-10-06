@@ -84,16 +84,16 @@ export function flattenChainedRows(
   });
 }
 
-type SwaprPool = { id: string; liquidity: string; tick?: string | null; token0: { id: string }; token1: { id: string } };
+export type SwaprPool = { id: string; liquidity: string; tick?: string | null; token0: { id: string }; token1: { id: string } };
 
-function getSwaprClient(chainId: SupportedChain) {
+export function getSwaprClient(chainId: SupportedChain) {
   const client = swaprGraphQLClient(chainId, 'algebra');
   if (!client) throw new Error('Swapr subgraph not available');
   return getSwaprSdk(client);
 }
 
 /** Every pool pairing one of `tokens` with `collateral`, fetched in bulk. */
-async function fetchCollateralPools(
+export async function fetchCollateralPools(
   chainId: SupportedChain,
   tokens: Address[],
   collateral: Address
@@ -127,11 +127,11 @@ async function fetchCollateralPools(
   return results.flat();
 }
 
-function getPricesFromPools(
-  tokens: Address[],
+/** Most-liquid pool per outcome token (lowercased address), the one prices come from. */
+export function getBestPoolByToken(
   collateral: Address,
   pools: SwaprPool[]
-): { prices: number[]; poolByToken: Record<string, string> } {
+): Record<string, SwaprPool> {
   const base = collateral.toLowerCase();
   const best: Record<string, SwaprPool> = {};
   for (const pool of pools) {
@@ -142,7 +142,15 @@ function getPricesFromPools(
       best[outcome] = pool;
     }
   }
+  return best;
+}
 
+function getPricesFromPools(
+  tokens: Address[],
+  collateral: Address,
+  pools: SwaprPool[]
+): { prices: number[]; poolByToken: Record<string, string> } {
+  const best = getBestPoolByToken(collateral, pools);
   const poolByToken: Record<string, string> = {};
   const prices = tokens.map((token) => {
     const key = token.toLowerCase();

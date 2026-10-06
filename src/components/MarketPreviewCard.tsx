@@ -2,7 +2,13 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import type { Market } from '@seer-pm/sdk';
 import { MarketStatus, getMarketStatus } from '@seer-pm/sdk';
-import { formatBigNumbers, formatOddsPercent } from '../utils/format';
+import { useOddsCaps } from '../hooks/useOddsCaps';
+import {
+  ODDS_CAP_HINT,
+  formatBigNumbers,
+  formatOddsPercent,
+  formatOddsWithCap,
+} from '../utils/format';
 import { getMarketDisplayTitle } from '../config/market';
 import DesignCarousel from './DesignCarousel';
 
@@ -18,8 +24,8 @@ function getBestOddsOutcome(market: Market): {
   displayPrice: string | null;
   percent: number | null;
   leadingIndex: number;
-  outcomes: Array<{ label: string; percent: number }>;
-  ranked: Array<{ label: string; percent: number }>;
+  outcomes: Array<{ index: number; label: string; percent: number }>;
+  ranked: Array<{ index: number; label: string; percent: number }>;
 } {
   const odds = market.odds ?? [];
   const rawOutcomes = market.outcomes ?? [];
@@ -30,7 +36,7 @@ function getBestOddsOutcome(market: Market): {
       typeof rawOutcomes[i] === 'string'
         ? (rawOutcomes[i] as string)
         : `Outcome ${i + 1}`;
-    return { label, percent: Number.isFinite(percent) ? percent : 0 };
+    return { index: i, label, percent: Number.isFinite(percent) ? percent : 0 };
   });
 
   let leadingIndex = 0;
@@ -81,6 +87,8 @@ export const MarketPreviewCard: React.FC<MarketPreviewCardProps> = ({
     outcomes,
     ranked,
   } = getBestOddsOutcome(market);
+  const { data: oddsCaps } = useOddsCaps(market);
+  const leadingCap = oddsCaps?.[leadingIndex];
 
   const isClosed = getMarketStatus(market) === MarketStatus.CLOSED;
   const marketStatusText = isClosed ? 'Closed' : 'Active';
@@ -166,13 +174,14 @@ export const MarketPreviewCard: React.FC<MarketPreviewCardProps> = ({
                   {outcome.label}
                 </span>
                 <span
+                  title={oddsCaps?.[outcome.index] != null ? ODDS_CAP_HINT : undefined}
                   className={
                     outcome.label === leadingLabel && displayPrice != null
                       ? 'shrink-0 font-mono text-sm font-semibold tabular-nums text-up'
                       : 'shrink-0 font-mono text-sm font-semibold tabular-nums text-muted'
                   }
                 >
-                  {formatOddsPercent(outcome.percent)}
+                  {formatOddsWithCap(outcome.percent, oddsCaps?.[outcome.index])}
                 </span>
               </li>
             ))}
@@ -201,7 +210,14 @@ export const MarketPreviewCard: React.FC<MarketPreviewCardProps> = ({
             {hasLeader ? `Leading · ${leadingLabel}` : 'Leading odds'}
           </span>
           <div className="inline-flex flex-wrap items-baseline gap-x-2 gap-y-1">
-            <span className={oddsClass}>{displayPrice ?? '—'}</span>
+            <span
+              className={oddsClass}
+              title={displayPrice != null && leadingCap != null ? ODDS_CAP_HINT : undefined}
+            >
+              {displayPrice != null && leadingCap != null
+                ? formatOddsWithCap(0, leadingCap)
+                : (displayPrice ?? '—')}
+            </span>
           </div>
         </div>
         <span className="text-xs font-semibold uppercase tracking-[0.08em] text-up transition-colors group-hover:text-paper">

@@ -4,7 +4,8 @@ import { formatUnits } from 'viem';
 import { WRAPPED_OUTCOME_TOKEN_DECIMALS } from '@seer-pm/sdk';
 import type { Market } from '@seer-pm/sdk';
 import { useOutcomeBalances } from '../hooks/useOutcomeBalances';
-import { formatOddsPercent } from '../utils/format';
+import { useOddsCaps } from '../hooks/useOddsCaps';
+import { ODDS_CAP_HINT, formatOddsWithCap } from '../utils/format';
 import MarketChart from './MarketChart/MarketChart';
 import MarketDiscussion from './MarketDiscussion';
 import SubmissionLightbox from './SubmissionLightbox';
@@ -28,6 +29,8 @@ interface OutcomeCardProps {
   readonly label: string;
   readonly balance: bigint;
   readonly odds: number;
+  /** Odds where the pool's liquidity runs out, when it is cheap to reach. */
+  readonly oddsCap?: number | null;
   readonly rank: number;
   readonly selected: boolean;
   readonly assets?: SubmissionAssets;
@@ -88,6 +91,7 @@ function OutcomeCard({
   label,
   balance,
   odds,
+  oddsCap,
   rank,
   selected,
   assets,
@@ -188,8 +192,11 @@ function OutcomeCard({
         ) : null}
       </div>
       <div className="text-right">
-        <span className={oddsClass}>
-          {Number.isFinite(percent) ? formatOddsPercent(percent) : '—'}
+        <span
+          className={oddsClass}
+          title={oddsCap != null && Number.isFinite(percent) ? ODDS_CAP_HINT : undefined}
+        >
+          {Number.isFinite(percent) ? formatOddsWithCap(percent, oddsCap) : '—'}
         </span>
         <p className="mt-0.5 text-xs font-semibold uppercase tracking-[0.08em] text-muted">
           {Number.isFinite(percent) ? `$${(percent / 100).toFixed(3)}` : '—'}
@@ -217,6 +224,7 @@ export const MarketOutcomes: React.FC<MarketOutcomesProps> = ({
   const wrapped = market.wrappedTokens ?? [];
   const rawOutcomes = market.outcomes ?? [];
   const odds = market.odds ?? [];
+  const { data: oddsCaps } = useOddsCaps(market);
 
   const [lightbox, setLightbox] = React.useState<{
     title: string;
@@ -313,6 +321,7 @@ export const MarketOutcomes: React.FC<MarketOutcomesProps> = ({
               label={label}
               balance={balances?.[index] ?? 0n}
               odds={outcomeOdds}
+              oddsCap={oddsCaps?.[index]}
               rank={rank}
               selected={selectedOutcomeIndex === index}
               assets={assets}
