@@ -120,7 +120,7 @@ export const MarketPage: React.FC = () => {
   }
 
   const isClosed = getMarketStatus(market) === MarketStatus.CLOSED;
-  const marketStatusText = isClosed ? 'Closed' : 'Active';
+  const marketStatusText = isClosed ? 'Finalized' : 'Active';
 
   const override = getMarketOverride(market.id);
   const displayTitle = getMarketDisplayTitle(market.id, market.marketName);
@@ -184,7 +184,7 @@ export const MarketPage: React.FC = () => {
           href="#trade"
           className="inline-flex rounded-control border border-paper/15 px-3 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-paper transition-colors hover:border-up/40 lg:hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
         >
-          Jump to trade
+          {isClosed ? 'Jump to redeem' : 'Jump to trade'}
         </a>
       </nav>
 

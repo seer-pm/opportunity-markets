@@ -34,6 +34,8 @@ import type { ChainedMarketData } from '../lib/chainedMarket';
 import { toastifyTx } from '../lib/toastify';
 import { TokensDropdown } from './TokensDropdown';
 import { TradeNotice } from './TradeNotice';
+import { SmartWalletSwitch } from './SmartWalletSwitch';
+import { labelClass, primaryBtnClass, warnBtnClass } from './tradeStyles';
 
 const amountFieldClass =
   'flex w-full items-center gap-3 rounded-panel border border-edge bg-wall px-4 py-3 transition-colors focus-within:border-up has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:-outline-offset-2 has-[:focus-visible]:outline-up';
@@ -44,17 +46,8 @@ const amountInputClass =
 const amountUnitClass =
   'max-w-[45%] flex-shrink-0 truncate text-xs font-semibold uppercase tracking-[0.08em] text-muted';
 
-const labelClass =
-  'text-xs font-semibold uppercase tracking-[0.08em] text-muted';
-
 const presetBtnClass =
   'rounded-control border border-edge bg-wall px-2.5 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:border-paper/25 hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up disabled:cursor-not-allowed disabled:opacity-40';
-
-const primaryBtnClass =
-  'mt-6 w-full rounded-control bg-brand px-5 py-3.5 text-xs font-semibold uppercase tracking-[0.08em] text-paper transition-colors hover:bg-up focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up disabled:cursor-not-allowed disabled:opacity-60';
-
-const warnBtnClass =
-  'mt-6 w-full rounded-control bg-down px-5 py-3.5 text-xs font-semibold uppercase tracking-[0.08em] text-paper transition-colors hover:bg-down/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up disabled:cursor-not-allowed disabled:opacity-60';
 
 const BUY_PRESETS = [1, 5, 10, 100] as const;
 const SELL_PRESETS = [
@@ -893,36 +886,10 @@ export function SwapWidget({
             </span>
           </div>
           {account && walletSupports7702 ? (
-            <div className="flex items-center justify-between gap-3">
-              <span
-                id="smart-wallet-label"
-                className={labelClass}
-                title="Batches approvals and the trade into one transaction via EIP-7702."
-              >
-                Use smart wallet
-              </span>
-              <button
-                type="button"
-                role="switch"
-                aria-checked={useSmartWallet}
-                aria-labelledby="smart-wallet-label"
-                onClick={() => setUseSmartWallet(!useSmartWallet)}
-                className={`relative inline-flex h-5 w-9 flex-shrink-0 items-center rounded-full border transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up ${
-                  useSmartWallet
-                    ? 'border-up/60 bg-brand'
-                    : 'border-edge-strong bg-wall'
-                }`}
-              >
-                <span
-                  aria-hidden="true"
-                  className={`inline-block h-3.5 w-3.5 rounded-full transition-transform ${
-                    useSmartWallet
-                      ? 'translate-x-[18px] bg-paper'
-                      : 'translate-x-[2px] bg-muted'
-                  }`}
-                />
-              </button>
-            </div>
+            <SmartWalletSwitch
+              enabled={useSmartWallet}
+              onChange={setUseSmartWallet}
+            />
           ) : null}
         </div>
 

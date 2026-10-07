@@ -273,3 +273,26 @@ export async function fetchChainedPoolHourDatas(
 
   return tokens.map((t) => byPool[poolByToken[t.toLowerCase()]] ?? []);
 }
+
+/** Share of the collateral one outcome token of `market` redeems for, ignoring any parent. */
+function getPayoutShare(market: Market, outcomeIndex: number): number {
+  if (!market.payoutReported) return 0;
+  const sum = market.payoutNumerators.reduce((acc, n) => acc + Number(n), 0);
+  return sum === 0 ? 0 : Number(market.payoutNumerators[outcomeIndex] ?? 0n) / sum;
+}
+
+/**
+ * Base collateral one token of `levels[level]`'s outcome is finally worth: its
+ * own payout times the payout of the "Other" outcome of every level above it.
+ */
+export function getChainedRedeemValue(
+  levels: Market[],
+  level: number,
+  outcomeIndex: number
+): number {
+  let value = getPayoutShare(levels[level], outcomeIndex);
+  for (let k = level; k > 0 && value > 0; k -= 1) {
+    value *= getPayoutShare(levels[k - 1], Number(levels[k].parentOutcome));
+  }
+  return value;
+}

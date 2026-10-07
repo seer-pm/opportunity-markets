@@ -1,6 +1,7 @@
 import * as React from 'react';
-import type { Market } from '@seer-pm/sdk';
+import { MarketStatus, getMarketStatus, type Market } from '@seer-pm/sdk';
 import type { ChainedMarketData } from '../lib/chainedMarket';
+import { RedeemWidget } from './RedeemWidget';
 import { SwapWidget } from './SwapWidget';
 
 export interface TradingWidgetProps {
@@ -24,12 +25,16 @@ export const TradingWidget: React.FC<TradingWidgetProps> = ({
       className={className}
       data-purpose="trading-interface"
     >
-      <SwapWidget
-        market={market}
-        chained={chained}
-        outcomeIndex={outcomeIndex}
-        onOutcomeIndexChange={onOutcomeIndexChange}
-      />
+      {getMarketStatus(market) === MarketStatus.CLOSED ? (
+        <RedeemWidget market={market} chained={chained} />
+      ) : (
+        <SwapWidget
+          market={market}
+          chained={chained}
+          outcomeIndex={outcomeIndex}
+          onOutcomeIndexChange={onOutcomeIndexChange}
+        />
+      )}
     </aside>
   );
 };
