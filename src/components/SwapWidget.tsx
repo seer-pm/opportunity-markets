@@ -13,11 +13,14 @@ import {
   getActiveCreditsSymbol,
   getTradeTokenIn,
   hasTradingCredits,
+  countCompleteSetBatches,
+  type MintToCoverStatus,
 } from '@seer-pm/sdk';
 import {
+  useCheck7702Support,
   useMarket,
   useMarketHasLiquidity,
-  useMissingTradeApproval,
+  useParentMarkets,
   useQuoteTrade,
   useTokenBalance,
   useTokenInfo,
@@ -25,6 +28,9 @@ import {
   useApproveTokens,
 } from '@seer-pm/react';
 import { ConnectKitButton } from 'connectkit';
+import { useMintToCover } from '../hooks/useMintToCover';
+import { useSmartWalletPreference } from '../hooks/useSmartWalletPreference';
+import type { ChainedMarketData } from '../lib/chainedMarket';
 import { toastifyTx } from '../lib/toastify';
 import { TokensDropdown } from './TokensDropdown';
 import { TradeNotice } from './TradeNotice';
@@ -60,6 +66,8 @@ const SELL_PRESETS = [
 
 export interface SwapWidgetProps {
   readonly market: Market;
+  /** Set when `market` flattens chained markets (root → child → …). */
+  readonly chained?: ChainedMarketData;
   readonly outcomeIndex: number;
   readonly onOutcomeIndexChange: (index: number) => void;
 }
@@ -148,8 +156,78 @@ function getCollateralOptions(
   return options;
 }
 
+function formatShares(value: bigint): string {
+  return Number(
+    formatUnits(value, WRAPPED_OUTCOME_TOKEN_DECIMALS)
+  ).toLocaleString(undefined, {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 4,
+  });
+}
+
+interface MintToCoverNoticeProps {
+  status: MintToCoverStatus;
+  collateralSymbol: string;
+  outcomeBalance: bigint;
+  supports7702: boolean;
+}
+
+/**
+ * Explains a sell bigger than the shares held: the shortfall is minted as a
+ * full set and the other outcomes stay in the wallet, so the user is short
+ * the outcome they sell.
+ */
+function MintToCoverNotice({
+  status,
+  collateralSymbol,
+  outcomeBalance,
+  supports7702,
+}: MintToCoverNoticeProps) {
+  if (status.kind === 'insufficientCollateral') {
+    return (
+      <TradeNotice title="Insufficient balance" className="mb-5">
+        You don't hold enough shares to sell that much. Add{' '}
+        {formatShares(status.splitAmount - status.collateralBalance)}{' '}
+        {collateralSymbol} and we can mint the difference for you.
+      </TradeNotice>
+    );
+  }
+  if (status.kind === 'splitTooLarge') {
+    return (
+      <TradeNotice title="Insufficient balance" className="mb-5">
+        You don't hold enough shares to sell that much, and{' '}
+        {status.isParent ? 'a parent market' : 'this market'} has{' '}
+        {status.outcomeCount} outcomes, more than the{' '}
+        {status.maxOutcomeCount} a single transaction can mint. Sell what you
+        hold, or buy first.
+      </TradeNotice>
+    );
+  }
+  if (status.kind !== 'ready' || !status.quote.completeSetLeg) return null;
+
+  const leg = status.quote.completeSetLeg;
+  const splitAmount = leg.splitAmount ?? 0n;
+  const batches = supports7702 ? countCompleteSetBatches(leg) : 0;
+  const risk = !supports7702
+    ? ' This runs as separate transactions; if the sell fails you keep the minted set.'
+    : batches > 1
+      ? ` This runs as ${batches} transactions; if one fails after the first you keep the sets already minted.`
+      : '';
+
+  return (
+    <TradeNotice tone="info" title="We'll mint the rest" className="mb-5">
+      You hold {formatShares(outcomeBalance)} shares.{' '}
+      {formatShares(splitAmount)} {collateralSymbol} will be minted into a
+      full set so you can sell {formatShares(leg.swapInputAmount ?? 0n)}, and
+      you'll keep {formatShares(splitAmount)} of each other outcome.
+      {risk}
+    </TradeNotice>
+  );
+}
+
 export function SwapWidget({
   market,
+  chained,
   outcomeIndex,
   onOutcomeIndexChange,
 }: SwapWidgetProps): React.ReactElement {
@@ -289,8 +367,58 @@ export function SwapWidget({
     ? getMaximumAmountIn(quoteData.trade)
     : 0n;
 
+  const { data: parentMarkets } = useParentMarkets(market);
+
+  // A flattened chained market is not on-chain: minting has to split the real
+  // level that holds the outcome, through every level above it from the root.
+  const mintTarget = React.useMemo(() => {
+    const row = chained?.rows[safeOutcomeIndex];
+    const level = row ? chained?.levels[row.level] : undefined;
+    if (!chained || !row || !level) {
+      return { market, parentMarkets, outcomeIndex: safeOutcomeIndex };
+    }
+    return {
+      market: level,
+      parentMarkets: chained.levels.slice(0, row.level),
+      outcomeIndex: row.outcomeIndex,
+    };
+  }, [chained, market, parentMarkets, safeOutcomeIndex]);
+
+  // In sell mode `balance` is the outcome's, so the collateral needs its own.
+  const { data: collateralBalance = 0n } = useTokenBalance(
+    account,
+    mode === 'sell' ? selectedCollateral.address : undefined,
+    market.chainId
+  );
+
+  const mintToCover = useMintToCover({
+    market: mintTarget.market,
+    parentMarkets: mintTarget.parentMarkets,
+    outcomeIndex: mintTarget.outcomeIndex,
+    selectedCollateral,
+    swapType: mode,
+    account,
+    amount: amountForQuote,
+    outcomeBalance: balance,
+    collateralBalance,
+    quoteData,
+  });
+  const isMintToCover = mintToCover.kind === 'ready';
+  const mintToCoverBlocked =
+    mintToCover.kind === 'insufficientCollateral' ||
+    mintToCover.kind === 'splitTooLarge';
+
+  // Everything downstream of the quote (approvals, execution) must see the
+  // composite mint + sell route, not the plain sell it was derived from.
+  const effectiveQuote =
+    mintToCover.kind === 'ready' ? mintToCover.quote : quoteData;
+  const completeSetLeg = effectiveQuote?.completeSetLeg;
+
   const insufficientBalance =
-    !!quoteData?.trade && requiredAmount > 0n && balance < requiredAmount;
+    !!quoteData?.trade &&
+    requiredAmount > 0n &&
+    balance < requiredAmount &&
+    mintToCover.kind === 'off';
 
   const isTradingCreditsCollateral = selectedCollateral
     ? isTradingCredits(market.chainId, selectedCollateral.address)
@@ -330,34 +458,33 @@ export function SwapWidget({
     maximumFractionDigits: 2,
   });
 
+  const [useSmartWallet, setUseSmartWallet] = useSmartWalletPreference();
+  const walletSupports7702 = useCheck7702Support(true);
+  const supports7702 = walletSupports7702 && useSmartWallet;
+
+  // With a smart wallet the approvals ride inside the batch, so `approvals`
+  // comes back empty; credits trades need none either.
   const {
-    data: missingApprovals = [],
-    isLoading: isApprovalLoading,
-  } = useMissingTradeApproval(
+    tradeTokens,
+    approvals: { data: missingApprovals = [], isLoading: isApprovalLoading },
+  } = useTrade(
     account,
-    quoteData?.trade,
-    quoteData?.psm3Leg,
-    quoteData?.completeSetLeg
+    effectiveQuote?.trade,
+    isTradingCreditsCollateral,
+    () => {
+      setAmount('');
+    },
+    supports7702,
+    toastifyTx,
+    market,
+    effectiveQuote?.psm3Leg,
+    completeSetLeg
   );
 
   const needsTokenApproval =
     !isTradingCreditsCollateral && missingApprovals.length > 0;
 
   const approveTokensMutation = useApproveTokens(toastifyTx);
-
-  const { tradeTokens } = useTrade(
-    account,
-    quoteData?.trade,
-    isTradingCreditsCollateral,
-    () => {
-      setAmount('');
-    },
-    false,
-    toastifyTx,
-    market,
-    quoteData?.psm3Leg,
-    quoteData?.completeSetLeg
-  );
 
   const executeTrade = tradeTokens.mutateAsync;
   const isTradePending = tradeTokens.isPending;
@@ -485,6 +612,7 @@ export function SwapWidget({
   const canSubmit =
     !isDisabled &&
     !insufficientBalance &&
+    !mintToCoverBlocked &&
     !insufficientCreditsLiquidity &&
     !isTradePending &&
     !!account &&
@@ -504,17 +632,22 @@ export function SwapWidget({
       e.preventDefault();
       if (
         !account ||
-        !quoteData?.trade ||
+        !effectiveQuote?.trade ||
         insufficientBalance ||
+        mintToCoverBlocked ||
         insufficientCreditsLiquidity ||
         isTradePending
       )
         return;
       try {
+        // The mutation executes the props it receives, so the legs must ride
+        // along or a PSM3 / mint + sell route would run as a plain swap.
         await executeTrade({
-          trade: quoteData.trade,
+          trade: effectiveQuote.trade,
           account,
           isTradingCredits: isTradingCreditsCollateral,
+          psm3Leg: effectiveQuote.psm3Leg,
+          completeSetLeg: effectiveQuote.completeSetLeg,
         });
       } catch (err) {
         console.error('Trade failed:', err);
@@ -522,8 +655,9 @@ export function SwapWidget({
     },
     [
       account,
-      quoteData?.trade,
+      effectiveQuote,
       insufficientBalance,
+      mintToCoverBlocked,
       insufficientCreditsLiquidity,
       isTradePending,
       executeTrade,
@@ -538,15 +672,17 @@ export function SwapWidget({
     if (!amount || Number(amount) <= 0) return 'Enter an amount';
     if (quoteIsLoading) return 'Getting quote…';
     if (quoteError) return 'Quote unavailable';
-    if (insufficientBalance) return 'Insufficient balance';
+    if (insufficientBalance || mintToCoverBlocked) return 'Insufficient balance';
     if (insufficientCreditsLiquidity) return 'Credits unavailable';
     if (!quoteData?.trade) return 'Enter an amount';
+    if (isMintToCover) return 'Mint & Sell';
     return 'Place Trade';
   })();
 
   const amountHasProblem =
     !isDisabled &&
     (insufficientBalance ||
+      mintToCoverBlocked ||
       insufficientCreditsLiquidity ||
       (!!quoteError && Number(amount) > 0));
 
@@ -598,6 +734,14 @@ export function SwapWidget({
         <TradeNotice title="Insufficient balance" className="mb-5">
           You need more {sellTokenSymbol ?? 'tokens'} to complete this trade.
         </TradeNotice>
+      )}
+      {!isDisabled && (
+        <MintToCoverNotice
+          status={mintToCover}
+          collateralSymbol={collateralSymbol}
+          outcomeBalance={balance}
+          supports7702={supports7702}
+        />
       )}
       {insufficientCreditsLiquidity && !isDisabled && !insufficientBalance && (
         <TradeNotice title="Credits unavailable" className="mb-5">
@@ -717,6 +861,25 @@ export function SwapWidget({
               <span className="text-muted">{receiveUnit}</span>
             </span>
           </div>
+          {isMintToCover && completeSetLeg?.leftoverTokens?.length ? (
+            <div className="flex justify-between gap-3">
+              <span className={labelClass}>You keep</span>
+              <span
+                className="text-right text-sm font-semibold text-paper"
+                title={completeSetLeg.leftoverTokens
+                  .map((l) => l.token.symbol)
+                  .join(', ')}
+              >
+                <span className="font-mono tabular-nums">
+                  {formatShares(completeSetLeg.splitAmount ?? 0n)}
+                </span>{' '}
+                <span className="text-muted">
+                  of each other outcome (
+                  {completeSetLeg.leftoverTokens.length})
+                </span>
+              </span>
+            </div>
+          ) : null}
           <div className="flex justify-between gap-3">
             <span className={labelClass}>Avg price</span>
             <span className="font-mono text-sm font-semibold text-paper">
@@ -729,6 +892,38 @@ export function SwapWidget({
               0.5%
             </span>
           </div>
+          {account && walletSupports7702 ? (
+            <div className="flex items-center justify-between gap-3">
+              <span
+                id="smart-wallet-label"
+                className={labelClass}
+                title="Batches approvals and the trade into one transaction via EIP-7702."
+              >
+                Use smart wallet
+              </span>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={useSmartWallet}
+                aria-labelledby="smart-wallet-label"
+                onClick={() => setUseSmartWallet(!useSmartWallet)}
+                className={`relative inline-flex h-5 w-9 flex-shrink-0 items-center rounded-full border transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up ${
+                  useSmartWallet
+                    ? 'border-up/60 bg-brand'
+                    : 'border-edge-strong bg-wall'
+                }`}
+              >
+                <span
+                  aria-hidden="true"
+                  className={`inline-block h-3.5 w-3.5 rounded-full transition-transform ${
+                    useSmartWallet
+                      ? 'translate-x-[18px] bg-paper'
+                      : 'translate-x-[2px] bg-muted'
+                  }`}
+                />
+              </button>
+            </div>
+          ) : null}
         </div>
 
         {!account ? (
@@ -752,7 +947,7 @@ export function SwapWidget({
           >
             {isSwitchPending ? 'Switching…' : 'Change network'}
           </button>
-        ) : !insufficientBalance && needsTokenApproval ? (
+        ) : !insufficientBalance && !mintToCoverBlocked && needsTokenApproval ? (
           <button
             type="button"
             onClick={() => {

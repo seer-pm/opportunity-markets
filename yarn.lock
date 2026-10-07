@@ -950,15 +950,15 @@
   resolved "https://registry.yarnpkg.com/@seer-pm/lens/-/lens-1.5.1.tgz#307a54a2cbfc499bbed0668c6feb91c5fb48f064"
   integrity sha512-xkpobHEuEhL08eti/KgImd/XXOUEte38kEhoDg0niNf+RnO8cRLfzscyPnupY7h4KRayO/IWMGTvJXnJq5rfWQ==
 
-"@seer-pm/react@^0.0.17":
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/@seer-pm/react/-/react-0.0.17.tgz#1c9888e9a73d9a31315f707d39b43cfbe0cfd820"
-  integrity sha512-3qOkSHZZ/SiTLle1VWm9wbmSSyPZr0tF30RtK9ENouazV5YTOmVo0zNkFyJVhxWHbdaOMzrOnP0NMVZWgLqt2w==
+"@seer-pm/react@^0.0.18":
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/@seer-pm/react/-/react-0.0.18.tgz#bb792e981a9431b1f7176bc2fdabf05929344b06"
+  integrity sha512-TjjCDi5PRVUQV2lLPD8ObKzVJy0cWqAvJ8S1xmuE1Aa7Wuwe56m8tGgTSvJWnRDvV99givs55Uw+Z1E7nk2jbw==
 
-"@seer-pm/sdk@^0.0.19":
-  version "0.0.19"
-  resolved "https://registry.yarnpkg.com/@seer-pm/sdk/-/sdk-0.0.19.tgz#cb233c3ce5b0b79d8e4f415a0afacc901329698e"
-  integrity sha512-wb8HwelytCSmylOlBofi4IzG3A4gDcH8+85LVd0py5w0psuNQ8O1aigld7rjTiC0F0WOw5SWKufrUKeM0nHtCA==
+"@seer-pm/sdk@^0.0.20":
+  version "0.0.20"
+  resolved "https://registry.yarnpkg.com/@seer-pm/sdk/-/sdk-0.0.20.tgz#df250172f337803a9fc0dd4c550cf8d8a5839788"
+  integrity sha512-mbrWPHpyp7zmNVEIwomQZ8fBQ9Z+Wv83DworYyXnOHooUVElpDbNtC4bDV0Y32jybbJrlTZkTGzW+eSj8+NfFQ==
   dependencies:
     "@seer-pm/lens" "^1.5.1"
     "@uniswap/v3-sdk" "^3.19.0"

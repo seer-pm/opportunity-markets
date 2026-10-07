@@ -41,7 +41,7 @@ export const MarketPage: React.FC = () => {
     marketId: Address;
   }>();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data: market, isLoading, isError, refetch } = useOpportunityMarket(
+  const { data: market, chained, isLoading, isError, refetch } = useOpportunityMarket(
     marketId,
     Number(chainId ?? 0) as SupportedChain
   );
@@ -254,6 +254,7 @@ export const MarketPage: React.FC = () => {
 
         <TradingWidget
           market={market}
+          chained={chained}
           outcomeIndex={selectedOutcomeIndex}
           onOutcomeIndexChange={setSelectedOutcome}
           className="scroll-mt-28 lg:col-span-4 lg:sticky lg:top-24 lg:self-start"

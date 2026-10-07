@@ -60,9 +60,11 @@ export function useOpportunityMarket(marketId: Address, chainId: SupportedChain)
   const plain = useMarket(isChained ? zeroAddress : marketId, chainId);
   const chained = useChainedMarket(marketId, chainId);
 
-  if (!isChained) return plain;
+  if (!isChained) return { ...plain, chained: undefined };
   return {
     data: chained.data?.market as Market | undefined,
+    /** The real levels behind the flattened market, for trades that touch them. */
+    chained: chained.data,
     isLoading: chained.isLoading,
     isError: chained.isError,
     refetch: chained.refetch,
