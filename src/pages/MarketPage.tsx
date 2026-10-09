@@ -174,11 +174,11 @@ export const MarketPage: React.FC = () => {
         aria-label="Market navigation"
       >
         <Link
-          to="/"
+          to={isClosed ? '/archive' : '/'}
           className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
         >
           <span aria-hidden>←</span>
-          Back to opportunities
+          {isClosed ? 'Back to archive' : 'Back to opportunities'}
         </Link>
         <a
           href="#trade"

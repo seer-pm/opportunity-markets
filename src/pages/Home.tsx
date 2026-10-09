@@ -2,21 +2,11 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import MainHeader from '../components/MainHeader';
 import Footer from '../components/Footer';
-import { useMarkets } from '@seer-pm/react';
-import { type Market } from '@seer-pm/sdk';
-import {
-  CONFIGURED_MARKET_IDS,
-  DEFAULT_MARKET_CHAIN_ID,
-  getChainedLevels,
-} from '../config/market';
-import { useChainedMarkets } from '../hooks/useChainedMarket';
-import { MarketPreviewCard } from '../components/MarketPreviewCard';
+import { DEFAULT_MARKET_CHAIN_ID } from '../config/market';
+import { isFinalized, useMarketList } from '../hooks/useMarketList';
+import { MarketList } from '../components/MarketList';
 
-// Chained opportunities are loaded as one flattened market each, not as raw Seer markets.
-const CHAINED_MARKET_IDS = CONFIGURED_MARKET_IDS.filter((id) => getChainedLevels(id));
-const PLAIN_MARKET_IDS = CONFIGURED_MARKET_IDS.filter((id) => !getChainedLevels(id));
-
-const REBRAND_MARKET_ID = '0xe7850b0d928aa40ab8732BD323Fa4F6Ef3c24B8a';
+const NAMING_MARKET_ID = '0x8b3C7f3f09f6A85353926D8ee0f12decc1C9A5e8';
 
 const PROCESS_STEPS = [
   {
@@ -40,57 +30,20 @@ const PROTOCOL_CARDS = [
   { kicker: 'Any decision', body: 'One shared layer' },
 ] as const;
 
-function rankMarkets(markets: Market[]): Market[] {
-  return [...markets].sort((a, b) => {
-    const liqA = Number(a.liquidityUSD ?? 0);
-    const liqB = Number(b.liquidityUSD ?? 0);
-    return liqB - liqA;
-  });
-}
-
 function liveCountLabel(count: number): string {
+  if (count === 0) return 'No markets live.';
   if (count === 1) return 'One market live.';
   if (count === 2) return 'Two markets live.';
   return `${count} markets live.`;
 }
 
 export const Home: React.FC = () => {
-  const bootAtRef = React.useRef(
-    typeof performance !== 'undefined' ? performance.now() : 0
-  );
+  const { markets, isLoading, isError, isFetching, refetch } =
+    useMarketList();
+  const liveMarkets = markets.filter((m) => !isFinalized(m));
+  const archivedCount = markets.length - liveMarkets.length;
 
-  const {
-    data,
-    isLoading: isPlainLoading,
-    isError,
-    refetch,
-    isFetching: isPlainFetching,
-  } = useMarkets({
-    chainsList: [String(DEFAULT_MARKET_CHAIN_ID)],
-    marketIds: PLAIN_MARKET_IDS,
-  });
-  const chainedQueries = useChainedMarkets(
-    CHAINED_MARKET_IDS,
-    DEFAULT_MARKET_CHAIN_ID
-  );
-  const isLoading =
-    isPlainLoading || chainedQueries.some((q) => q.isLoading);
-  const isFetching =
-    isPlainFetching || chainedQueries.some((q) => q.isFetching);
-  const chainedMarkets = chainedQueries
-    .map((q) => q.data?.market)
-    .filter((m): m is Market => m !== undefined);
-
-  const markets = rankMarkets([...(data?.markets ?? []), ...chainedMarkets]);
-  const lotsReady = !isLoading && !isError && markets.length > 0;
-  const cascadeModeRef = React.useRef<'synced' | 'late' | null>(null);
-  if (lotsReady && cascadeModeRef.current === null) {
-    cascadeModeRef.current =
-      performance.now() - bootAtRef.current > 900 ? 'late' : 'synced';
-  }
-  const cascadeLate = cascadeModeRef.current === 'late';
-
-  const rebrandHref = `/markets/${DEFAULT_MARKET_CHAIN_ID}/${REBRAND_MARKET_ID}`;
+  const namingHref = `/markets/${DEFAULT_MARKET_CHAIN_ID}/${NAMING_MARKET_ID}`;
 
   return (
     <div className="flex min-h-screen min-w-0 flex-col overflow-x-clip bg-wall">
@@ -141,10 +94,10 @@ export const Home: React.FC = () => {
 
             <div className="hero-entrance-lead mt-8 flex flex-wrap items-center justify-center gap-3 sm:mt-10">
               <Link
-                to={rebrandHref}
+                to={namingHref}
                 className="inline-flex items-center rounded-full bg-brand px-6 py-3 text-base font-semibold text-paper transition-colors hover:bg-up focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
               >
-                Seer Rebrand Market
+                Name Seer&apos;s AI Job Board
               </Link>
               <a
                 href="#pilot"
@@ -171,60 +124,33 @@ export const Home: React.FC = () => {
               id="pilot-heading"
               className="mt-3 font-display text-[clamp(1.875rem,3vw,2.25rem)] font-semibold leading-[1.15] tracking-[-0.025em] text-paper"
             >
-              {!isLoading && !isError && markets.length > 0
-                ? liveCountLabel(markets.length)
-                : liveCountLabel(CONFIGURED_MARKET_IDS.length)}
+              {!isLoading && !isError
+                ? liveCountLabel(liveMarkets.length)
+                : 'Markets live.'}
             </h2>
             <p className="mt-4 max-w-2xl text-base leading-relaxed text-paper/85 sm:text-lg">
-              Edition one is Seer&apos;s own rebrand, with a Devcon merch market
-              and the naming of Seer&apos;s AI job board alongside it.
+              Seer is crowdsourcing the name of its AI job board. Past markets,
+              like the rebrand and Devcon merch, are in the archive.
             </p>
           </div>
 
-          <div
-            className={
-              lotsReady
-                ? cascadeLate
-                  ? 'lot-stack--ready lot-stack--late mt-8 flex min-w-0 flex-col gap-4 sm:mt-10 sm:gap-5'
-                  : 'lot-stack--ready mt-8 flex min-w-0 flex-col gap-4 sm:mt-10 sm:gap-5'
-                : 'mt-8 flex min-w-0 flex-col gap-4 sm:mt-10 sm:gap-5'
-            }
-          >
-            {isLoading && (
-              <div className="lot-panel p-10 text-center">
-                <p className="text-base text-muted">Loading opportunities…</p>
-              </div>
-            )}
-            {isError && (
-              <div className="lot-panel flex flex-col items-center gap-4 p-10 text-center">
-                <p className="text-base text-paper">
-                  Could not load opportunities. Check your connection and try
-                  again.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => void refetch()}
-                  className="rounded-full bg-brand px-5 py-2.5 text-xs font-semibold tracking-wide text-paper hover:bg-up focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
-                >
-                  Retry
-                </button>
-              </div>
-            )}
-            {!isLoading && !isError && markets.length === 0 && (
-              <div className="lot-panel p-10 text-center">
-                <p className="text-base text-muted">
-                  No opportunities available yet.
-                </p>
-              </div>
-            )}
-            {markets.map((market: Market, index) => (
-              <MarketPreviewCard
-                key={`${market.chainId}-${market.id}`}
-                market={market}
-                cascadeIndex={index}
-              />
-            ))}
-          </div>
+          <MarketList
+            markets={liveMarkets}
+            isLoading={isLoading}
+            isError={isError}
+            refetch={refetch}
+            emptyText="No live opportunities right now."
+          />
+
+          {!isLoading && !isError && archivedCount > 0 && (
+            <Link
+              to="/archive"
+              className="mt-6 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
+            >
+              View archived markets ({archivedCount})
+              <span aria-hidden>→</span>
+            </Link>
+          )}
         </section>
         {/* The protocol */}
         <section
@@ -242,7 +168,8 @@ export const Home: React.FC = () => {
             Closed beta today. Permissionless tomorrow.
           </h2>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-paper/85 sm:text-lg">
-            Seer is running the first opportunity market for its Devcon merch. Any
+            Seer has run opportunity markets for its rebrand and Devcon merch,
+            and is now naming its AI job board. Any
             team crowdsourcing solutions and wanting to pick from only among the
             best should directly launch an opportunity market.
           </p>
