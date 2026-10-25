@@ -1,238 +1,371 @@
 ---
-name: Opportunity Markets
-description: Seer Night Shell — seerrebrand purple-night identity with Opportunity Markets as the product line
+name: Seer Opportunity Markets
+description: Electric Foundation for live opportunity markets, proposal evidence and trading
 colors:
-  wall: "#0A0814"
-  plaque: "#110d1c"
-  plaque-edge: "#1e1830"
-  paper: "#ECE8F5"
-  muted: "#8B83A3"
-  brand: "#520078"
-  up: "#A774D1"
-  down: "#ea3943"
-  edge: "rgba(167, 116, 209, 0.12)"
-  edge-strong: "rgba(167, 116, 209, 0.25)"
+  brand-purple: "#7d33ff"
+  brand-purple-hover: "#6925df"
+  brand-purple-on-ink: "#8f55f7"
+  brand-ink: "#141223"
+  brand-white: "#ffffff"
+  on-ink: "#f2edff"
+  on-ink-muted: "#b9b1ca"
+  ink-border: "#39314a"
+  page-light: "#f7f7f9"
+  surface-light: "#ffffff"
+  surface-raised-light: "#f1f1f4"
+  text-light: "#17171c"
+  muted-light: "#5c5c66"
+  border-light: "#e2e2e9"
+  accent-soft-light: "#efe9fc"
+  accent-text-light: "#6c2bd9"
+  positive-light: "#13795b"
+  negative-light: "#c0283f"
+  series-1-light: "#7d33ff"
+  series-2-light: "#b8860b"
+  series-3-light: "#2a78d6"
+  series-4-light: "#d55181"
+  page-dark: "#101013"
+  surface-dark: "#1a1a1e"
+  surface-raised-dark: "#1f1f24"
+  text-dark: "#ededf2"
+  muted-dark: "#a8a8b3"
+  border-dark: "#34343c"
+  accent-soft-dark: "#241e33"
+  accent-text-dark: "#b18aff"
+  positive-dark: "#3ecf8e"
+  negative-dark: "#ff6b81"
+  series-1-dark: "#8f55f7"
+  series-2-dark: "#b5850f"
+  series-3-dark: "#3987e5"
+  series-4-dark: "#d55181"
 typography:
   display:
-    fontFamily: "Urbanist, system-ui, sans-serif"
-    fontSize: "clamp(3rem, 7vw, 4.5rem)"
+    fontFamily: "\"Open Sans Variable\", \"Open Sans\", ui-sans-serif, system-ui, sans-serif"
+    fontSize: "clamp(2rem, 3.7vw, 3rem)"
     fontWeight: 600
-    lineHeight: 1.05
-    letterSpacing: "-0.04em"
-  lead:
-    fontFamily: "Urbanist, system-ui, sans-serif"
-    fontSize: "clamp(1.25rem, 2.2vw, 1.5rem)"
-    fontWeight: 400
-    lineHeight: 1.45
-    letterSpacing: "normal"
+    lineHeight: 1.16
+    letterSpacing: "-0.03em"
+  headline:
+    fontFamily: "\"Open Sans Variable\", \"Open Sans\", ui-sans-serif, system-ui, sans-serif"
+    fontSize: "clamp(1.75rem, 3.4vw, 2.75rem)"
+    fontWeight: 600
+    lineHeight: 1.18
+    letterSpacing: "-0.025em"
   section:
-    fontFamily: "Urbanist, system-ui, sans-serif"
-    fontSize: "clamp(1.875rem, 3vw, 2.25rem)"
+    fontFamily: "\"Open Sans Variable\", \"Open Sans\", ui-sans-serif, system-ui, sans-serif"
+    fontSize: "24px"
     fontWeight: 600
-    lineHeight: 1.15
+    lineHeight: "32px"
     letterSpacing: "-0.025em"
   title:
-    fontFamily: "Urbanist, system-ui, sans-serif"
-    fontSize: "1.25rem"
+    fontFamily: "\"Open Sans Variable\", \"Open Sans\", ui-sans-serif, system-ui, sans-serif"
+    fontSize: "20px"
     fontWeight: 600
-    lineHeight: 1.15
-    letterSpacing: "-0.02em"
-  body:
-    fontFamily: "Urbanist, system-ui, sans-serif"
-    fontSize: "1rem"
+    lineHeight: "28px"
+  lead:
+    fontFamily: "\"Open Sans Variable\", \"Open Sans\", ui-sans-serif, system-ui, sans-serif"
+    fontSize: "18px"
     fontWeight: 400
-    lineHeight: 1.55
-    letterSpacing: "normal"
+    lineHeight: 1.625
+  body:
+    fontFamily: "\"Open Sans Variable\", \"Open Sans\", ui-sans-serif, system-ui, sans-serif"
+    fontSize: "16px"
+    fontWeight: 400
+    lineHeight: 1.625
+  compact:
+    fontFamily: "\"Open Sans Variable\", \"Open Sans\", ui-sans-serif, system-ui, sans-serif"
+    fontSize: "14px"
+    fontWeight: 400
+    lineHeight: 1.625
+  small:
+    fontFamily: "\"Open Sans Variable\", \"Open Sans\", ui-sans-serif, system-ui, sans-serif"
+    fontSize: "13px"
+    fontWeight: 400
+    lineHeight: 1.625
   label:
-    fontFamily: "Urbanist, system-ui, sans-serif"
-    fontSize: "0.75rem"
+    fontFamily: "\"Open Sans Variable\", \"Open Sans\", ui-sans-serif, system-ui, sans-serif"
+    fontSize: "13px"
+    fontWeight: 600
+    lineHeight: 1.3
+  caption:
+    fontFamily: "\"Open Sans Variable\", \"Open Sans\", ui-sans-serif, system-ui, sans-serif"
+    fontSize: "12px"
+    fontWeight: 400
+    lineHeight: "16px"
+  input:
+    fontFamily: "\"Open Sans Variable\", \"Open Sans\", ui-sans-serif, system-ui, sans-serif"
+    fontSize: "15px"
+    fontWeight: 400
+    lineHeight: 1.4
+  button:
+    fontFamily: "\"Open Sans Variable\", \"Open Sans\", ui-sans-serif, system-ui, sans-serif"
+    fontSize: "14px"
     fontWeight: 600
     lineHeight: 1.2
-    letterSpacing: "0.08em"
-  mono:
-    fontFamily: "JetBrains Mono, ui-monospace, monospace"
-    fontSize: "1.125rem"
-    fontWeight: 600
-    lineHeight: 1.2
-    letterSpacing: "-0.02em"
 rounded:
-  panel: "8px"
-  control: "6px"
+  "sm": "4px"
+  "md": "10px"
+  "full": "9999px"
 spacing:
-  sm: "8px"
-  md: "16px"
-  lg: "24px"
-  xl: "40px"
-  2xl: "64px"
+  "4": "4px"
+  "8": "8px"
+  "12": "12px"
+  "16": "16px"
+  "20": "20px"
+  "24": "24px"
+  "32": "32px"
+  "40": "40px"
+  "48": "48px"
+  "64": "64px"
 components:
   button-primary:
-    backgroundColor: "{colors.brand}"
-    textColor: "{colors.paper}"
-    rounded: "{rounded.control}"
-    padding: "10px 20px"
+    backgroundColor: "{colors.brand-purple}"
+    textColor: "{colors.brand-white}"
+    typography: "{typography.button}"
+    rounded: "{rounded.sm}"
+    padding: "0 16px"
+    height: "40px"
   button-primary-hover:
-    backgroundColor: "{colors.up}"
-    textColor: "{colors.paper}"
+    backgroundColor: "{colors.brand-purple-hover}"
+    textColor: "{colors.brand-white}"
   button-secondary:
+    backgroundColor: "{colors.accent-soft-light}"
+    textColor: "{colors.accent-text-light}"
+    typography: "{typography.button}"
+    rounded: "{rounded.sm}"
+    padding: "0 16px"
+    height: "40px"
+  button-outline:
     backgroundColor: "transparent"
-    textColor: "{colors.paper}"
-    rounded: "{rounded.control}"
-    padding: "10px 20px"
-  filter-selected:
-    backgroundColor: "{colors.paper}"
-    textColor: "{colors.wall}"
-    rounded: "{rounded.control}"
-    padding: "8px 16px"
-  filter-idle:
+    textColor: "{colors.text-light}"
+    typography: "{typography.button}"
+    rounded: "{rounded.sm}"
+    padding: "0 16px"
+    height: "40px"
+  button-ghost:
     backgroundColor: "transparent"
-    textColor: "{colors.muted}"
-    rounded: "{rounded.control}"
-    padding: "8px 16px"
-  lot-panel:
-    backgroundColor: "{colors.plaque}"
-    textColor: "{colors.paper}"
-    rounded: "{rounded.panel}"
-    padding: "24px"
-  status-chip:
+    textColor: "{colors.text-light}"
+    typography: "{typography.button}"
+    rounded: "{rounded.sm}"
+    padding: "0 16px"
+    height: "40px"
+  input:
+    backgroundColor: "{colors.surface-light}"
+    textColor: "{colors.text-light}"
+    typography: "{typography.input}"
+    rounded: "{rounded.md}"
+    padding: "10px 12px"
+    height: "44px"
+  card:
+    backgroundColor: "{colors.surface-light}"
+    textColor: "{colors.text-light}"
+    rounded: "{rounded.md}"
+    padding: "20px"
+  status-active:
     backgroundColor: "transparent"
-    textColor: "{colors.muted}"
-    rounded: "{rounded.control}"
-    padding: "4px 10px"
+    textColor: "{colors.positive-light}"
+    typography: "{typography.caption}"
+    rounded: "{rounded.sm}"
+    padding: "4px 8px"
+  navigation-active:
+    backgroundColor: "{colors.accent-soft-light}"
+    textColor: "{colors.accent-text-light}"
+    rounded: "{rounded.sm}"
+    padding: "0 12px"
+    height: "32px"
+  button-secondary-dark:
+    backgroundColor: "{colors.accent-soft-dark}"
+    textColor: "{colors.accent-text-dark}"
+    typography: "{typography.button}"
+    rounded: "{rounded.sm}"
+    padding: "0 16px"
+    height: "40px"
+  button-outline-dark:
+    backgroundColor: "transparent"
+    textColor: "{colors.text-dark}"
+    typography: "{typography.button}"
+    rounded: "{rounded.sm}"
+    padding: "0 16px"
+    height: "40px"
+  button-ghost-dark:
+    backgroundColor: "transparent"
+    textColor: "{colors.text-dark}"
+    typography: "{typography.button}"
+    rounded: "{rounded.sm}"
+    padding: "0 16px"
+    height: "40px"
+  input-dark:
+    backgroundColor: "{colors.surface-dark}"
+    textColor: "{colors.text-dark}"
+    typography: "{typography.input}"
+    rounded: "{rounded.md}"
+    padding: "10px 12px"
+    height: "44px"
+  card-dark:
+    backgroundColor: "{colors.surface-dark}"
+    textColor: "{colors.text-dark}"
+    rounded: "{rounded.md}"
+    padding: "20px"
+  status-active-dark:
+    backgroundColor: "transparent"
+    textColor: "{colors.positive-dark}"
+    typography: "{typography.caption}"
+    rounded: "{rounded.sm}"
+    padding: "4px 8px"
+  navigation-active-dark:
+    backgroundColor: "{colors.accent-soft-dark}"
+    textColor: "{colors.accent-text-dark}"
+    rounded: "{rounded.sm}"
+    padding: "0 12px"
+    height: "32px"
 ---
 
-# Design System: Opportunity Markets
+# Design System: Seer Opportunity Markets
 
 ## Overview
 
-**Creative North Star: "Seer Night Shell"**
+**Creative North Star: "Electric Foundation"**
 
-A Seer-branded purple-night shell (aligned to seerrebrand.com) where Opportunity Markets is the product line. Deep `#0A0814` ground, elevated `#110d1c` plaques, Seer mark in header and footer, brand purple `#520078` for primary actions, lavender `#A774D1` for rising odds and focus. Composition stays Equal Stack: Seer chrome, product proof, then full-width stacked lots.
+Electric Foundation makes Opportunity Markets read as one Seer application: Open Sans, electric purple actions, neutral reading surfaces and quiet hairlines. The same identity applies to home, archive, market detail, proposal evidence, discussion and wallet controls. The Seer bird and wordmark remain the brand, followed by the exact application name, Opportunity Markets.
 
-Density stays deliberate. Home opens with a centered persuasion hero and protocol roadmap, then Equal Stack pilot lots; market detail opens one active lot with outcomes, price history, and a sticky trade plaque. Motion is sparse and meaningful: a short entrance on the hero lead, a bid-tick when odds move.
+Density serves comparison. Names, prices and responsible identities remain readable before the trading action. Light and dark share the same hierarchy; ink sections and the ecosystem footer retain their dark material in both themes. Motion is brief and supports state changes.
 
 **Key Characteristics:**
-- Seer logo + Opportunity Markets product label in the shell
-- Purple-night wall with elevated plaque lots
-- Equal hero lots (not a dense card grid)
-- Urbanist for UI + JetBrains Mono for odds
-- Soft-square plaques and controls (tight radius, no pills)
-- Lavender up / red down as the live board language; brand purple for primary CTAs
+
+- One Seer lockup, shared kit controls and an ink ecosystem footer.
+- Theme-aware neutral surfaces with electric purple actions and text accents.
+- Open Sans throughout, tabular figures and monospace for literal addresses and hashes.
+- Hairlines at rest, modest floating shadows and kit radii.
+- Four stable chart colors with additional available histories in muted context.
+
+The implementation uses the vendored `@seer-pm/ui-kit` (0.4.0) at `vendor/seer-pm-ui-kit-0.4.0.tgz`. Its `css/tokens.css`, `css/base.css`, `css/components.css`, Tailwind preset and React exports own shared visual decisions. Application mappings live in `tailwind.config.js`; layered imports and discussion/toast integrations live in `src/index.css`. This document records the build; it does not certify a completed visual audit.
 
 ## Colors
 
-Purple-night Seer shell with plaque elevation and signal motion.
+Electric purple marks actions and emphasis against a neutral reading palette. The frontmatter contains exact kit values; suffixes identify the light and dark versions of a semantic role.
 
 ### Primary
-- **Brand** (#520078): Primary CTAs (Connect Wallet, decisive actions). Matches seerrebrand Submit.
-- **Up** (#A774D1): Rising odds, hero accent, focus rings, positive bar segments, hover wash on Brand.
-- **Down** (#ea3943): Falling odds and negative bar segments. Pair with Up as a motion pair — never as brand chrome alone.
+
+- **Electric Purple:** Primary actions use `brand-purple`, with `brand-purple-hover` for an enabled hover and `brand-white` for the label.
+- **Readable Accent:** `accent-text-light` and `accent-text-dark` carry links, selected text and focus. `accent-soft` provides the corresponding quiet selection fill.
+- **Purple on Ink:** `brand-purple-on-ink` colors the shared line motif within ink sections.
+
+### Secondary
+
+- **Chart series:** Four ordered slots use purple, gold, blue and rose. A name keeps its occupied slot while a peer is sorted or unfollowed. Two-sided readings use slots one and two. Further available histories use muted text color as context.
+- **Status:** Positive and negative roles carry gains, losses, errors and the active market state. A status is also written in text.
 
 ### Neutral
-- **Wall** (#0A0814): Page ground and sticky header wash.
-- **Plaque** (#110d1c): Lot panels, filter shells, outcome lists, trade surfaces.
-- **Plaque Edge** (#1e1830): Reserved edge tone when a harder divider than Edge is needed.
-- **Paper** (#ECE8F5): Primary text.
-- **Muted** (#8B83A3): Supporting copy, meta labels, idle filter text.
-- **Edge** / **Edge Strong**: Purple hairlines (`rgba(167, 116, 209, 0.12/0.25)`).
 
-### Named Rules
-**The Bid Motion Rule.** Lavender and red mark real odds direction and outcome share. Brand purple is for decisive chrome (primary buttons), not decorative fills.
+- **Page:** The reading ground, including the sticky header.
+- **Surface:** Opaque market cards, outcome containers, trade panels, inputs and discussion surfaces.
+- **Raised surface:** Hover and disabled-control separation, and probability-track grounds.
+- **Text / muted:** Main reading and secondary explanation. Odds remain in this palette.
+- **Border:** Resting hairlines and section dividers. A stronger application divider mixes border with text at 20%.
+- **Ink:** `brand-ink`, `on-ink`, `on-ink-muted` and `ink-border` define the footer and intentional ink fields in both themes.
 
-**The Wall/Plaque Rule.** Content sits on Plaque; the page is Wall. Do not invert that stack into light-mode cards on dark chrome.
+The system follows the operating-system theme until the reader toggles it. The pre-paint script and the theme hook share `seer-opportunity-theme`; the persisted choice also controls the wallet modal. Do not pin a reading surface to a light value inside dark mode.
 
-**The Seer Shell Rule.** Header and footer lead with the Seer mark; Opportunity Markets is the product line label beside or under it.
+**The Shared Authority Rule.** Shared colors, radii, font stacks, lockup and ecosystem components come from @seer-pm/ui-kit. Local semantic aliases map to those tokens without redefining their values.
+
+**The Series and Status Rule.** Series colors identify outcomes. Positive and negative colors describe gains, losses and errors. Price values use text colors; a series color never stands in for a gain or loss.
 
 ## Typography
 
-**Display Font:** Urbanist (with system-ui)
-**Body Font:** Urbanist (with system-ui)
-**Odds / Data Font:** JetBrains Mono (with ui-monospace)
+**Display and body font:** Open Sans Variable, Open Sans, then the kit's sans-serif fallback stack. Font files ship through the kit's fonts import.
 
-**Character:** Urbanist carries the Seer contest-site voice for brand and UI. JetBrains Mono is the ticker — odds and measured liquidity only.
+**Literal-data font:** `ui-monospace, monospace`, only for addresses and hashes.
+
+The type is direct and readable. Semibold establishes hierarchy without decorative tracking. Tabular figures are enabled globally, so changing amounts remain aligned.
 
 ### Hierarchy
-- **Display** (600, clamp 3rem–4.5rem, line-height 1.05): Home hero headline.
-- **Lead** (400, clamp 1.25rem–1.5rem): Hero supporting sentence under the display line.
-- **Section** (600, clamp ~1.875rem–2.25rem): Protocol and pilot section headings.
-- **Title** (600, ~1.25rem–1.85rem clamp on lots): Lot headings and detail section titles (Outcomes).
-- **Body** (400, 1rem–1.125rem, relaxed): Paragraphs, UI copy, hero step chips, empty states.
-- **Label** (600, 0.75rem, uppercase, 0.08em tracking): Status chips, section kickers, meta rows, primary button text.
-- **Mono** (600, ~1.125rem–1.875rem tabular): Leading odds and liquidity figures.
 
-### Named Rules
-**The Ticker Rule.** Mono is for numbers that move or measure. Do not set marketing sentences in JetBrains Mono.
+- **Display:** Responsive home headline, semibold, with tight tracking and balanced wrapping. The frontmatter records its clamp and line height.
+- **Headline:** Responsive market question, semibold. Archive uses a local responsive heading between 30px and 36px.
+- **Section / title:** Section headings at 24px; card titles, outcome headings and prominent odds at 20px. Some section titles grow to 30px at wider widths.
+- **Lead / body:** Current market reading at 18px; explanatory body text at 16px, with relaxed leading and a typical maximum measure of 65 characters.
+- **Compact:** Supporting descriptions, rows and standard small UI text at 14px.
+- **Small:** Compact chart legend names and values, trade-notice details, hints and footer support at 13px. Trade-notice details use relaxed leading; legend rows inherit their control's line height.
+- **Label:** Field labels and compact buttons use 13px semibold. Labels use sentence case without decorative uppercase tracking.
+- **Caption:** Market status, liquidity context and identity labels at 12px.
+- **Input / button:** Standard inputs use 15px. Standard buttons use 14px semibold; compact buttons use 13px and large transaction buttons use 15px.
+
+**The Numeric Reading Rule.** Use Open Sans with tabular figures for prices, percentages, counts and balances. Reserve monospace for literal addresses and hashes.
 
 ## Layout
 
-Shell max width 1350px (`max-w-shell`) with horizontal padding 24px / 40px at large breakpoints. Home rhythm: proof row → ~40px gap → Equal Stack of full-width lots with ~20px gutters. Market detail: 8/4 column grid at large screens — narrative + outcomes left, sticky trade plaque right (`top-24` under the sticky header). Vertical density prefers roomy plaque padding (24–32px) over cramped dashboards.
+The shared shell has a maximum width of 1350px, with horizontal gutters of 16px, 24px from the small breakpoint and 40px from the large breakpoint. Footer edges align with the same column. Common internal spacing follows the frontmatter scale; panels use 20px on small screens and commonly 24px on larger screens. Major detail sections use 32px gaps, with 48px to 64px between home sections.
 
-### Named Rules
-**The Equal Lot Rule.** Featured opportunities share the same full-width plaque treatment. Do not promote one market into an inset hero card while demoting others to a dense grid.
+The header is sticky and opaque with a bottom hairline. At large widths it occupies one row with a minimum height of 72px. Below the large breakpoint, the full lockup occupies its own row and navigation, theme and wallet actions occupy the next. At a 390px viewport, the approximately 326px lockup fits inside the 358px content column without scaling its artwork.
+
+Home uses a two-column desktop introduction: explanatory material on the left and live market evidence on the right. Its mobile and DOM reading order is heading, live market evidence, explanation, then actions. Detail places the question and market brief across the top, then uses an eight-column evidence area and a four-column trading area within a twelve-column desktop grid. Small screens stack these areas; the mobile trade link targets the transaction section. Archive uses a vertical market stack with proposal imagery inside each relevant card.
+
+Tailwind's application breakpoints remain 640px, 768px, 1024px, 1280px and 1536px. Layouts must handle long outcome names, wrapping identity rows and narrow trade controls without horizontal page scrolling. Route changes reset scroll by pathname or hash; changing the selected outcome through query parameters preserves the reader's place.
 
 ## Elevation & Depth
 
-Plaque lift: lots rise from the wall with a soft structural shadow and a hairline paper border — not glass mist, not multi-layer glow. Sticky header uses a translucent wall wash plus light blur so lots can scroll underneath without competing chrome.
+Resting cards have no cast shadow. Tonal separation, one-pixel borders and spacing establish the hierarchy. The header stays on the page material. Floating lightboxes, dropdowns and toasts may use the panel shadow recorded in the sidecar. Ink sections use the shared line motif as a bounded background, with text remaining on a readable ink field.
 
-### Shadow Vocabulary
-- **Lot** (`box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35)`): Default lift under `.lot-panel`; strengthens slightly on lot hover with an up-tinted border.
-- **Panel** (`box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45)`): Reserved deeper lift when a surface must sit above the lot plane.
-
-### Named Rules
-**The No Mist Rule.** Depth is border + shadow on opaque plaque. Do not revive frost glass, shader mist, or heavy backdrop blur on content panels.
+**The Flat Surface Rule.** Resting content surfaces use an opaque theme surface and a hairline. Reserve floating shadows for overlays, menus and notices. An inset outline on a button is a border treatment.
 
 ## Shapes
 
-Soft-square language throughout: panels at 8px, controls at 6px. Status chips, filter segments, and primary buttons share the control radius. Outcome share bars and probability tracks use the same soft-square clip. Never pill-shaped (`rounded-full`) controls.
-
-### Named Rules
-**The Soft-Square Rule.** If a control looks like a capsule, it is wrong for this system.
+Kit radii have three jobs: compact controls and badges use `sm`; surfaces, inputs and outcome containers use `md`; pills, circular avatars and chart geometry use `full` when their shape requires it. Their exact values are in the frontmatter. Do not introduce page-specific surface radii. Borders stay quiet and thin; emphasis comes from readable text, selection fills and focus rather than heavy ornament.
 
 ## Components
 
 ### Buttons
-- **Shape:** Soft-square (6px)
-- **Primary:** Brand fill, Paper text, uppercase label tracking; hover fills Up. Used for Connect Wallet, Retry, and decisive actions.
-- **Secondary / Ghost:** Transparent with Edge border, Paper text; hover border shifts toward Up/40.
-- **Focus:** 2px Up outline, 2px offset on all interactive controls.
 
-### Chips / Filters
-- **Filter shell:** Plaque background, paper/15 border, 4px inset padding holding segmented soft-square buttons.
-- **Selected:** Paper fill, Wall text.
-- **Idle:** Transparent, Muted text; hover to Paper text.
-- **Status chip:** Hairline paper/15 border, Muted uppercase label (Active / Closed). Market type on detail can invert to Paper fill / Wall text for hierarchy.
+Compact, plain controls use the kit's primary, secondary, outline and ghost APIs. Standard height is at least 40px with 16px horizontal padding; small controls are 32px with 12px padding; large transaction actions are 48px with 22px padding. The primary label is white, the secondary uses accent text on accent soft, and outline/ghost variants use text colors. Enabled hover changes the relevant fill or outline; focus uses the accent outline. Disabled controls halve opacity and stop acting pressable. Busy actions keep their label and add a spinner.
 
-### Cards / Containers (Lot Panel)
-- **Corner Style:** Panel radius (8px)
-- **Background:** Plaque
-- **Shadow Strategy:** Lot shadow (see Elevation)
-- **Border:** 1px Edge; hover may tint toward Up/40
-- **Internal Padding:** 24px default; 32px on larger lot previews
+### Chips
+
+Market status uses a compact bordered badge: positive text and a positive-tinted hairline for Active, muted text and the standard border for Closed. Discussion position badges use accent-soft fill and normal text, with a theme border. Filled position badges must not put white text on the accent-text color.
+
+### Cards / Containers
+
+A surface, hairline and medium radius define the market card and trading panel. Market cards show the title, liquidity and either a current ranked reading or a payout-confirmed winner. Historical odds, when retained, are explicitly labeled historical. The whole card reading area links to detail; proposal-image controls and the footer action keep their own interactions. Preview probability tracks use neutral ink and a raised-surface ground.
 
 ### Inputs / Fields
-- Trade inputs live inside the trade plaque (SwapWidget). Match plaque ground, soft-square controls, Paper/Muted text, and Up focus — no light-mode form islands.
+
+Standalone fields use the kit surface, medium radius, one-pixel border, minimum height of 44px and 10px by 12px padding. The focus state strengthens the border and adds a two-pixel accent outline. Placeholder text is muted; disabled fields use the raised surface; invalid fields use the negative border. Amount groups share an outer field and align the token affix or picker without nesting a second box. Search fields have accessible labels.
 
 ### Navigation
-- Sticky header on Wall/90 with Edge bottom rule. Seer mark + “Seer” + Beta pill left; section links (The protocol, The pilot) and Brand-filled pill Connect wallet on the right. Footer repeats the Seer logo and Opportunity Markets blurb.
 
-### Lot Preview (signature)
-Full-width Equal Stack plaque: status + liquidity meta, Urbanist title, segmented outcome strip (Up/Down tones), then leading odds in mono with optional Up/Down tick label. Hover lifts border toward Up and title toward Up.
+Use the kit's bird and wordmark followed by the exact `Opportunity Markets` application label behind its separator. Header and footer share this lockup. Active page links use accent-soft fill, readable accent text and `aria-current`. The theme toggle has an accessible action label. The footer retains its ink surface, ecosystem navigation, social links and shared artwork in either theme.
 
-### Outcome List (signature)
-Single lot-panel with divided rows: mono index, Urbanist outcome name, mono odds with bid-tick, thin probability track. Held positions wash the row with Up/5.
+### Market Brief
+
+The current reading follows the market question and precedes proposal evidence and the trade. Active markets show the live leader with the existing cap-aware odds treatment. Finalized markets show winners obtained from verified payout numerators. Creator and resolution arbitrator are labeled separately, with their literal addresses and explorer links when available. Volume and liquidity remain ordinary tabular text. Human-readable identity names require verified attribution.
+
+### Outcome List and Price History
+
+Outcome rows align index, name and price; selecting a row preserves its original transaction outcome index. Search, proposal evidence, selection labels and holdings remain legible without depending on color alone.
+
+Charts provide up to four followed names with stable slots. Additional fetched histories remain muted context; this does not imply that every market outcome has a loaded history. The naming market retains its existing top-ten fetch policy. A searchable legend exposes available chart names and the four-series limit. A selected line is thicker than context; chart values use text colors, and colored last-value axis boxes are hidden. Canvas colors are read from current theme tokens and update with the theme; visible time range is preserved when series are changed.
+
+### Proposal Lightbox and Notices
+
+The lightbox keeps the existing portaled overlay and its focus/keyboard behavior, using kit internals for the panel and controls. Body-level transaction toasts remain operable above it. Toasts use the app surface, border and status roles. Notices name the issue in text with a status icon and hairline; explanatory detail uses the 13px small-text role.
+
+Standard state transitions use the kit's fast duration and easing. The home reading entrance is brief, and transaction notices enter with a small vertical movement. Reduced-motion preferences remove these entrances and the kit's control transitions.
 
 ## Do's and Don'ts
 
 ### Do:
-- **Do** lead chrome with the Seer mark and Beta; keep Opportunity Markets as the product line in prose and footer.
-- **Do** keep Opportunity Markets product copy and Seer browse/trade flows intact.
-- **Do** give each pilot market equal presence in the stack.
-- **Do** use lavender/red for real odds motion; Brand purple for primary CTAs.
-- **Do** keep lot panels soft-square (8px); header Connect wallet and home CTAs may use pill radii to match the marketing open.
+
+- **Do** use the shared kit tokens and components across every route and theme.
+- **Do** keep the complete Seer | Opportunity Markets lockup on mobile and desktop.
+- **Do** use the 13px small-text role for compact legend values, explanatory notices and field support.
+- **Do** pair status color with text, and keep numeric prices in the text palette.
+- **Do** keep payout-confirmed results distinct from historical prices.
+- **Do** keep keyboard focus visible and respect reduced motion.
 
 ### Don't:
-- **Don't** present Opportunity Markets as a competing standalone brand without Seer chrome.
-- **Don't** revive Dusk Shader Mist, frost glass, or misty blur panels as the world.
-- **Don't** ship a dense many-card catalog grid as the home default.
-- **Don't** add submit-proposal CTAs on marketing or browse surfaces.
-- **Don't** use Paradigm scout/talent framing; sponsor is fine when it means who launches or resolves a market.
-- **Don't** use neon glow or crypto-HUD chrome on lot panels.
+
+- **Don't** set odds or balances in monospace.
+- **Don't** cycle the four chart colors or imply that every outcome has fetched chart history.
+- **Don't** use accent-text tokens as filled badge backgrounds with white text.
+- **Don't** add resting card shadows, arbitrary radii, eyebrows or uppercase label tracking.
+- **Don't** replace unknown creator or arbitrator identities with invented human names.
+- **Don't** redefine shared kit values in application CSS.

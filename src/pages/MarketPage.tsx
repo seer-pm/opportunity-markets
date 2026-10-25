@@ -5,29 +5,19 @@ import MarketOutcomes from '../components/MarketOutcomes';
 import TradingWidget from '../components/TradingWidget';
 import DesignCarousel from '../components/DesignCarousel';
 import Footer from '../components/Footer';
+import { MarketBrief } from '../components/MarketBrief';
 import { useOpportunityMarket } from '../hooks/useChainedMarket';
 import { Address, zeroAddress } from 'viem';
-import {
-  SupportedChain,
-  MarketStatus,
-  getMarketStatus,
-} from '@seer-pm/sdk';
+import { SupportedChain, MarketStatus, getMarketStatus } from '@seer-pm/sdk';
 import { networks } from '../config/wagmi';
-import {
-  getMarketDisplayTitle,
-  getMarketOverride,
-} from '../config/market';
+import { getMarketDisplayTitle, getMarketOverride } from '../config/market';
 import { parseOutcomeSearchParam } from '../config/submissions';
 
-function MarketPageShell({
-  children,
-}: {
-  readonly children: React.ReactNode;
-}) {
+function MarketPageShell({ children }: { readonly children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen flex-col bg-wall">
       <MainHeader />
-      <main className="mx-auto w-full max-w-shell flex-1 px-6 py-10 lg:px-10">
+      <main className="mx-auto w-full max-w-shell flex-1 px-4 py-8 sm:px-6 lg:px-10">
         {children}
       </main>
       <Footer />
@@ -41,15 +31,18 @@ export const MarketPage: React.FC = () => {
     marketId: Address;
   }>();
   const [searchParams, setSearchParams] = useSearchParams();
-  const { data: market, chained, isLoading, isError, refetch } = useOpportunityMarket(
-    marketId,
-    Number(chainId ?? 0) as SupportedChain
-  );
+  const {
+    data: market,
+    chained,
+    isLoading,
+    isError,
+    refetch,
+  } = useOpportunityMarket(marketId, Number(chainId ?? 0) as SupportedChain);
 
   const outcomeCount = market?.wrappedTokens?.length ?? 0;
   const selectedOutcomeIndex = parseOutcomeSearchParam(
     searchParams.get('outcome'),
-    outcomeCount
+    outcomeCount,
   );
 
   const setSelectedOutcome = React.useCallback(
@@ -60,10 +53,10 @@ export const MarketPage: React.FC = () => {
           next.set('outcome', String(index));
           return next;
         },
-        { replace: true }
+        { replace: true },
       );
     },
-    [setSearchParams]
+    [setSearchParams],
   );
 
   if (!chainId || !marketId) {
@@ -103,13 +96,13 @@ export const MarketPage: React.FC = () => {
             <button
               type="button"
               onClick={() => void refetch()}
-              className="rounded-control bg-brand px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.08em] text-paper hover:bg-up focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
+              className="rounded-control bg-brand text-white px-5 py-2.5 text-xs font-semibold hover:bg-brand-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
             >
               Retry
             </button>
             <Link
               to="/"
-              className="rounded-control border border-paper/15 px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.08em] text-paper hover:border-up/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
+              className="rounded-control border border-paper/15 px-5 py-2.5 text-xs font-semibold text-paper hover:border-up/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
             >
               Back to opportunities
             </Link>
@@ -145,7 +138,7 @@ export const MarketPage: React.FC = () => {
           }
           target="_blank"
           rel="noreferrer"
-          className="text-paper hover:text-up hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
+          className="font-mono text-paper hover:text-up hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
         >
           {contractAddressDisplay}
         </a>
@@ -175,48 +168,60 @@ export const MarketPage: React.FC = () => {
       >
         <Link
           to={isClosed ? '/archive' : '/'}
-          className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
+          className="inline-flex items-center gap-2 text-xs font-semibold text-muted transition-colors hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
         >
           <span aria-hidden>←</span>
           {isClosed ? 'Back to archive' : 'Back to opportunities'}
         </Link>
         <a
           href="#trade"
-          className="inline-flex rounded-control border border-paper/15 px-3 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-paper transition-colors hover:border-up/40 lg:hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
+          className="inline-flex rounded-control border border-paper/15 px-3 py-2 text-xs font-semibold text-paper transition-colors hover:border-up/40 lg:hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
         >
           {isClosed ? 'Jump to redeem' : 'Jump to trade'}
         </a>
       </nav>
 
+      <section
+        className="mb-8 border-b border-edge pb-7"
+        aria-labelledby="market-question"
+      >
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
+          <h1
+            id="market-question"
+            className="max-w-[30ch] text-balance font-display text-[clamp(1.75rem,3.4vw,2.75rem)] font-semibold leading-[1.18] tracking-[-0.025em] text-paper"
+          >
+            {displayTitle}
+          </h1>
+          <span
+            className={`rounded-control border px-2 py-1 text-xs font-semibold ${isClosed ? 'border-edge text-muted' : 'border-seer-positive/40 text-seer-positive'}`}
+          >
+            {marketStatusText}
+          </span>
+        </div>
+        <MarketBrief
+          market={market}
+          isClosed={isClosed}
+          explorer={blockExplorerUrl}
+        />
+      </section>
+
       <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-12">
         <div className="flex flex-col gap-8 lg:col-span-8">
-          <section className="lot-panel flex flex-col gap-5 p-6 md:p-8">
-            <div className="flex flex-wrap items-center gap-2">
-              <span
-                className={
-                  isClosed
-                    ? 'rounded-control border border-paper/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-muted'
-                    : 'rounded-control border border-up/35 px-3 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-up'
-                }
-              >
-                {marketStatusText}
-              </span>
-            </div>
-            <h1 className="max-w-4xl font-display text-[clamp(2rem,5vw,3.5rem)] font-bold leading-[1.05] tracking-[-0.03em] text-paper">
-              {displayTitle}
-            </h1>
+          <section aria-labelledby="market-about-heading" className="space-y-4">
+            <h2
+              id="market-about-heading"
+              className="text-xl font-semibold text-paper"
+            >
+              About this market
+            </h2>
             {descriptionParagraphs.length > 0 && (
-              <div className="max-w-2xl space-y-3">
-                {descriptionParagraphs.map((para, i) => (
+              <div className="max-w-[65ch] space-y-3">
+                {descriptionParagraphs.map((paragraph) => (
                   <p
-                    key={i}
-                    className={
-                      i === 0
-                        ? 'text-base font-medium leading-relaxed text-paper'
-                        : 'text-base leading-relaxed text-muted'
-                    }
+                    key={paragraph}
+                    className="text-sm leading-relaxed text-muted"
                   >
-                    {para}
+                    {paragraph}
                   </p>
                 ))}
               </div>
@@ -228,7 +233,7 @@ export const MarketPage: React.FC = () => {
                   className="flex min-w-0 items-baseline gap-2"
                 >
                   {item.label != null && (
-                    <dt className="text-xs font-semibold uppercase tracking-[0.08em] text-muted">
+                    <dt className="text-xs font-semibold text-muted">
                       {item.label}
                     </dt>
                   )}
@@ -257,7 +262,7 @@ export const MarketPage: React.FC = () => {
           chained={chained}
           outcomeIndex={selectedOutcomeIndex}
           onOutcomeIndexChange={setSelectedOutcome}
-          className="scroll-mt-28 lg:col-span-4 lg:sticky lg:top-24 lg:self-start"
+          className="scroll-mt-36 lg:col-span-4 lg:sticky lg:top-24 lg:self-start"
         />
       </div>
     </MarketPageShell>

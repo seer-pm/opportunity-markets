@@ -77,12 +77,16 @@ function formatPerShare(value: number): string {
   });
 }
 
-function buildTargets(market: Market, chained?: ChainedMarketData): RedeemTarget[] {
+function buildTargets(
+  market: Market,
+  chained?: ChainedMarketData,
+): RedeemTarget[] {
   const levelsConfig = getChainedLevels(market.id);
   if (!chained || !levelsConfig) {
     const parentPaid =
       market.parentMarket.payoutReported &&
-      (market.parentMarket.payoutNumerators[Number(market.parentOutcome)] ?? 0n) > 0n;
+      (market.parentMarket.payoutNumerators[Number(market.parentOutcome)] ??
+        0n) > 0n;
     return [
       {
         market,
@@ -97,7 +101,7 @@ function buildTargets(market: Market, chained?: ChainedMarketData): RedeemTarget
   const rows = flattenChainedRows(
     levelsConfig,
     chained.levels,
-    getMarketOverride(market.id)?.finalOtherLabel
+    getMarketOverride(market.id)?.finalOtherLabel,
   );
   // Deepest level first: its redemption feeds the level above.
   return chained.levels
@@ -105,7 +109,7 @@ function buildTargets(market: Market, chained?: ChainedMarketData): RedeemTarget
       market: levelMarket,
       labels: rows.filter((r) => r.level === level).map((r) => r.label),
       values: levelMarket.wrappedTokens.map((_, i) =>
-        getChainedRedeemValue(chained.levels, level, i)
+        getChainedRedeemValue(chained.levels, level, i),
       ),
       // The ConditionalRouter only unwinds one parent, so only level 1 (whose
       // parent is the root) can go straight to collateral.
@@ -129,7 +133,7 @@ function buildWinners(market: Market, chained?: ChainedMarketData): Winner[] {
   return flattenChainedRows(
     levelsConfig,
     chained.levels,
-    getMarketOverride(market.id)?.finalOtherLabel
+    getMarketOverride(market.id)?.finalOtherLabel,
   )
     .filter((row) => row.kind !== 'other-link')
     .map((row) => ({
@@ -177,7 +181,7 @@ function RedeemLevel({
         (it) =>
           it.position &&
           it.position.balance > 0n &&
-          (target.values[it.index] ?? 0) > 0
+          (target.values[it.index] ?? 0) > 0,
       );
   }, [winning, target.values]);
 
@@ -213,7 +217,7 @@ function RedeemLevel({
     undefined,
     supports7702,
     toastifyTx,
-    toastifySendCallsTx
+    toastifySendCallsTx,
   );
 
   const approveTokens = useApproveTokens(toastifyTx);
@@ -221,8 +225,8 @@ function RedeemLevel({
   if (hasPendingHoldings) {
     return (
       <TradeNotice tone="info" title="Still being finalized">
-        Some of your shares belong to a round whose result isn't final yet.
-        Come back once it resolves to redeem them.
+        Some of your shares belong to a round whose result isn't final yet. Come
+        back once it resolves to redeem them.
       </TradeNotice>
     );
   }
@@ -233,7 +237,7 @@ function RedeemLevel({
       acc +
       Number(formatUnits(it.position.balance, WRAPPED_OUTCOME_TOKEN_DECIMALS)) *
         target.values[it.index],
-    0
+    0,
   );
 
   const needsApproval = !supports7702 && missingApprovals.length > 0;
@@ -265,7 +269,7 @@ function RedeemLevel({
       <ul className="flex flex-col gap-2">
         {items.map((it) => {
           const shares = Number(
-            formatUnits(it.position.balance, WRAPPED_OUTCOME_TOKEN_DECIMALS)
+            formatUnits(it.position.balance, WRAPPED_OUTCOME_TOKEN_DECIMALS),
           );
           const label = target.labels[it.index] ?? it.position.symbol;
           return (
@@ -273,10 +277,13 @@ function RedeemLevel({
               key={it.position.tokenId}
               className="flex items-baseline justify-between gap-3 rounded-control border border-edge bg-wall px-3.5 py-2.5"
             >
-              <span className="min-w-0 truncate text-sm text-paper" title={label}>
+              <span
+                className="min-w-0 truncate text-sm text-paper"
+                title={label}
+              >
                 {label}
               </span>
-              <span className="flex-shrink-0 font-mono text-sm tabular-nums text-muted">
+              <span className="flex-shrink-0 font-sans text-sm tabular-nums text-muted">
                 {formatAmount(shares)} shares
               </span>
             </li>
@@ -285,7 +292,7 @@ function RedeemLevel({
       </ul>
       <div className="flex justify-between gap-3">
         <span className={labelClass}>You get</span>
-        <span className="font-mono text-sm font-semibold tabular-nums text-paper">
+        <span className="font-sans text-sm font-semibold tabular-nums text-paper">
           {target.intoParentShares ? '≈ ' : ''}
           {formatAmount(totalValue)}{' '}
           <span className="text-muted">{collateralSymbol}</span>
@@ -332,21 +339,33 @@ export function RedeemWidget({ market, chained }: RedeemWidgetProps) {
     connectedChainId != null &&
     connectedChainId !== market.chainId;
 
-  const collateralSymbol = getActiveCollateralProfile(market.chainId).primary.symbol;
+  const collateralSymbol = getActiveCollateralProfile(market.chainId).primary
+    .symbol;
 
-  const targets = React.useMemo(() => buildTargets(market, chained), [market, chained]);
-  const winners = React.useMemo(() => buildWinners(market, chained), [market, chained]);
+  const targets = React.useMemo(
+    () => buildTargets(market, chained),
+    [market, chained],
+  );
+  const winners = React.useMemo(
+    () => buildWinners(market, chained),
+    [market, chained],
+  );
 
   const [useSmartWallet, setUseSmartWallet] = useSmartWalletPreference();
   const walletSupports7702 = useCheck7702Support(true);
   const supports7702 = walletSupports7702 && useSmartWallet;
 
-  const [levelStatus, setLevelStatus] = React.useState<Record<string, LevelStatus>>({});
-  const handleStatus = React.useCallback((marketId: string, status: LevelStatus) => {
-    setLevelStatus((prev) =>
-      prev[marketId] === status ? prev : { ...prev, [marketId]: status }
-    );
-  }, []);
+  const [levelStatus, setLevelStatus] = React.useState<
+    Record<string, LevelStatus>
+  >({});
+  const handleStatus = React.useCallback(
+    (marketId: string, status: LevelStatus) => {
+      setLevelStatus((prev) =>
+        prev[marketId] === status ? prev : { ...prev, [marketId]: status },
+      );
+    },
+    [],
+  );
   const statuses = targets.map((t) => levelStatus[t.market.id] ?? 'loading');
   const isLoading = statuses.includes('loading');
   const hasSomething = statuses.includes('some');
@@ -380,7 +399,7 @@ export function RedeemWidget({ market, chained }: RedeemWidgetProps) {
                 >
                   {w.label}
                 </span>
-                <span className="flex-shrink-0 font-mono text-xs tabular-nums text-muted">
+                <span className="flex-shrink-0 font-sans text-xs tabular-nums text-muted">
                   {formatPerShare(w.value)} {collateralSymbol} / share
                 </span>
               </li>

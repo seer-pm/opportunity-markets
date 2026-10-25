@@ -1,46 +1,69 @@
-/** @type {import('tailwindcss').Config} */
 import discussionsPreset from '@seer-pm/discussions/tailwind';
+import seerPreset from '@seer-pm/ui-kit/tailwind';
 
+// Tailwind 3 opacity modifiers mix the kit's theme-aware hex custom properties.
+const token = (name) =>
+  `color-mix(in srgb, var(${name}) calc(<alpha-value> * 100%), transparent)`;
+
+/** @type {import('tailwindcss').Config} */
 export default {
-  presets: [discussionsPreset],
+  presets: [discussionsPreset, seerPreset],
   content: [
     './index.html',
     './src/**/*.{js,ts,jsx,tsx}',
     './node_modules/@seer-pm/discussions/dist/**/*.{js,mjs}',
+    './node_modules/@seer-pm/ui-kit/dist/**/*.{js,mjs}',
+  ],
+  // The kit composes these mask class names from runtime theme and social IDs.
+  safelist: [
+    'seer-icon-sun',
+    'seer-icon-moon',
+    'seer-icon-discord',
+    'seer-icon-telegram',
+    'seer-icon-x',
+    'seer-icon-github',
   ],
   theme: {
     extend: {
       fontFamily: {
-        display: ['Urbanist', 'system-ui', 'sans-serif'],
-        sans: ['Urbanist', 'system-ui', 'sans-serif'],
-        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        display: ['var(--seer-font-sans)'],
+        sans: ['var(--seer-font-sans)'],
+        mono: ['ui-monospace', 'monospace'],
       },
       colors: {
-        wall: '#0A0814',
-        plaque: '#110d1c',
-        'plaque-edge': '#1e1830',
-        paper: '#ECE8F5',
-        muted: '#8B83A3',
-        brand: '#520078',
-        up: '#A774D1',
-        down: '#ea3943',
-        // Legible red for text on the night ground (down alone is ~4.3:1 on plaque)
-        'down-ink': '#FF8E95',
-        edge: 'rgba(167, 116, 209, 0.12)',
-        'edge-strong': 'rgba(167, 116, 209, 0.25)',
+        wall: token('--seer-page'),
+        plaque: token('--seer-surface'),
+        'plaque-edge': token('--seer-surface-raised'),
+        paper: token('--seer-text'),
+        muted: token('--seer-muted'),
+        brand: token('--seer-brand-purple'),
+        'brand-hover': token('--seer-brand-purple-hover'),
+        up: token('--seer-accent-text'),
+        down: token('--seer-negative'),
+        'down-ink': token('--seer-negative'),
+        edge: token('--seer-border'),
+        'edge-strong':
+          'color-mix(in srgb, var(--seer-border), var(--seer-text) 20%)',
       },
       borderRadius: {
-        panel: '8px',
-        control: '6px',
-        custom: '8px',
+        DEFAULT: 'var(--seer-radius-sm)',
+        sm: 'var(--seer-radius-sm)',
+        md: 'var(--seer-radius-sm)',
+        lg: 'var(--seer-radius-md)',
+        xl: 'var(--seer-radius-md)',
+        '2xl': 'var(--seer-radius-md)',
+        '3xl': 'var(--seer-radius-md)',
+        panel: 'var(--seer-radius-md)',
+        control: 'var(--seer-radius-sm)',
+        custom: 'var(--seer-radius-md)',
+        full: 'var(--seer-radius-full)',
       },
       boxShadow: {
-        panel: '0 12px 40px rgba(0, 0, 0, 0.45)',
-        lot: '0 8px 28px rgba(10, 8, 20, 0.55)',
+        panel:
+          '0 12px 32px color-mix(in srgb, var(--seer-brand-ink) 18%, transparent)',
+        lot: 'none',
       },
-      maxWidth: {
-        shell: '1350px',
-      },
+      maxWidth: { shell: '1350px' },
     },
   },
   plugins: [],

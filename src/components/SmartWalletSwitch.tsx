@@ -34,7 +34,9 @@ export function SmartWalletSwitch({
         <span
           aria-hidden="true"
           className={`inline-block h-3.5 w-3.5 rounded-full transition-transform ${
-            enabled ? 'translate-x-[18px] bg-paper' : 'translate-x-[2px] bg-muted'
+            enabled
+              ? 'translate-x-[18px] bg-white'
+              : 'translate-x-[2px] bg-muted'
           }`}
         />
       </button>

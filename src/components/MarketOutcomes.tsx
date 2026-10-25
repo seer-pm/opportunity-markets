@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { useAccount } from 'wagmi';
 import { formatUnits } from 'viem';
-import { WRAPPED_OUTCOME_TOKEN_DECIMALS } from '@seer-pm/sdk';
+import {
+  WRAPPED_OUTCOME_TOKEN_DECIMALS,
+  MarketStatus,
+  getMarketStatus,
+} from '@seer-pm/sdk';
 import type { Market } from '@seer-pm/sdk';
 import { useOutcomeBalances } from '../hooks/useOutcomeBalances';
 import { useOddsCaps } from '../hooks/useOddsCaps';
@@ -36,24 +40,6 @@ interface OutcomeCardProps {
   readonly assets?: SubmissionAssets;
   readonly onSelect: () => void;
   readonly onViewImages: (label: string, assets: SubmissionAssets) => void;
-}
-
-function formatUsd(value: number | undefined): string {
-  if (value === undefined) return '—';
-  return `$${Number(value).toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
-}
-
-function MarketStat({ label, value }: { label: string; value?: number }) {
-  return (
-    <div className="flex items-baseline gap-2">
-      <span className="text-xs font-semibold uppercase tracking-[0.08em] text-muted">
-        {label}
-      </span>
-      <span className="font-mono text-sm font-semibold tabular-nums text-paper">
-        {formatUsd(value)}
-      </span>
-    </div>
-  );
 }
 
 function ImageIcon() {
@@ -110,7 +96,7 @@ function OutcomeCard({
     ? Math.min(Math.max(percent, 0), 100)
     : 0;
 
-  const oddsClass = 'font-mono text-xl font-semibold tabular-nums text-paper';
+  const oddsClass = 'font-sans text-xl font-semibold tabular-nums text-paper';
 
   const hasImages = (assets?.images.length ?? 0) > 0;
   const hasPdf = Boolean(assets?.pdfUrl);
@@ -118,7 +104,7 @@ function OutcomeCard({
   const hasBothAssets = hasImages && hasPdf;
   const showMeta = hasImages || hasPdf || hasPortfolio || account != null;
   const proposalLinkClass =
-    'inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.08em] text-paper underline decoration-paper/35 underline-offset-[3px] transition-colors hover:text-up hover:decoration-up focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up';
+    'inline-flex items-center gap-1 text-xs font-semibold text-paper underline decoration-paper/35 underline-offset-[3px] transition-colors hover:text-up hover:decoration-up focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up';
 
   const rowTone = selected
     ? 'bg-up/10 ring-1 ring-inset ring-up/35'
@@ -130,20 +116,29 @@ function OutcomeCard({
     <div
       data-selected={selected ? 'true' : undefined}
       onClick={onSelect}
-      className={`grid cursor-pointer grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-4 gap-y-2 px-5 py-4 transition-colors hover:bg-up/5 ${rowTone}`}
+      className={`grid cursor-pointer grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-3 gap-y-2 px-4 py-3 sm:px-5 sm:py-4 transition-colors hover:bg-brand-hover/5 ${rowTone}`}
     >
-      <span className="font-mono text-sm font-semibold tabular-nums text-muted">
+      <span className="font-sans text-sm font-semibold tabular-nums text-muted">
         {rankLabel}
       </span>
       <div className="min-w-0">
         <div className="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-1">
-          <h3 className="font-display text-lg font-semibold leading-tight text-paper">
-            {label}
+          <h3 className="font-display text-base font-semibold leading-snug text-paper">
+            <button
+              type="button"
+              aria-label={`Select outcome: ${label}`}
+              aria-pressed={selected}
+              onClick={(event) => {
+                event.stopPropagation();
+                onSelect();
+              }}
+              className="min-h-11 rounded-control text-left"
+            >
+              {label}
+            </button>
           </h3>
           {selected ? (
-            <span className="text-xs font-semibold uppercase tracking-[0.08em] text-up">
-              Trading
-            </span>
+            <span className="text-xs font-semibold text-up">Selected</span>
           ) : null}
         </div>
         {showMeta ? (
@@ -179,12 +174,14 @@ function OutcomeCard({
                 }}
                 className={proposalLinkClass}
               >
-                {hasBothAssets || hasPortfolio ? 'View images' : 'View proposal'}
+                {hasBothAssets || hasPortfolio
+                  ? 'View images'
+                  : 'View proposal'}
                 <ImageIcon />
               </button>
             ) : null}
             {account != null ? (
-              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-muted">
+              <p className="text-xs font-semibold text-muted">
                 Position: {balanceFormatted}
               </p>
             ) : null}
@@ -194,12 +191,16 @@ function OutcomeCard({
       <div className="text-right">
         <span
           className={oddsClass}
-          title={oddsCap != null && Number.isFinite(percent) ? ODDS_CAP_HINT : undefined}
+          title={
+            oddsCap != null && Number.isFinite(percent)
+              ? ODDS_CAP_HINT
+              : undefined
+          }
         >
-          {Number.isFinite(percent) ? formatOddsWithCap(percent, oddsCap) : '—'}
+          {Number.isFinite(percent) ? formatOddsWithCap(percent, oddsCap) : '–'}
         </span>
-        <p className="mt-0.5 text-xs font-semibold uppercase tracking-[0.08em] text-muted">
-          {Number.isFinite(percent) ? `$${(percent / 100).toFixed(3)}` : '—'}
+        <p className="mt-0.5 text-xs font-semibold text-muted">
+          {Number.isFinite(percent) ? `$${(percent / 100).toFixed(3)}` : '–'}
         </p>
       </div>
       <div
@@ -207,7 +208,7 @@ function OutcomeCard({
         aria-hidden
       >
         <div
-          className="h-full rounded-control bg-paper/35"
+          className="h-full rounded-control bg-muted"
           style={{ width: `${barWidth}%` }}
         />
       </div>
@@ -245,7 +246,7 @@ export const MarketOutcomes: React.FC<MarketOutcomesProps> = ({
           assets: getOutcomeSubmissionAssets(market.id, label),
         };
       }),
-    [wrapped, rawOutcomes, odds, market.id]
+    [wrapped, rawOutcomes, odds, market.id],
   );
 
   const ranked = React.useMemo(
@@ -254,14 +255,14 @@ export const MarketOutcomes: React.FC<MarketOutcomesProps> = ({
         // Outcomes without a price (NaN) sink to the bottom.
         .sort((a, b) => (b.odds || 0) - (a.odds || 0))
         .map((outcome, rankIdx) => ({ ...outcome, rank: rankIdx + 1 })),
-    [outcomes]
+    [outcomes],
   );
 
   const { address: account } = useAccount();
   const { data: balances } = useOutcomeBalances(
     account,
     wrapped,
-    market.chainId
+    market.chainId,
   );
 
   const isLong = ranked.length > COLLAPSE_THRESHOLD;
@@ -290,14 +291,13 @@ export const MarketOutcomes: React.FC<MarketOutcomesProps> = ({
       data-purpose="market-visualization"
     >
       <div>
-        <div className="mb-4 flex items-end justify-between gap-3">
+        <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
           <h2 className="font-display text-xl font-semibold text-paper">
             Outcomes
           </h2>
-          <div className="flex items-baseline gap-4">
-            <MarketStat label="Volume" value={market.volumeUSD} />
-            <MarketStat label="Liquidity" value={market.liquidityUSD} />
-          </div>
+          {getMarketStatus(market) === MarketStatus.CLOSED && (
+            <p className="text-sm text-muted">Historical prices</p>
+          )}
         </div>
         {isLong ? (
           <input
@@ -306,7 +306,7 @@ export const MarketOutcomes: React.FC<MarketOutcomesProps> = ({
             onChange={(event) => setQuery(event.target.value)}
             placeholder={`Search ${ranked.length} outcomes`}
             aria-label="Search outcomes"
-            className="mb-3 w-full rounded-panel border border-edge bg-wall px-4 py-3 text-sm text-paper caret-up placeholder:text-muted focus:border-up focus:outline-none"
+            className="seer-input mb-3"
           />
         ) : null}
         <div className="lot-panel divide-y divide-paper/10 overflow-hidden">
@@ -334,17 +334,17 @@ export const MarketOutcomes: React.FC<MarketOutcomesProps> = ({
           <button
             type="button"
             onClick={() => setExpanded((prev) => !prev)}
-            className="mt-3 text-xs font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
+            className="mt-3 text-xs font-semibold text-muted transition-colors hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
           >
-            {expanded ? 'Show top outcomes' : `Show all ${ranked.length} outcomes`}
+            {expanded
+              ? 'Show top outcomes'
+              : `Show all ${ranked.length} outcomes`}
           </button>
         ) : null}
       </div>
 
       <div className="lot-panel p-6">
-        <h2 className="mb-4 text-xs font-semibold uppercase tracking-[0.08em] text-muted">
-          Price History
-        </h2>
+        <h2 className="mb-4 text-xl font-semibold text-paper">Price History</h2>
         <MarketChart market={market} />
       </div>
 

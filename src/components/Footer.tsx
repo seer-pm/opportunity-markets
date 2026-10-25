@@ -1,31 +1,28 @@
 import * as React from 'react';
-import { SeerLogo } from './SeerLogo';
+import { seerApps } from '@seer-pm/ui-kit';
+import { EcosystemFooter } from '@seer-pm/ui-kit/react';
 
 export interface FooterProps {
   readonly className?: string;
 }
+const opportunity = seerApps.find((app) => app.id === 'opportunity')!;
+const links = [
+  { name: 'Live markets', url: '/#pilot' },
+  { name: 'Archive', url: '/archive' },
+  { name: 'The protocol', url: '/#protocol' },
+];
 
-export const Footer: React.FC<FooterProps> = ({ className = '' }) => {
-  return (
-    <footer
-      className={`mt-auto border-t border-edge bg-wall ${className}`}
-    >
-      <div className="mx-auto flex w-full max-w-shell flex-col gap-4 px-6 py-12 sm:flex-row sm:items-center sm:justify-between lg:px-10">
-        <a
-          href="https://seer.pm"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="Seer"
-          className="inline-flex w-fit items-center gap-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
-        >
-          <SeerLogo />
-        </a>
-        <p className="text-sm leading-relaxed text-muted sm:text-right">
-          Opportunity Markets on Seer.
-        </p>
-      </div>
-    </footer>
-  );
-};
+export const Footer: React.FC<FooterProps> = ({ className = '' }) => (
+  <div
+    className={`mt-auto [--seer-footer-max-width:1350px] [--seer-footer-gutter:16px] sm:[--seer-footer-gutter:24px] lg:[--seer-footer-gutter:40px] ${className}`}
+  >
+    <EcosystemFooter
+      appName={opportunity.name}
+      homeUrl="/"
+      tagline={opportunity.summary}
+      groups={[{ title: opportunity.name, links }]}
+    />
+  </div>
+);
 
 export default Footer;

@@ -73,7 +73,7 @@ function SlideImage({
       }
       onLightBgChange(imageNeedsLightBackground(img));
     },
-    [lightBg, onLightBgChange]
+    [lightBg, onLightBgChange],
   );
 
   React.useEffect(() => {
@@ -113,7 +113,7 @@ function SlideImage({
 
 function SlideFrame({ slide }: { readonly slide: CarouselSlide }) {
   const [needsLightBg, setNeedsLightBg] = React.useState(
-    slide.lightBg === 'force'
+    slide.lightBg === 'force',
   );
 
   return (
@@ -184,10 +184,7 @@ export function DesignCarousel({
   selectedOutcomeIndex,
   className = '',
 }: DesignCarouselProps) {
-  const slides = React.useMemo(
-    () => getMarketCarouselSlides(market),
-    [market]
-  );
+  const slides = React.useMemo(() => getMarketCarouselSlides(market), [market]);
 
   const scrollerRef = React.useRef<HTMLUListElement>(null);
   const [canPrev, setCanPrev] = React.useState(false);
@@ -244,13 +241,13 @@ export function DesignCarousel({
           id={headingId}
           className={
             embedded
-              ? 'text-xs font-semibold uppercase tracking-[0.08em] text-muted'
+              ? 'text-xs font-semibold text-muted'
               : 'font-display text-base font-semibold text-paper sm:text-xl'
           }
         >
           Designs
         </h2>
-        <p className="text-xs font-semibold uppercase tracking-[0.08em] text-muted">
+        <p className="text-xs font-semibold text-muted">
           {slides.length} {slides.length === 1 ? 'image' : 'images'}
         </p>
       </div>

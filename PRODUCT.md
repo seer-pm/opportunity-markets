@@ -6,52 +6,53 @@
 
 web
 
+## Who asks
+
+Teams, DAOs and organizers running a selection process ask which community submissions are likely to be chosen. The configured opportunities are Seer's rebrand, Devcon Mumbai merch and the name of Seer's AI job board. Market prices inform review; the responsible team makes the selection.
+
 ## Users
 
-Primary users are community members who submit ideas (design proposals, merch concepts, and similar), traders who bet on which proposals will be chosen, and sponsors (teams, DAOs, or organizers) who launch and resolve markets by selecting winning outcomes.
+Reviewers use the market as a signal to prioritize submissions. Community members explore proposals and may have submitted one. Traders buy and sell outcome shares according to the selection they expect. Holders of winning shares redeem them after finalization.
 
-## Product Purpose
+## Product purpose
 
-Opportunity Markets turns community proposals into tradeable prediction-market outcomes on the Seer protocol. Submitters earn rewards when their ideas are chosen; anyone can trade on which ideas win. Success means clear discovery of live opportunities, confident trading on outcomes, and honest attribution to Seer as the underlying protocol.
+Opportunity Markets turns a selection process into a market on Seer. The useful answer is the current priced field of submissions, followed by the evidence behind each proposal and the actions available to a trader. Success means understanding what is being selected, what the market says, who decides and how to inspect or trade an outcome.
 
-## Positioning
+## Operating context
 
-Community proposals become market outcomes. Trade on which ideas get chosen, and earn rewards when yours wins. Neighboring prediction apps that only list generic event odds cannot truthfully claim this submit → multicategorical outcome → sponsor-chosen winner → reward loop.
+A Vite and React 18 SPA on Gnosis with Tailwind 3. Routes: home (`/`), archive (`/archive`) and market detail (`/markets/:chainId/:marketId`). ConnectKit and wagmi connect wallets. The Seer SDK and React hooks supply markets, prices, liquidity, charts and transactions. The naming opportunity flattens three conditional markets into one list; its original outcome indices and transaction routing must remain intact.
 
-## Operating Context
+## Capabilities and constraints
 
-Users browse opportunity markets in a Vite + React SPA, open a market detail page, connect a wallet (ConnectKit / wagmi, Gnosis by default), trade via Seer AMM hooks, and follow outcome probability charts. Reference use cases include Seer redesign proposal competitions and community-driven merch collections (e.g. Devcon-style flows): submissions become outcomes in a multicategorical market; sponsors pick winners.
+- Home lists live opportunities. Archive lists finalized markets and links to their redemption panels.
+- Detail includes ranked outcomes, search, images, proposals, portfolios, history, discussion, swap and redemption.
+- Preserve trading, authentication, credits, balances, mint-to-cover, quote, slippage and redemption behavior.
+- Preserve existing factual copy, market descriptions, submissions, prizes, rights and selection terms. Ask before adding or changing a factual claim.
+- Requester and resolver attribution must come from verified market or local configuration. An unknown identity stays unknown, never inferred from a wallet address or invented.
+- Prices, counts and monetary values must come from live data. Preserve liquidity-edge odds caps and their explanation. A finalized price is not proof of the winning payout; final results come from payout data.
+- No invented testimonials, customers, rewards, resolution dates or links. No private scouting or talent-deal framing.
+- English interface. No em dashes in copy, comments or repository prose. No eyebrows above headings.
 
-## Capabilities and Constraints
+## Brand commitments
 
-- Browse markets from the Seer API (active / all filters).
-- Market detail: outcomes, status, liquidity, on-chain trading via `@seer-pm/react`, price history charts.
-- English UI only; marketing prose must not use em dashes; do not frame markets as private.
-- Do not use Paradigm “scout / talent / deals / research / startups” language. **Sponsor** is allowed when it means the team, DAO, or organizer who launches or resolves an opportunity market (not Paradigm-style private scouting).
-- Present as a Seer property: Seer mark in header and footer, seerrebrand colourways, with Opportunity Markets as the product line inside that shell.
-- Keep “View on Seer” and app.seer.pm links for protocol navigation.
+Confirmed on 2026-10-23:
 
-## Brand Commitments
+- Electric Foundation from the shared `@seer-pm/ui-kit`, initially vendored version 0.4.0. The kit owns shared values and components; local code maps semantic roles without redefining shared values.
+- `Seer | Opportunity Markets` in the header and footer, matching `seerApps`.
+- The entire app adopts the brand. Redesign market detail, home and archive wherever required for alignment.
+- Open Sans throughout, tabular figures; monospace only for literal addresses and hashes.
+- Light and dark follow the system until the user chooses. A persisted toggle and a pre-paint head script apply the same theme to the app and wallet modal.
+- Hairlines for resting surfaces; shadows for floating UI. Kit radii: compact controls and badges, surfaces and inputs, pills.
+- Charts use up to four fixed series slots; further lines are muted context and the reader chooses what to follow. Two sides use series 1 and 2, while gains, losses and errors use status colors. Values use text colors.
 
-- Shell brand: **Seer** (official mark from the Seer / seerrebrand identity) with a **Beta** pill in the header.
-- Product line: **Opportunity Markets** (named in prose and footer; not a competing wordmark in the nav).
-- Colourways: seerrebrand purple night (`#0A0814` ground, `#520078` / `#A774D1` accents, `#ECE8F5` text).
-- Canonical product sentence: “Community proposals become market outcomes. Trade on which ideas get chosen, and earn rewards when yours wins.”
-- Voice: clear, concrete, community-forward; no hype about private scouting or Paradigm-style investigation.
+## Evidence
 
-## Evidence on Hand
+Product behavior and factual copy: `src/pages`, `src/config/market.ts`, `src/config/submissions.ts`, `src/hooks/useChainedMarket.ts`, `src/lib/chainedMarket.ts`, swap and redeem widgets. Production baseline captured on 2026-10-23 at 1440 and 390 pixels for all three routes under `.impeccable/review/baseline/` (local, ignored).
 
-- Live UI copy in `src/pages/Home.tsx`, `src/components/MainHeader.tsx`, `src/components/Footer.tsx`, `src/config/wagmi.ts`.
-- No fabricated testimonials, customer logos, or Devcon/merch landing pages in-repo; do not invent them.
+## Accessibility
 
-## Product Principles
+Readable contrast measured in both themes, keyboard access to outcome selection and proposal evidence, semantic headings, labeled controls, visible focus, reduced motion and layouts verified at 390 and 1440 pixels. Color never carries a price or status alone.
 
-1. **Proposals are the product** — every explanatory surface should make the submit → outcome → choose → reward loop obvious.
-2. **Trade the field** — traders and submitters share the same market; odds reflect belief about sponsor choice.
-3. **Seer shell, Opportunity Markets product** — look like Seer; Opportunity Markets names the product line and job.
-4. **Public and plain** — markets are public; copy stays short, English, and free of scout/talent jargon.
-5. **Preserve the trading core** — design work must not break Seer market list, detail, chart, or swap flows.
+## Verification baseline
 
-## Accessibility & Inclusion
-
-No product-specific accessibility standard was locked beyond general web best practice; prefer readable contrast and keyboard-usable trading controls in future work.
+Base commit: `c213f69` on `main`. There is no test script or tracked test suite. `yarn lint` fails before analysis because ESLint 9 has no configuration file. Record build and lint outcomes per phase under the ignored `.impeccable/review/checks/` directory and compare them with this baseline.
