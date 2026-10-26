@@ -53,7 +53,7 @@ export function TokensDropdown({
     setQuery('');
   };
   const selected = options.find((t) =>
-    addressesEqual(t.address, value.address)
+    addressesEqual(t.address, value.address),
   );
   const label = selected?.symbol ?? value.symbol;
   const isBlock = layout === 'block';
@@ -62,7 +62,7 @@ export function TokensDropdown({
     if (isBlock) {
       return (
         <div className="flex w-full items-center rounded-panel border border-edge bg-wall px-4 py-3">
-          <span className="truncate text-sm font-semibold uppercase tracking-[0.08em] text-paper">
+          <span className="truncate text-sm font-semibold text-paper">
             {label}
           </span>
         </div>
@@ -70,7 +70,7 @@ export function TokensDropdown({
     }
     return (
       <div className="flex h-full w-[108px] cursor-default items-center rounded-r-panel border-l border-edge bg-wall/60 px-3">
-        <span className="truncate text-xs font-semibold uppercase tracking-[0.08em] text-paper">
+        <span className="truncate text-xs font-semibold text-paper">
           {label}
         </span>
       </div>
@@ -81,17 +81,18 @@ export function TokensDropdown({
     <div className={`relative ${isBlock ? 'w-full' : 'h-full w-[108px]'}`}>
       <button
         type="button"
+        aria-label={`Select token: ${label}`}
         aria-expanded={open}
         aria-haspopup="listbox"
         onClick={() => setOpen((o) => !o)}
         className={
           isBlock
-            ? 'flex w-full cursor-pointer items-center justify-between gap-2 rounded-panel border border-edge bg-wall px-4 py-3 transition-colors hover:border-paper/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-up'
+            ? 'seer-input flex w-full cursor-pointer items-center justify-between gap-2 text-left'
             : 'flex h-full w-full cursor-pointer items-center justify-between gap-1.5 rounded-r-panel border-l border-edge bg-wall/60 px-3 py-3 transition-colors hover:bg-wall focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-up'
         }
       >
         <span
-          className={`min-w-0 truncate font-semibold uppercase tracking-[0.08em] text-paper ${
+          className={`min-w-0 truncate font-semibold text-paper ${
             isBlock ? 'text-sm' : 'text-xs'
           }`}
         >
@@ -101,11 +102,7 @@ export function TokensDropdown({
       </button>
       {open && (
         <>
-          <div
-            className="fixed inset-0 z-20"
-            aria-hidden
-            onClick={close}
-          />
+          <div className="fixed inset-0 z-20" aria-hidden onClick={close} />
           <div
             role="listbox"
             className={`absolute top-full z-30 mt-1 ${searchable ? 'max-h-80' : 'max-h-60'} overflow-y-auto overflow-x-hidden rounded-panel border border-edge bg-plaque py-1 shadow-panel ${
@@ -121,7 +118,7 @@ export function TokensDropdown({
                   onChange={(event) => setQuery(event.target.value)}
                   placeholder={`Search ${options.length}`}
                   aria-label="Search options"
-                  className="w-full rounded-control border border-edge bg-wall px-3 py-2 text-xs text-paper caret-up placeholder:text-muted focus:border-up focus:outline-none"
+                  className="seer-input"
                 />
               </div>
             ) : null}
@@ -140,7 +137,7 @@ export function TokensDropdown({
                     onSelect(token);
                     close();
                   }}
-                  className={`w-full px-3 py-2 text-left text-xs font-semibold uppercase tracking-[0.08em] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-up ${
+                  className={`w-full px-3 py-2 text-left text-xs font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-up ${
                     isSelected
                       ? 'bg-up/10 text-up'
                       : 'text-muted hover:bg-wall hover:text-paper'

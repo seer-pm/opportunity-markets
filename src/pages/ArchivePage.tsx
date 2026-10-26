@@ -6,18 +6,17 @@ import { MarketList } from '../components/MarketList';
 import { isFinalized, useMarketList } from '../hooks/useMarketList';
 
 export const ArchivePage: React.FC = () => {
-  const { markets, isLoading, isError, isFetching, refetch } =
-    useMarketList();
+  const { markets, isLoading, isError, isFetching, refetch } = useMarketList();
   const archivedMarkets = markets.filter(isFinalized);
 
   return (
     <div className="flex min-h-screen min-w-0 flex-col overflow-x-clip bg-wall">
       <MainHeader />
-      <main className="mx-auto flex w-full min-w-0 max-w-shell flex-1 flex-col px-6 pb-16 pt-10 lg:px-10">
+      <main className="mx-auto flex w-full min-w-0 max-w-shell flex-1 flex-col px-4 pb-12 pt-8 sm:px-6 sm:pb-16 lg:px-10">
         <nav className="mb-8" aria-label="Archive navigation">
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
+            className="inline-flex items-center gap-2 text-xs font-semibold text-muted transition-colors hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
           >
             <span aria-hidden>←</span>
             Back to opportunities
@@ -28,12 +27,9 @@ export const ArchivePage: React.FC = () => {
           aria-labelledby="archive-heading"
           aria-busy={isLoading || isFetching}
         >
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-up">
-            Archive
-          </p>
           <h1
             id="archive-heading"
-            className="mt-3 font-display text-[clamp(1.875rem,3vw,2.25rem)] font-semibold leading-[1.15] tracking-[-0.025em] text-paper"
+            className="font-display text-[clamp(1.875rem,3vw,2.25rem)] font-semibold leading-[1.15] tracking-[-0.025em] text-paper"
           >
             Past markets
           </h1>

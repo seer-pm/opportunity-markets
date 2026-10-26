@@ -37,17 +37,10 @@ import { TradeNotice } from './TradeNotice';
 import { SmartWalletSwitch } from './SmartWalletSwitch';
 import { labelClass, primaryBtnClass, warnBtnClass } from './tradeStyles';
 
-const amountFieldClass =
-  'flex w-full items-center gap-3 rounded-panel border border-edge bg-wall px-4 py-3 transition-colors focus-within:border-up has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:-outline-offset-2 has-[:focus-visible]:outline-up';
-
-const amountInputClass =
-  'min-w-0 flex-1 bg-transparent text-xl font-semibold tabular-nums text-paper caret-up placeholder:text-muted focus:outline-none';
-
-const amountUnitClass =
-  'max-w-[45%] flex-shrink-0 truncate text-xs font-semibold uppercase tracking-[0.08em] text-muted';
-
-const presetBtnClass =
-  'rounded-control border border-edge bg-wall px-2.5 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-muted transition-colors hover:border-paper/25 hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up disabled:cursor-not-allowed disabled:opacity-40';
+const amountFieldClass = 'seer-input-group';
+const amountInputClass = 'seer-input';
+const amountUnitClass = 'seer-input-affix max-w-[45%] truncate';
+const presetBtnClass = 'seer-button seer-button-outline seer-button-sm';
 
 const BUY_PRESETS = [1, 5, 10, 100] as const;
 const SELL_PRESETS = [
@@ -89,8 +82,7 @@ function buildOutcomeTokens(market: Market): Token[] {
     if (!address) continue;
 
     const raw = rawOutcomes[i];
-    const symbol =
-      typeof raw === 'string' ? raw : `Outcome ${i + 1}`;
+    const symbol = typeof raw === 'string' ? raw : `Outcome ${i + 1}`;
 
     tokens.push({
       address: address as `0x${string}`,
@@ -106,7 +98,7 @@ function buildOutcomeTokens(market: Market): Token[] {
 function getCollateralOptions(
   market: Market,
   mode: 'buy' | 'sell',
-  parentCollateral?: Token
+  parentCollateral?: Token,
 ): Token[] {
   const parentId = market.parentMarket.id;
   const hasParent =
@@ -151,7 +143,7 @@ function getCollateralOptions(
 
 function formatShares(value: bigint): string {
   return Number(
-    formatUnits(value, WRAPPED_OUTCOME_TOKEN_DECIMALS)
+    formatUnits(value, WRAPPED_OUTCOME_TOKEN_DECIMALS),
   ).toLocaleString(undefined, {
     minimumFractionDigits: 0,
     maximumFractionDigits: 4,
@@ -190,9 +182,8 @@ function MintToCoverNotice({
       <TradeNotice title="Insufficient balance" className="mb-5">
         You don't hold enough shares to sell that much, and{' '}
         {status.isParent ? 'a parent market' : 'this market'} has{' '}
-        {status.outcomeCount} outcomes, more than the{' '}
-        {status.maxOutcomeCount} a single transaction can mint. Sell what you
-        hold, or buy first.
+        {status.outcomeCount} outcomes, more than the {status.maxOutcomeCount} a
+        single transaction can mint. Sell what you hold, or buy first.
       </TradeNotice>
     );
   }
@@ -210,9 +201,9 @@ function MintToCoverNotice({
   return (
     <TradeNotice tone="info" title="We'll mint the rest" className="mb-5">
       You hold {formatShares(outcomeBalance)} shares.{' '}
-      {formatShares(splitAmount)} {collateralSymbol} will be minted into a
-      full set so you can sell {formatShares(leg.swapInputAmount ?? 0n)}, and
-      you'll keep {formatShares(splitAmount)} of each other outcome.
+      {formatShares(splitAmount)} {collateralSymbol} will be minted into a full
+      set so you can sell {formatShares(leg.swapInputAmount ?? 0n)}, and you'll
+      keep {formatShares(splitAmount)} of each other outcome.
       {risk}
     </TradeNotice>
   );
@@ -248,13 +239,12 @@ export function SwapWidget({
 
   const outcomeTokens = React.useMemo(
     () => buildOutcomeTokens(market),
-    [market]
+    [market],
   );
 
   const parentId = market.parentMarket.id;
   const isChildMarket =
-    typeof parentId === 'string' &&
-    !isAddressEqual(parentId, zeroAddress);
+    typeof parentId === 'string' && !isAddressEqual(parentId, zeroAddress);
 
   const parentOutcomeIndex = isChildMarket
     ? Number(market.parentOutcome)
@@ -262,7 +252,7 @@ export function SwapWidget({
 
   const { data: parentMarket } = useMarket(
     market.parentMarket.id,
-    market.chainId
+    market.chainId,
   );
 
   const parentCollateralAddress =
@@ -272,12 +262,12 @@ export function SwapWidget({
 
   const { data: parentCollateral } = useTokenInfo(
     parentCollateralAddress,
-    market.chainId
+    market.chainId,
   );
 
   const collateralOptions = React.useMemo(
     () => getCollateralOptions(market, mode, parentCollateral),
-    [market, mode, parentCollateral]
+    [market, mode, parentCollateral],
   );
 
   const selectedCollateral = React.useMemo(() => {
@@ -286,10 +276,7 @@ export function SwapWidget({
     }
     if (collateralAddress) {
       const match = collateralOptions.find((token) =>
-        isAddressEqual(
-          token.address,
-          collateralAddress as `0x${string}`
-        )
+        isAddressEqual(token.address, collateralAddress as `0x${string}`),
       );
       if (match) return match;
     }
@@ -305,7 +292,7 @@ export function SwapWidget({
   React.useEffect(() => {
     if (!collateralAddress) return;
     const stillValid = collateralOptions.some((token) =>
-      isAddressEqual(token.address, collateralAddress as `0x${string}`)
+      isAddressEqual(token.address, collateralAddress as `0x${string}`),
     );
     if (!stillValid) {
       setCollateralAddress(null);
@@ -321,22 +308,23 @@ export function SwapWidget({
       ? 0
       : Math.min(Math.max(outcomeIndex, 0), outcomeTokens.length - 1);
 
-  const outcomeToken =
-    outcomeTokens[safeOutcomeIndex] ?? outcomeTokens[0];
+  const outcomeToken = outcomeTokens[safeOutcomeIndex] ?? outcomeTokens[0];
 
   const hasLiquidity = useMarketHasLiquidity(market, safeOutcomeIndex);
 
-  const amountForQuote =
-    isAddressEqual(selectedCollateral.address, outcomeToken.address)
-      ? ''
-      : debouncedAmount;
+  const amountForQuote = isAddressEqual(
+    selectedCollateral.address,
+    outcomeToken.address,
+  )
+    ? ''
+    : debouncedAmount;
 
   const sellToken = mode === 'buy' ? selectedCollateral : outcomeToken;
 
   const { data: balance = 0n } = useTokenBalance(
     account,
     sellToken?.address,
-    market.chainId
+    market.chainId,
   );
 
   const {
@@ -353,7 +341,7 @@ export function SwapWidget({
     TradeType.EXACT_INPUT,
     '1',
     market,
-    safeOutcomeIndex
+    safeOutcomeIndex,
   );
 
   const requiredAmount = quoteData?.trade
@@ -381,7 +369,7 @@ export function SwapWidget({
   const { data: collateralBalance = 0n } = useTokenBalance(
     account,
     mode === 'sell' ? selectedCollateral.address : undefined,
-    market.chainId
+    market.chainId,
   );
 
   const mintToCover = useMintToCover({
@@ -429,7 +417,7 @@ export function SwapWidget({
   const { data: creditsManagerBalance } = useTokenBalance(
     creditsManagerAddress,
     tradeTokenIn?.address as `0x${string}` | undefined,
-    market.chainId
+    market.chainId,
   );
 
   const insufficientCreditsLiquidity =
@@ -471,7 +459,7 @@ export function SwapWidget({
     toastifyTx,
     market,
     effectiveQuote?.psm3Leg,
-    completeSetLeg
+    completeSetLeg,
   );
 
   const needsTokenApproval =
@@ -490,20 +478,20 @@ export function SwapWidget({
 
   const outcomeOptions: readonly Token[] = React.useMemo(
     () => outcomeTokens,
-    [outcomeTokens]
+    [outcomeTokens],
   );
 
   const { data: outcomeShares = 0n } = useTokenBalance(
     account,
     outcomeToken?.address,
-    market.chainId
+    market.chainId,
   );
 
   const payBalanceRaw = mode === 'buy' ? balance : outcomeShares;
 
   const payDecimals =
     mode === 'buy'
-      ? selectedCollateral?.decimals ?? 18
+      ? (selectedCollateral?.decimals ?? 18)
       : WRAPPED_OUTCOME_TOKEN_DECIMALS;
 
   const payBalanceHuman = Number(formatUnits(payBalanceRaw, payDecimals));
@@ -513,7 +501,7 @@ export function SwapWidget({
       const value = (payBalanceHuman * pct) / 100;
       setAmount(value <= 0 ? '0' : value.toFixed(4).replace(/\.?0+$/, ''));
     },
-    [payBalanceHuman]
+    [payBalanceHuman],
   );
 
   const addBuyAmount = React.useCallback((delta: number) => {
@@ -535,7 +523,7 @@ export function SwapWidget({
     mode === 'buy'
       ? account
         ? Number(
-            formatUnits(balance, selectedCollateral?.decimals ?? 18)
+            formatUnits(balance, selectedCollateral?.decimals ?? 18),
           ).toLocaleString(undefined, {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
@@ -543,7 +531,7 @@ export function SwapWidget({
         : '0.00'
       : account
         ? Number(
-            formatUnits(outcomeShares, WRAPPED_OUTCOME_TOKEN_DECIMALS)
+            formatUnits(outcomeShares, WRAPPED_OUTCOME_TOKEN_DECIMALS),
           ).toLocaleString(undefined, {
             minimumFractionDigits: 2,
             maximumFractionDigits: 4,
@@ -571,24 +559,24 @@ export function SwapWidget({
   const avgPriceDisplay =
     avgPrice != null
       ? `${avgPrice.toFixed(4)} ${selectedCollateral?.symbol ?? ''}`
-      : '—';
+      : '–';
 
   const mapTokenToIndex = React.useCallback(
     (token: Token): number => {
       const addr = token.address.toLowerCase();
       const idx = outcomeTokens.findIndex(
-        (t) => t.address.toLowerCase() === addr
+        (t) => t.address.toLowerCase() === addr,
       );
       return idx >= 0 ? idx : 0;
     },
-    [outcomeTokens]
+    [outcomeTokens],
   );
 
   const handleSelectOutcome = React.useCallback(
     (token: Token) => {
       onOutcomeIndexChange(mapTokenToIndex(token));
     },
-    [mapTokenToIndex, onOutcomeIndexChange]
+    [mapTokenToIndex, onOutcomeIndexChange],
   );
 
   const handleApprove = React.useCallback(async () => {
@@ -614,7 +602,7 @@ export function SwapWidget({
 
   const handleSwitchNetwork = React.useCallback(
     () => switchChain({ chainId: market.chainId }),
-    [switchChain, market.chainId]
+    [switchChain, market.chainId],
   );
 
   const sellTokenSymbol = sellToken?.symbol ?? undefined;
@@ -655,7 +643,7 @@ export function SwapWidget({
       isTradePending,
       executeTrade,
       isTradingCreditsCollateral,
-    ]
+    ],
   );
 
   const submitLabel = (() => {
@@ -665,7 +653,8 @@ export function SwapWidget({
     if (!amount || Number(amount) <= 0) return 'Enter an amount';
     if (quoteIsLoading) return 'Getting quote…';
     if (quoteError) return 'Quote unavailable';
-    if (insufficientBalance || mintToCoverBlocked) return 'Insufficient balance';
+    if (insufficientBalance || mintToCoverBlocked)
+      return 'Insufficient balance';
     if (insufficientCreditsLiquidity) return 'Credits unavailable';
     if (!quoteData?.trade) return 'Enter an amount';
     if (isMintToCover) return 'Mint & Sell';
@@ -688,15 +677,13 @@ export function SwapWidget({
   const receiveUnit = mode === 'buy' ? 'Shares' : collateralSymbol;
 
   return (
-    <div
-      className={`lot-panel p-6 md:p-8 ${isDisabled ? 'opacity-90' : ''}`}
-    >
+    <div className={`lot-panel p-6 md:p-8 ${isDisabled ? 'opacity-90' : ''}`}>
       <div className="mb-5 flex justify-start border-b border-edge">
         <div className="flex" role="group" aria-label="Trade mode">
           <button
             type="button"
             onClick={() => setTradeMode('buy')}
-            className={`relative -mb-px px-4 pb-3 text-xs font-semibold uppercase tracking-[0.08em] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up ${
+            className={`relative -mb-px px-4 pb-3 text-xs font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up ${
               mode === 'buy'
                 ? 'border-b-2 border-up text-up'
                 : 'border-b-2 border-transparent text-muted hover:text-paper'
@@ -707,7 +694,7 @@ export function SwapWidget({
           <button
             type="button"
             onClick={() => setTradeMode('sell')}
-            className={`relative -mb-px px-4 pb-3 text-xs font-semibold uppercase tracking-[0.08em] transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up ${
+            className={`relative -mb-px px-4 pb-3 text-xs font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up ${
               mode === 'sell'
                 ? 'border-b-2 border-up text-up'
                 : 'border-b-2 border-transparent text-muted hover:text-paper'
@@ -745,8 +732,8 @@ export function SwapWidget({
       )}
 
       <form className="space-y-5" onSubmit={onFormSubmit}>
-        <div className="flex flex-col gap-2">
-          <label className={labelClass}>Outcome</label>
+        <div className="seer-field">
+          <span className={labelClass}>Outcome</span>
           {outcomeToken ? (
             <TokensDropdown
               layout="block"
@@ -762,10 +749,10 @@ export function SwapWidget({
         </div>
 
         {canChooseCollateral ? (
-          <div className="flex flex-col gap-2">
-            <label className={labelClass} id="collateral-label">
+          <div className="seer-field">
+            <span className={labelClass} id="collateral-label">
               {mode === 'buy' ? 'Pay with' : 'Receive as'}
-            </label>
+            </span>
             <TokensDropdown
               layout="block"
               options={collateralOptions}
@@ -775,18 +762,20 @@ export function SwapWidget({
           </div>
         ) : null}
 
-        <div className="flex flex-col gap-2">
+        <div className="seer-field">
           <div className="flex items-end justify-between gap-3">
             <label htmlFor="trade-amount" className={labelClass}>
               {amountLabel}
             </label>
-            <span className="text-xs font-semibold uppercase tracking-[0.08em] text-paper">
+            <span className="text-xs font-semibold text-paper">
               Bal: {payBalance}
             </span>
           </div>
           <div
             className={`${amountFieldClass} ${isDisabled ? 'opacity-60' : ''} ${
-              amountHasProblem ? '!border-down/50 focus-within:!border-down' : ''
+              amountHasProblem
+                ? '!border-down/50 focus-within:!border-down'
+                : ''
             }`}
           >
             <input
@@ -799,6 +788,7 @@ export function SwapWidget({
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               disabled={isDisabled}
+              aria-invalid={amountHasProblem || undefined}
               className={amountInputClass}
             />
             <span className={amountUnitClass} title={amountUnit}>
@@ -815,7 +805,7 @@ export function SwapWidget({
                     disabled={isDisabled}
                     className={presetBtnClass}
                   >
-                    +{n}
+                    <span>+{n}</span>
                   </button>
                 ))
               : SELL_PRESETS.map((p) => (
@@ -849,8 +839,10 @@ export function SwapWidget({
         <div className="flex flex-col gap-2.5 border-t border-edge pt-4">
           <div className="flex justify-between gap-3">
             <span className={labelClass}>{receiveLabel}</span>
-            <span className="font-mono text-sm font-semibold tabular-nums text-paper">
-              {quoteIsLoading && Number(amount) > 0 ? '…' : displayReceiveAmount}{' '}
+            <span className="font-sans text-sm font-semibold tabular-nums text-paper">
+              {quoteIsLoading && Number(amount) > 0
+                ? '…'
+                : displayReceiveAmount}{' '}
               <span className="text-muted">{receiveUnit}</span>
             </span>
           </div>
@@ -863,25 +855,24 @@ export function SwapWidget({
                   .map((l) => l.token.symbol)
                   .join(', ')}
               >
-                <span className="font-mono tabular-nums">
+                <span className="font-sans tabular-nums">
                   {formatShares(completeSetLeg.splitAmount ?? 0n)}
                 </span>{' '}
                 <span className="text-muted">
-                  of each other outcome (
-                  {completeSetLeg.leftoverTokens.length})
+                  of each other outcome ({completeSetLeg.leftoverTokens.length})
                 </span>
               </span>
             </div>
           ) : null}
           <div className="flex justify-between gap-3">
             <span className={labelClass}>Avg price</span>
-            <span className="font-mono text-sm font-semibold text-paper">
+            <span className="font-sans text-sm font-semibold text-paper">
               {avgPriceDisplay}
             </span>
           </div>
           <div className="flex justify-between gap-3">
             <span className={labelClass}>Slippage</span>
-            <span className="font-mono text-sm font-semibold text-paper">
+            <span className="font-sans text-sm font-semibold text-paper">
               0.5%
             </span>
           </div>
@@ -914,7 +905,9 @@ export function SwapWidget({
           >
             {isSwitchPending ? 'Switching…' : 'Change network'}
           </button>
-        ) : !insufficientBalance && !mintToCoverBlocked && needsTokenApproval ? (
+        ) : !insufficientBalance &&
+          !mintToCoverBlocked &&
+          needsTokenApproval ? (
           <button
             type="button"
             onClick={() => {

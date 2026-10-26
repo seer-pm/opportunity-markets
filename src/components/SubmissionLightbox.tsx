@@ -57,7 +57,7 @@ function PortfolioImage({
             setFailed(false);
             setRetryKey((k) => k + 1);
           }}
-          className="rounded-control bg-brand px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.08em] text-paper transition-colors hover:bg-up focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
+          className="seer-button seer-button-primary"
         >
           Retry
         </button>
@@ -120,7 +120,7 @@ export function SubmissionLightbox({
       }
       if (event.key === 'Tab' && dialogRef.current) {
         const focusable = dialogRef.current.querySelectorAll<HTMLElement>(
-          'button:not([disabled]), [href], [tabindex]:not([tabindex="-1"])'
+          'button:not([disabled]), [href], [tabindex]:not([tabindex="-1"])',
         );
         if (focusable.length === 0) return;
         const first = focusable[0];
@@ -158,7 +158,7 @@ export function SubmissionLightbox({
         role="dialog"
         aria-modal="true"
         aria-label={`${title} images`}
-        className="lot-panel relative flex max-h-[min(92vh,900px)] w-full max-w-5xl flex-col overflow-hidden shadow-panel"
+        className="seer-dialog-panel lot-panel relative flex max-h-[min(92vh,900px)] w-full max-w-5xl flex-col overflow-hidden shadow-panel"
       >
         <div className="flex shrink-0 items-center justify-between gap-4 border-b border-edge px-5 py-4">
           <h2 className="min-w-0 truncate font-display text-lg font-semibold text-paper">
@@ -168,7 +168,7 @@ export function SubmissionLightbox({
             ref={closeRef}
             type="button"
             onClick={onClose}
-            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-control border border-paper/15 text-paper transition-colors hover:border-up/40 hover:text-up focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
+            className="seer-button seer-button-ghost seer-button-icon shrink-0"
             aria-label="Close images"
           >
             <CloseIcon />
@@ -192,7 +192,7 @@ export function SubmissionLightbox({
         </div>
       </div>
     </div>,
-    document.body
+    document.body,
   );
 }
 

@@ -1,128 +1,103 @@
 import type { Market } from '@seer-pm/sdk';
-import clsx from 'clsx';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import type { IOutcomeData } from './MarketChart';
 
 interface LegendProps {
   outcomesData: IOutcomeData[];
-  visibleOutcomes: Set<string>;
-  onToggleOutcome: (outcomeName: string) => void;
+  followed: Array<string | null>;
+  onToggleOutcome: (name: string) => void;
   market: Market;
 }
 
 export default function Legend({
   outcomesData,
-  visibleOutcomes,
+  followed,
   onToggleOutcome,
   market,
 }: LegendProps) {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
-
-  const checkScrollButtons = () => {
-    if (scrollContainerRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
-      setCanScrollLeft(scrollLeft > 0);
-      setCanScrollRight(scrollLeft < scrollWidth - clientWidth);
-    }
-  };
-
-  const scrollLeft = () => {
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current;
-      container.scrollBy({ left: -container.clientWidth, behavior: 'smooth' });
-    }
-  };
-
-  const scrollRight = () => {
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current;
-      container.scrollBy({ left: container.clientWidth, behavior: 'smooth' });
-    }
-  };
-
-  useEffect(() => {
-    checkScrollButtons();
-    const container = scrollContainerRef.current;
-    if (container) {
-      container.addEventListener('scroll', checkScrollButtons);
-      return () => container.removeEventListener('scroll', checkScrollButtons);
-    }
-  }, [outcomesData]);
-
-  if (outcomesData.length === 0) {
-    return null;
-  }
-
+  const [query, setQuery] = useState('');
+  const needle = query.trim().toLowerCase();
+  const count = followed.filter(Boolean).length;
+  const options = outcomesData.filter(
+    (item) => !needle || item.outcome.name.toLowerCase().includes(needle),
+  );
+  const sorted = [...options].sort(
+    (a, b) =>
+      Number(followed.includes(b.outcome.name)) -
+      Number(followed.includes(a.outcome.name)),
+  );
   return (
-    <div className="relative flex items-center pr-16">
+    <div className="space-y-3">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <p className="text-sm text-muted">
+          Following{' '}
+          <span className="font-semibold text-paper">{count} of 4</span>
+        </p>
+        {outcomesData.length > 4 && (
+          <input
+            type="search"
+            className="seer-input sm:max-w-64"
+            aria-label="Search chart outcomes"
+            placeholder={`Search ${outcomesData.length} chart outcomes`}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        )}
+      </div>
       <div
-        ref={scrollContainerRef}
-        className="flex gap-2 overflow-x-auto scrollbar-hide"
-        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        className="grid max-h-44 grid-cols-1 gap-1 overflow-y-auto sm:grid-cols-2"
+        role="group"
+        aria-label="Chart series"
       >
-        {outcomesData.map(({ outcome, data }, index) => {
-          const isVisible = visibleOutcomes.has(outcome.name);
-          const lastValue = data.slice(-1)?.[0]?.value;
-          const decimalPlaces = market.type === 'Futarchy' ? 3 : 1;
-          const formattedValue = lastValue
-            ? lastValue % 1 === 0
-              ? `${lastValue}%`
-              : `${lastValue.toFixed(decimalPlaces)}%`
-            : '0%';
-
+        {sorted.slice(0, 12).map(({ outcome, data }) => {
+          const slot = followed.indexOf(outcome.name);
+          const selected = slot >= 0;
+          const value = data[data.length - 1]?.value;
           return (
             <button
-              key={`item-${index}`}
+              key={outcome.name}
               type="button"
+              aria-pressed={selected}
+              aria-label={`Follow ${outcome.name}`}
+              disabled={!selected && count === 4}
+              title={
+                !selected && count === 4
+                  ? 'Unfollow one outcome to follow another.'
+                  : undefined
+              }
               onClick={() => onToggleOutcome(outcome.name)}
-              className="flex cursor-pointer items-center justify-center gap-1.5 whitespace-nowrap rounded-control px-2.5 py-1 text-xs transition-colors hover:bg-wall focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
+              className="seer-button seer-button-ghost min-w-0 justify-start px-2 text-left disabled:opacity-60"
             >
-              <div
-                className="h-2 w-2 flex-shrink-0 rounded-full"
+              <span
+                aria-hidden
+                className="h-2 w-2 shrink-0 rounded-full"
                 style={{
-                  backgroundColor: isVisible ? outcome.color : '#7e8a9e',
-                  opacity: isVisible ? 1 : 0.6,
+                  background: selected
+                    ? `var(--seer-series-${slot + 1})`
+                    : 'var(--seer-muted)',
                 }}
               />
-              <span className="max-w-[200px] truncate text-paper">
+              <span className="min-w-0 flex-1 truncate text-[13px] text-paper">
                 {outcome.name}
               </span>
-              <span className="font-semibold text-muted">
-                {formattedValue}
+              <span className="shrink-0 text-[13px] text-paper">
+                {value == null
+                  ? 'N/A'
+                  : `${value.toFixed(market.type === 'Futarchy' ? 3 : 1)}%`}
               </span>
             </button>
           );
         })}
       </div>
-
-      <div className="absolute right-0 flex gap-1">
-        <button
-          type="button"
-          onClick={scrollLeft}
-          disabled={!canScrollLeft}
-          className={clsx(
-            'flex h-6 w-6 items-center justify-center transition-opacity',
-            !canScrollLeft && 'cursor-not-allowed opacity-30'
-          )}
-          aria-label="Scroll legend left"
-        >
-          <div className="h-0 w-0 border-b-[5px] border-r-[7px] border-t-[5px] border-b-transparent border-r-muted border-t-transparent" />
-        </button>
-        <button
-          type="button"
-          onClick={scrollRight}
-          disabled={!canScrollRight}
-          className={clsx(
-            'flex h-6 w-6 items-center justify-center transition-opacity',
-            !canScrollRight && 'cursor-not-allowed opacity-30'
-          )}
-          aria-label="Scroll legend right"
-        >
-          <div className="h-0 w-0 border-b-[5px] border-l-[7px] border-t-[5px] border-b-transparent border-l-muted border-t-transparent" />
-        </button>
-      </div>
+      {options.length === 0 && (
+        <p className="text-sm text-muted">No matching chart outcomes.</p>
+      )}
+      {outcomesData.length > 4 && (
+        <p className="text-xs text-muted">
+          Other chart outcomes stay in muted context. Unfollow one to choose
+          another.
+        </p>
+      )}
     </div>
   );
 }

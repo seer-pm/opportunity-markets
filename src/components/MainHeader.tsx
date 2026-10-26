@@ -1,34 +1,13 @@
 import * as React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ConnectKitButton } from 'connectkit';
-import { SeerLogo } from './SeerLogo';
+import { BrandLockup, ThemeToggle } from '@seer-pm/ui-kit/react';
+import { useTheme } from '../hooks/useTheme';
 
-export const HEADER_CONFIG = {
-  connectWalletLabel: 'Connect wallet',
-};
+export const HEADER_CONFIG = { connectWalletLabel: 'Connect wallet' };
 
-function truncateAddress(address: string, chars = 6): string {
-  return `${address.slice(0, chars)}...${address.slice(-4)}`;
-}
-
-function SectionLink({
-  hash,
-  children,
-}: {
-  hash: string;
-  children: React.ReactNode;
-}) {
-  const location = useLocation();
-  const to = location.pathname === '/' ? hash : `/${hash}`;
-
-  return (
-    <a
-      href={to}
-      className="text-sm font-medium text-paper/80 transition-colors hover:text-paper focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
-    >
-      {children}
-    </a>
-  );
+function truncateAddress(address: string): string {
+  return `${address.slice(0, 6)}...${address.slice(-4)}`;
 }
 
 export interface MainHeaderProps {
@@ -36,34 +15,41 @@ export interface MainHeaderProps {
 }
 
 export const MainHeader: React.FC<MainHeaderProps> = ({ className = '' }) => {
+  const { theme, toggleTheme } = useTheme();
+  const { pathname } = useLocation();
   return (
     <header
-      className={`sticky top-0 z-50 border-b border-edge/60 bg-wall/90 backdrop-blur-md ${className}`}
+      className={`sticky top-0 z-50 border-b border-edge bg-wall ${className}`}
     >
-      <div className="mx-auto flex w-full max-w-shell items-center justify-between gap-4 px-6 py-4 lg:px-10">
+      <div className="mx-auto flex w-full max-w-shell flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3 sm:px-6 lg:min-h-[72px] lg:flex-nowrap lg:px-10 lg:py-0">
         <Link
           to="/"
           aria-label="Seer Opportunity Markets home"
-          className="flex min-w-0 items-center gap-2.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
+          className="mr-auto shrink-0 rounded-control"
         >
-          <SeerLogo variant="mark" />
-          <span className="font-display text-base font-semibold tracking-tight text-paper">
-            Seer
-          </span>
-          <span className="rounded-full bg-brand/80 px-2 py-0.5 text-xs font-semibold uppercase tracking-[0.1em] text-up">
-            Beta
-          </span>
+          <BrandLockup appName="Opportunity Markets" />
         </Link>
-
-        <div className="flex items-center gap-4 sm:gap-6">
+        <div className="flex w-full items-center gap-2 lg:w-auto">
           <nav
-            className="hidden items-center gap-5 sm:flex"
-            aria-label="Page sections"
+            className="mr-auto flex items-center gap-1 lg:mr-3"
+            aria-label="Pages"
           >
-            <SectionLink hash="#pilot">The pilot</SectionLink>
-            <SectionLink hash="#protocol">The protocol</SectionLink>
+            <Link
+              to="/"
+              aria-current={pathname === '/' ? 'page' : undefined}
+              className={`seer-button seer-button-ghost seer-button-sm ${pathname === '/' ? 'bg-seer-accent-soft text-up' : ''}`}
+            >
+              Markets
+            </Link>
+            <Link
+              to="/archive"
+              aria-current={pathname === '/archive' ? 'page' : undefined}
+              className={`seer-button seer-button-ghost seer-button-sm ${pathname === '/archive' ? 'bg-seer-accent-soft text-up' : ''}`}
+            >
+              Archive
+            </Link>
           </nav>
-
+          <ThemeToggle theme={theme} onToggle={toggleTheme} />
           <ConnectKitButton.Custom>
             {({
               isConnected,
@@ -77,15 +63,13 @@ export const MainHeader: React.FC<MainHeaderProps> = ({ className = '' }) => {
               <button
                 type="button"
                 onClick={() => show?.()}
-                className={
-                  isConnected
-                    ? 'inline-flex items-center rounded-full border border-up/40 bg-transparent px-4 py-2 text-xs font-semibold tracking-wide text-paper transition-colors hover:border-up hover:text-up focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up'
-                    : 'inline-flex items-center rounded-full bg-brand px-4 py-2 text-xs font-semibold tracking-wide text-paper transition-colors hover:bg-up focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up'
-                }
+                className={`seer-button ${isConnected ? 'seer-button-outline font-mono' : 'seer-button-primary'}`}
               >
-                {isConnected && address
-                  ? truncateAddress(address)
-                  : HEADER_CONFIG.connectWalletLabel}
+                <span>
+                  {isConnected && address
+                    ? truncateAddress(address)
+                    : HEADER_CONFIG.connectWalletLabel}
+                </span>
               </button>
             )}
           </ConnectKitButton.Custom>

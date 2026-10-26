@@ -4,11 +4,11 @@
 
 ## Features
 
-- **Home** — browse markets from the Seer API with active/all filters
-- **Market detail** — outcomes, status, liquidity, and on-chain trading via `@seer-pm/react`
-- **Price charts** — outcome probability history with `lightweight-charts`
-- **Wallet connect** — ConnectKit + wagmi (Gnosis by default)
-- **Styling** — Tailwind CSS; ready to retheme for your vertical
+- **Home**: browse live markets from the Seer API; finalized markets have their own archive
+- **Market detail**: outcomes, status, liquidity, and on-chain trading via `@seer-pm/react`
+- **Price charts**: outcome probability history with `lightweight-charts`
+- **Wallet connect**: ConnectKit + wagmi (Gnosis by default)
+- **Styling**: Electric Foundation from the shared `@seer-pm/ui-kit`, with system-aware light and dark themes
 
 ## Tech stack
 
@@ -45,7 +45,7 @@ Edit `.env` and set your [Reown](https://dashboard.reown.com) (WalletConnect) pr
 VITE_REOWN_PROJECT_ID=your_project_id_here
 ```
 
-Optional — custom Gnosis RPC (defaults to public endpoints if unset):
+Optional: custom Gnosis RPC (defaults to public endpoints if unset):
 
 ```env
 VITE_GNOSIS_RPC_URL=https://your-rpc.example.com
@@ -113,7 +113,7 @@ The app does **not** serve those files from disk. It imports `submissions/ipfs-m
 
 `submissions/.gitignore` ignores all asset subfolders (`*/`) and `*.log`. Tooling scripts (`*.js`, `*.sh`) and `ipfs-manifest.json` stay in git.
 
-After upload, each file is recorded in the manifest (`name`, `localPath`, `ipfsPath`). Binaries no longer need to live in the repo or on disk — IPFS + the manifest are the source of truth.
+After upload, each file is recorded in the manifest (`name`, `localPath`, `ipfsPath`). Binaries no longer need to live in the repo or on disk: IPFS + the manifest are the source of truth.
 
 ### Processing scripts
 
@@ -150,11 +150,11 @@ The script scans only that subdirectory and **skips** any `localPath` already in
 
 Typical steps when forking for a new site:
 
-1. **Branding** — update copy in `src/pages/Home.tsx`, `src/components/MainHeader.tsx`, `src/components/Footer.tsx`, and `index.html` (`<title>`).
-2. **Wallet app info** — edit `appName`, `appDescription`, and `appIcon` in `src/config/wagmi.ts`.
-3. **Default chain** — change `DEFAULT_MARKET_CHAIN_ID` in `src/config/market.ts` (must match a chain supported by `@seer-pm/sdk`).
-4. **Theme** — adjust design tokens in `tailwind.config.js` and `src/index.css`.
-5. **Deploy** — build with `yarn build` and host `dist/`. For SPA routing on Netlify, `public/_redirects` is already configured.
+1. **Branding**: update copy in `src/pages/Home.tsx`, `src/components/MainHeader.tsx`, `src/components/Footer.tsx`, and `index.html` (`<title>`).
+2. **Wallet app info**: edit `appName`, `appDescription`, and `appIcon` in `src/config/wagmi.ts`.
+3. **Default chain**: change `DEFAULT_MARKET_CHAIN_ID` in `src/config/market.ts` (must match a chain supported by `@seer-pm/sdk`).
+4. **Theme**: map local semantic roles in `tailwind.config.js` and `src/index.css` onto the kit. Change shared values in the kit, never in the site.
+5. **Deploy**: build with `yarn build` and host `dist/`. For SPA routing on Netlify, `public/_redirects` is already configured.
 
 ## Seer integration
 
@@ -163,3 +163,16 @@ This starter uses official Seer packages for markets, quotes, and trades. For pr
 ## License
 
 [MIT](LICENSE)
+
+
+## Electric Foundation
+
+The app vendors `@seer-pm/ui-kit` 0.4.0 in `vendor/` until the package is published. The kit owns brand values, Open Sans, radii, lockup, footer, line motif, controls and theme toggle. `tailwind.config.js` preserves this app's semantic names over kit variables. Its content paths include the kit's compiled React files; dynamic icon names are safelisted so Tailwind 3 keeps their mask styles.
+
+To update the tarball, build the kit in the Seer monorepo and run `npm pack --pack-destination /path/to/seer-opportunity/vendor` from `packages/seer-pm-ui-kit`. Update the file dependency and run `yarn install`. Once published, replace that dependency with the matching npm version and remove the tarball.
+
+Theme preference uses `seer-opportunity-theme` in localStorage. The head applies it before first paint. The app follows the system until a manual choice; ConnectKit receives the same mode and resolved kit colors, font and radii. Charts read the kit's CSS values again when the theme changes, retain four stable color slots, and draw other available histories in muted context. The naming chart retains its existing top-ten-history fetch policy.
+
+The existing portaled submission lightbox stays in place to preserve transaction toast interaction. All product artwork comes from the existing submission manifest. Head PNG icons are copied from `seer-landing/landing/public/assets/head`; source provenance is embedded in those files.
+
+Validation evidence and production/final screenshots are local under `.impeccable/review/` and ignored by git. The repository currently has no test command or test suite, and `yarn lint` cannot start because ESLint 9 has no config. `yarn build` includes TypeScript and production bundling. Browser checks cover themes, navigation, outcome selection and search, trade controls, chart following, wallet appearance and contrast. Signing real transactions requires a connected wallet.

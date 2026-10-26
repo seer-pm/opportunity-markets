@@ -2,3 +2,5 @@ node_modules
 dist
 .env
 tsconfig.tsbuildinfo
+# Local design captures and review evidence
+.impeccable/

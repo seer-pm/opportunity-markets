@@ -34,10 +34,11 @@ function DiscussionButton({
       type={type}
       disabled={disabled || isLoading}
       onClick={onClick}
+      aria-busy={isLoading || undefined}
       className={
         isPrimary
-          ? 'inline-flex items-center justify-center rounded-control bg-brand px-4 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-paper transition-colors hover:bg-up disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up'
-          : 'inline-flex items-center justify-center rounded-control border border-paper/15 bg-transparent px-4 py-2 text-xs font-semibold uppercase tracking-[0.08em] text-paper transition-colors hover:border-up/40 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up'
+          ? 'seer-button seer-button-primary seer-button-sm'
+          : 'seer-button seer-button-outline seer-button-sm'
       }
     >
       {isLoading ? '…' : buttonLabel(children)}
@@ -62,7 +63,7 @@ export default function MarketDiscussion({ market }: { market: Market }) {
           return isAccessTokenExpired(token) ? '' : token;
         },
       }),
-    [market.id, market.chainId]
+    [market.id, market.chainId],
   );
 
   const user = isSignedIn && address ? userFromAddress(address) : null;
@@ -77,9 +78,7 @@ export default function MarketDiscussion({ market }: { market: Market }) {
 
   return (
     <div className="lot-panel p-6">
-      <h2 className="mb-4 text-xs font-semibold uppercase tracking-[0.08em] text-muted">
-        Discussion
-      </h2>
+      <h2 className="mb-4 text-lg font-semibold text-paper">Discussion</h2>
       <Discussion
         client={client}
         user={user}
