@@ -115,8 +115,10 @@ function OutcomeCard({
   const hasImages = (assets?.images.length ?? 0) > 0;
   const hasPdf = Boolean(assets?.pdfUrl);
   const hasPortfolio = Boolean(assets?.portfolioUrl);
+  const hasDetail = Boolean(assets?.detail);
   const hasBothAssets = hasImages && hasPdf;
-  const showMeta = hasImages || hasPdf || hasPortfolio || account != null;
+  const showMeta =
+    hasImages || hasPdf || hasPortfolio || hasDetail || account != null;
   const proposalLinkClass =
     'inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-[0.08em] text-paper underline decoration-paper/35 underline-offset-[3px] transition-colors hover:text-up hover:decoration-up focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up';
 
@@ -170,7 +172,7 @@ function OutcomeCard({
                 View proposal ↗
               </a>
             ) : null}
-            {hasImages && assets ? (
+            {(hasImages || hasDetail) && assets ? (
               <button
                 type="button"
                 onClick={(event) => {
@@ -179,7 +181,11 @@ function OutcomeCard({
                 }}
                 className={proposalLinkClass}
               >
-                {hasBothAssets || hasPortfolio ? 'View images' : 'View proposal'}
+                {hasDetail
+                  ? 'View submission'
+                  : hasBothAssets || hasPortfolio
+                    ? 'View images'
+                    : 'View proposal'}
                 <ImageIcon />
               </button>
             ) : null}
@@ -229,6 +235,7 @@ export const MarketOutcomes: React.FC<MarketOutcomesProps> = ({
   const [lightbox, setLightbox] = React.useState<{
     title: string;
     images: SubmissionAssets['images'];
+    detail?: SubmissionAssets['detail'];
   } | null>(null);
 
   const outcomes = React.useMemo(
@@ -281,7 +288,7 @@ export const MarketOutcomes: React.FC<MarketOutcomesProps> = ({
   }, [isLong, ranked, needle, expanded, selectedOutcomeIndex]);
 
   function onViewImages(label: string, assets: SubmissionAssets) {
-    setLightbox({ title: label, images: assets.images });
+    setLightbox({ title: label, images: assets.images, detail: assets.detail });
   }
 
   return (
@@ -354,6 +361,7 @@ export const MarketOutcomes: React.FC<MarketOutcomesProps> = ({
         open={lightbox != null}
         title={lightbox?.title ?? ''}
         images={lightbox?.images ?? []}
+        detail={lightbox?.detail}
         onClose={() => setLightbox(null)}
       />
     </section>

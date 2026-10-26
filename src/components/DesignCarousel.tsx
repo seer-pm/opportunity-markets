@@ -3,10 +3,13 @@ import { Link } from 'react-router-dom';
 import type { Market } from '@seer-pm/sdk';
 import {
   getMarketCarouselSlides,
+  getOutcomeSubmissionAssets,
   marketPath,
   type CarouselSlide,
+  type SubmissionAssets,
 } from '../config/submissions';
 import { imageNeedsLightBackground } from '../utils/imageNeedsLightBackground';
+import SubmissionLightbox from './SubmissionLightbox';
 
 export type DesignCarouselProps = {
   readonly market: Market;
@@ -59,6 +62,9 @@ function SlideImage({
   readonly onLightBgChange: (needsLight: boolean) => void;
 }) {
   const [failed, setFailed] = React.useState(false);
+  // Hosts without CORS headers refuse `crossOrigin` loads; retry without it
+  // and give up the light-background check for that image.
+  const [cors, setCors] = React.useState(true);
   const imgRef = React.useRef<HTMLImageElement>(null);
 
   const resolveLightBg = React.useCallback(
@@ -78,6 +84,7 @@ function SlideImage({
 
   React.useEffect(() => {
     setFailed(false);
+    setCors(true);
     onLightBgChange(lightBg === 'force');
     const img = imgRef.current;
     if (img?.complete && img.naturalWidth > 0) {
@@ -95,15 +102,22 @@ function SlideImage({
 
   return (
     <img
+      key={`${url}-${cors}`}
       ref={imgRef}
       src={url}
       alt={alt}
-      crossOrigin="anonymous"
+      crossOrigin={cors ? 'anonymous' : undefined}
       loading="lazy"
       decoding="async"
       className="h-full w-full object-cover object-center"
-      onLoad={(event) => resolveLightBg(event.currentTarget)}
+      onLoad={(event) => {
+        if (cors) resolveLightBg(event.currentTarget);
+      }}
       onError={() => {
+        if (cors) {
+          setCors(false);
+          return;
+        }
         setFailed(true);
         onLightBgChange(false);
       }}
@@ -138,24 +152,24 @@ function SlideSurface({
   slide,
   variant,
   selected,
-  onSelectOutcome,
+  onSelect,
   children,
 }: {
   readonly slide: CarouselSlide;
   readonly variant: 'home' | 'detail';
   readonly selected: boolean;
-  readonly onSelectOutcome?: (outcomeIndex: number) => void;
+  readonly onSelect?: (slide: CarouselSlide) => void;
   readonly children: React.ReactNode;
 }) {
   const shellClass = selected
     ? 'group/slide flex h-full w-full flex-col overflow-hidden rounded-panel border border-up/40 bg-wall shadow-lot transition-[border-color] hover:border-up/55 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up'
     : 'group/slide flex h-full w-full flex-col overflow-hidden rounded-panel border border-edge bg-wall transition-[border-color] hover:border-up/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up';
 
-  if (variant === 'detail' && onSelectOutcome) {
+  if (variant === 'detail' && onSelect) {
     return (
       <button
         type="button"
-        onClick={() => onSelectOutcome(slide.outcomeIndex)}
+        onClick={() => onSelect(slide)}
         aria-pressed={selected}
         aria-label={`Select outcome ${slide.label}`}
         className={`${shellClass} text-left`}
@@ -188,6 +202,37 @@ export function DesignCarousel({
     () => getMarketCarouselSlides(market),
     [market]
   );
+
+  // Outcomes with submitted text, in carousel order, browsable in the modal.
+  const entries = React.useMemo(() => {
+    const list: { outcomeIndex: number; title: string; assets: SubmissionAssets }[] = [];
+    for (const slide of slides) {
+      if (list.some((e) => e.outcomeIndex === slide.outcomeIndex)) continue;
+      const assets = getOutcomeSubmissionAssets(market.id, slide.label);
+      if (assets?.detail) {
+        list.push({ outcomeIndex: slide.outcomeIndex, title: slide.label, assets });
+      }
+    }
+    return list;
+  }, [slides, market.id]);
+  const [openEntry, setOpenEntry] = React.useState<number | null>(null);
+  const current = openEntry != null ? entries[openEntry] : undefined;
+
+  // Select the outcome; when the entry has submitted text, also open it.
+  const onSelect = onSelectOutcome
+    ? (slide: CarouselSlide) => {
+        onSelectOutcome(slide.outcomeIndex);
+        const i = entries.findIndex((e) => e.outcomeIndex === slide.outcomeIndex);
+        if (i >= 0) setOpenEntry(i);
+      }
+    : undefined;
+
+  const browse = (step: -1 | 1) => {
+    if (openEntry == null) return;
+    const next = (openEntry + step + entries.length) % entries.length;
+    setOpenEntry(next);
+    onSelectOutcome?.(entries[next].outcomeIndex);
+  };
 
   const scrollerRef = React.useRef<HTMLUListElement>(null);
   const [canPrev, setCanPrev] = React.useState(false);
@@ -285,7 +330,7 @@ export function DesignCarousel({
                   slide={slide}
                   variant={variant}
                   selected={Boolean(selected)}
-                  onSelectOutcome={onSelectOutcome}
+                  onSelect={onSelect}
                 >
                   <SlideFrame slide={slide} />
                   <div className="border-t border-edge px-3 py-2.5">
@@ -320,6 +365,17 @@ export function DesignCarousel({
           </button>
         ) : null}
       </div>
+
+      <SubmissionLightbox
+        open={current != null}
+        title={current?.title ?? ''}
+        images={current?.assets.images ?? []}
+        detail={current?.assets.detail}
+        onPrev={entries.length > 1 ? () => browse(-1) : undefined}
+        onNext={entries.length > 1 ? () => browse(1) : undefined}
+        position={openEntry != null ? `${openEntry + 1} / ${entries.length}` : undefined}
+        onClose={() => setOpenEntry(null)}
+      />
     </section>
   );
 }

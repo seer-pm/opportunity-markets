@@ -1,5 +1,6 @@
 import type { Market } from '@seer-pm/sdk';
 import ipfsManifest from '../../submissions/ipfs-manifest.json';
+import submissionDetails from '../../submissions/submission-details.json';
 import { getMarketOverride, type MarketOverride } from './market';
 
 const IMAGE_EXT = /\.(png|jpe?g|gif|webp|svg)$/i;
@@ -13,11 +14,23 @@ export type ManifestFile = {
   ipfsPath: string;
 };
 
+/** Text a participant submitted with their entry (poidh claim, comment or form). */
+export type SubmissionDetail = {
+  title: string;
+  /** X handle, without the leading @. */
+  author?: string;
+  description: string;
+  /** Where the entry was submitted, e.g. "poidh claim #304". */
+  source?: string;
+  sourceUrl?: string;
+};
+
 export type SubmissionAssets = {
   submissionId: string;
   images: { name: string; url: string }[];
   pdfUrl?: string;
   portfolioUrl?: string;
+  detail?: SubmissionDetail;
 };
 
 export type CarouselSlide = {
@@ -37,7 +50,15 @@ type Manifest = {
   markets: Record<string, Record<string, ManifestFile[]>>;
 };
 
+type DetailsFile = {
+  markets: Record<
+    string,
+    Record<string, SubmissionDetail & { imageIpfsPath?: string; imageUrl?: string }>
+  >;
+};
+
 const manifest = ipfsManifest as Manifest;
+const details = submissionDetails as DetailsFile;
 
 function ipfsGatewayBase(): string {
   const fromEnv = import.meta.env.VITE_IPFS_GATEWAY?.trim();
@@ -112,11 +133,35 @@ function resolveCarouselLightBg(
   return undefined;
 }
 
+function getOutcomeDetailAssets(
+  override: MarketOverride,
+  outcomeTitle: string
+): SubmissionAssets | undefined {
+  const detailId =
+    override.details?.[outcomeTitle.trim()] ?? override.details?.[outcomeTitle];
+  const entry = detailId
+    ? details.markets[override.detailsMarket ?? '']?.[detailId]
+    : undefined;
+  if (!detailId || !entry) return undefined;
+
+  const { imageIpfsPath, imageUrl, ...detail } = entry;
+  const url = imageIpfsPath ? ipfsUrl(imageIpfsPath) : imageUrl;
+
+  return {
+    submissionId: detailId,
+    images: url ? [{ name: detail.title, url }] : [],
+    detail,
+  };
+}
+
 export function getOutcomeSubmissionAssets(
   marketId: string,
   outcomeTitle: string
 ): SubmissionAssets | undefined {
   const override = getMarketOverride(marketId);
+  if (override?.detailsMarket) {
+    return getOutcomeDetailAssets(override, outcomeTitle);
+  }
   const marketKey = override?.submissionsMarket;
   if (!marketKey) return undefined;
 
@@ -156,7 +201,7 @@ export function getOutcomeSubmissionAssets(
 export function getMarketCarouselSlides(market: Market): CarouselSlide[] {
   const override = getMarketOverride(market.id);
   const marketKey = override?.submissionsMarket;
-  if (!marketKey) return [];
+  if (!marketKey && !override?.detailsMarket) return [];
 
   const wrapped = market.wrappedTokens ?? [];
   const rawOutcomes = market.outcomes ?? [];
@@ -167,6 +212,28 @@ export function getMarketCarouselSlides(market: Market): CarouselSlide[] {
       typeof rawOutcomes[outcomeIndex] === 'string'
         ? (rawOutcomes[outcomeIndex] as string)
         : `Outcome ${outcomeIndex + 1}`;
+
+    if (override.detailsMarket) {
+      const { submissionId, images = [] } =
+        getOutcomeDetailAssets(override, label) ?? {};
+      if (!submissionId) continue;
+      for (const image of images) {
+        if (!isCarouselImageAllowed(override, submissionId, image.name)) continue;
+        slides.push({
+          key: `${market.id}-${outcomeIndex}-${image.name}`,
+          marketId: market.id,
+          chainId: market.chainId,
+          outcomeIndex,
+          label,
+          submissionId,
+          imageName: image.name,
+          imageUrl: image.url,
+          lightBg: resolveCarouselLightBg(override, submissionId, image.name),
+        });
+      }
+      continue;
+    }
+    if (!marketKey) continue;
 
     const submissionId = resolveSubmissionId(
       marketKey,
