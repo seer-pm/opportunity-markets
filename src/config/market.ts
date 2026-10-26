@@ -123,6 +123,21 @@ export const MARKET_OVERRIDES: Record<string, MarketOverride> = {
     ],
     finalOtherLabel: 'None of the listed names',
   },
+  '0x99dC260548aCaFE5fac7Fc81F4D4d01198161567': {
+    title: 'Seer Rebrand Contest Part II',
+    description:
+      'This market is used to choose which design Seer will adopt for its six interfaces, in Part II of the Seer Rebrand Contest.\n\nStarting from the Electric Foundation brand kit, each submission designs six connected interfaces: the Seer homepage, the Seer app, Deep, Futarchy, Opportunity Markets and Risk Pricing. Every eligible submission is listed as an outcome of this multicategorical market. Traders buy shares in the design they believe the team will pick. The Seer team votes to pick the winner and its vote is final, with market prices as the community signal.\n\nThe winning submission receives the 0.5 ETH poidh bounty plus 4,000 USDC from Seer. If a Seer team submission wins, the 0.5 ETH goes to the highest-ranked non-internal submission and no USDC is paid.',
+  },
+  '0xe639cd2Cb0a3B3aE6B277D226Cd0983A3FFa5Af3': {
+    title: 'Risk Pricing Name',
+    description:
+      'Risk Pricing (risk.seer.pm) helps people compare market estimates of risk across DeFi assets, and it needs a new name.\n\nEvery eligible name submitted to the bounty is listed as an outcome. Traders buy shares in the name they believe Seer will adopt. The Seer team votes to pick the winner and its vote is final, with market prices as the community signal.\n\nThe chosen name earns the 0.5 ETH poidh bounty. If a Seer team submission wins, the prize goes to the highest-ranked non-internal submission.',
+    chainedMarkets: [
+      { marketId: '0xe639cd2Cb0a3B3aE6B277D226Cd0983A3FFa5Af3', otherIndex: 60 },
+      { marketId: '0x711566561716288e86F5245b5c457CCbF8f89615', otherIndex: null },
+    ],
+    finalOtherLabel: 'None of the listed names',
+  },
 };
 
 export const CONFIGURED_MARKET_IDS = Object.keys(MARKET_OVERRIDES);

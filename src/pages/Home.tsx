@@ -6,7 +6,7 @@ import { DEFAULT_MARKET_CHAIN_ID } from '../config/market';
 import { isFinalized, useMarketList } from '../hooks/useMarketList';
 import { MarketList } from '../components/MarketList';
 
-const NAMING_MARKET_ID = '0x8b3C7f3f09f6A85353926D8ee0f12decc1C9A5e8';
+const REBRAND_MARKET_ID = '0x99dC260548aCaFE5fac7Fc81F4D4d01198161567';
 
 const PROCESS_STEPS = [
   {
@@ -43,7 +43,7 @@ export const Home: React.FC = () => {
   const liveMarkets = markets.filter((m) => !isFinalized(m));
   const archivedCount = markets.length - liveMarkets.length;
 
-  const namingHref = `/markets/${DEFAULT_MARKET_CHAIN_ID}/${NAMING_MARKET_ID}`;
+  const rebrandHref = `/markets/${DEFAULT_MARKET_CHAIN_ID}/${REBRAND_MARKET_ID}`;
 
   return (
     <div className="flex min-h-screen min-w-0 flex-col overflow-x-clip bg-wall">
@@ -94,10 +94,10 @@ export const Home: React.FC = () => {
 
             <div className="hero-entrance-lead mt-8 flex flex-wrap items-center justify-center gap-3 sm:mt-10">
               <Link
-                to={namingHref}
+                to={rebrandHref}
                 className="inline-flex items-center rounded-full bg-brand px-6 py-3 text-base font-semibold text-paper transition-colors hover:bg-up focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-up"
               >
-                Name Seer&apos;s AI Job Board
+                Pick Seer&apos;s new design
               </Link>
               <a
                 href="#pilot"
@@ -129,8 +129,10 @@ export const Home: React.FC = () => {
                 : 'Markets live.'}
             </h2>
             <p className="mt-4 max-w-2xl text-base leading-relaxed text-paper/85 sm:text-lg">
-              Seer is crowdsourcing the name of its AI job board. Past markets,
-              like the rebrand and Devcon merch, are in the archive.
+              Seer is picking the design for its six interfaces in Part II of
+              the rebrand contest, a new name for Risk Pricing, and the name of
+              its AI job board. Past markets, like the first rebrand round and
+              Devcon merch, are in the archive.
             </p>
           </div>
 
@@ -169,7 +171,8 @@ export const Home: React.FC = () => {
           </h2>
           <p className="mt-4 max-w-2xl text-base leading-relaxed text-paper/85 sm:text-lg">
             Seer has run opportunity markets for its rebrand and Devcon merch,
-            and is now naming its AI job board. Any
+            and is now running Part II of the rebrand and naming Risk Pricing
+            and its AI job board. Any
             team crowdsourcing solutions and wanting to pick from only among the
             best should directly launch an opportunity market.
           </p>
