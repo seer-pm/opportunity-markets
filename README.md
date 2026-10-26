@@ -23,7 +23,7 @@
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) 18+
-- [Yarn](https://yarnpkg.com/) 1.x (see `packageManager` in `package.json`)
+- [pnpm](https://pnpm.io/) 12.x (see `packageManager` in `package.json`)
 
 ## Getting started
 
@@ -33,7 +33,7 @@ git clone https://github.com/seer-pm/opportunity-markets.git
 cd opportunity-markets
 
 # Install dependencies
-yarn install
+pnpm install
 
 # Copy environment variables
 cp .env.example .env
@@ -54,7 +54,7 @@ VITE_GNOSIS_RPC_URL=https://your-rpc.example.com
 Run the dev server:
 
 ```bash
-yarn dev
+pnpm dev
 ```
 
 Open [http://localhost:5173](http://localhost:5173).
@@ -63,10 +63,10 @@ Open [http://localhost:5173](http://localhost:5173).
 
 | Command | Description |
 |---------|-------------|
-| `yarn dev` | Start Vite dev server |
-| `yarn build` | Typecheck and production build (`dist/`) |
-| `yarn preview` | Serve the production build locally |
-| `yarn lint` | Run ESLint |
+| `pnpm dev` | Start Vite dev server |
+| `pnpm build` | Typecheck and production build (`dist/`) |
+| `pnpm preview` | Serve the production build locally |
+| `pnpm lint` | Run ESLint |
 
 ## Environment variables
 
@@ -154,7 +154,7 @@ Typical steps when forking for a new site:
 2. **Wallet app info** — edit `appName`, `appDescription`, and `appIcon` in `src/config/wagmi.ts`.
 3. **Default chain** — change `DEFAULT_MARKET_CHAIN_ID` in `src/config/market.ts` (must match a chain supported by `@seer-pm/sdk`).
 4. **Theme** — adjust design tokens in `tailwind.config.js` and `src/index.css`.
-5. **Deploy** — build with `yarn build` and host `dist/`. For SPA routing on Netlify, `public/_redirects` is already configured.
+5. **Deploy** — build with `pnpm build` and host `dist/`. For SPA routing on Netlify, `public/_redirects` is already configured.
 
 ## Seer integration
 
