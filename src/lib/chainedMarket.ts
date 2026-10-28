@@ -42,6 +42,13 @@ export type ChainedMarketData = {
   levels: Market[];
   /** Best sDAI pool per visible token (lowercased token address → pool id). */
   poolByToken: Record<string, string>;
+  /**
+   * Best sDAI pool per visible token even when its liquidity was removed: the
+   * pool keeps its price history, so the chart still draws it.
+   */
+  chartPoolByToken: Record<string, string>;
+  /** Last pool price per visible token, empty pools included, normalized; ranks chart series. */
+  lastOdds: number[];
 };
 
 const SUBGRAPH_PAGE = 1000;
@@ -149,21 +156,38 @@ function getPricesFromPools(
   tokens: Address[],
   collateral: Address,
   pools: SwaprPool[]
-): { prices: number[]; poolByToken: Record<string, string> } {
+): {
+  prices: number[];
+  lastPrices: number[];
+  poolByToken: Record<string, string>;
+  chartPoolByToken: Record<string, string>;
+} {
   const best = getBestPoolByToken(collateral, pools);
   const poolByToken: Record<string, string> = {};
-  const prices = tokens.map((token) => {
+  const chartPoolByToken: Record<string, string> = {};
+  const prices: number[] = [];
+  const lastPrices: number[] = [];
+  for (const token of tokens) {
     const key = token.toLowerCase();
     const pool = best[key];
-    if (!pool || BigInt(pool.liquidity) === 0n || pool.tick == null) {
-      return Number.NaN;
+    if (!pool || pool.tick == null) {
+      prices.push(Number.NaN);
+      lastPrices.push(Number.NaN);
+      continue;
+    }
+    chartPoolByToken[key] = pool.id;
+    const [price0, price1] = tickToPrice(Number(pool.tick));
+    const price = pool.token0.id.toLowerCase() === key ? Number(price0) : Number(price1);
+    lastPrices.push(price);
+    if (BigInt(pool.liquidity) === 0n) {
+      prices.push(Number.NaN);
+      continue;
     }
     poolByToken[key] = pool.id;
-    const [price0, price1] = tickToPrice(Number(pool.tick));
-    return pool.token0.id.toLowerCase() === key ? Number(price0) : Number(price1);
-  });
+    prices.push(price);
+  }
 
-  return { prices, poolByToken };
+  return { prices, lastPrices, poolByToken, chartPoolByToken };
 }
 
 type QueryClient = Parameters<typeof getGraphMarketQueryFn>[0];
@@ -189,10 +213,16 @@ export async function fetchChainedMarket(
   const collateral = getActiveCollateralProfile(chainId).primary.address;
 
   let prices: number[] = tokens.map(() => Number.NaN);
+  let lastPrices: number[] = prices;
   let poolByToken: Record<string, string> = {};
+  let chartPoolByToken: Record<string, string> = {};
   try {
     const pools = await fetchCollateralPools(chainId, tokens, collateral);
-    ({ prices, poolByToken } = getPricesFromPools(tokens, collateral, pools));
+    ({ prices, lastPrices, poolByToken, chartPoolByToken } = getPricesFromPools(
+      tokens,
+      collateral,
+      pools
+    ));
   } catch (e) {
     console.error(e);
   }
@@ -226,7 +256,14 @@ export async function fetchChainedMarket(
     hasLiquidity: Object.keys(poolByToken).length > 0,
   };
 
-  return { market, rows, levels, poolByToken };
+  return {
+    market,
+    rows,
+    levels,
+    poolByToken,
+    chartPoolByToken,
+    lastOdds: normalizeOdds(lastPrices),
+  };
 }
 
 /**

@@ -82,11 +82,12 @@ const CHAINED_CHART_SERIES = 10;
  */
 export const useChainedChartData = (market: Market, enabled = true) => {
   const { data: chained } = useChainedMarket(market.id, market.chainId);
-  const poolByToken = chained?.poolByToken;
+  // Pools stay charted after their liquidity is removed, ranked by their last price.
+  const poolByToken = chained?.chartPoolByToken;
 
   const chartMarket = (() => {
     const ranked = market.wrappedTokens
-      .map((token, i) => ({ token, odds: Number(market.odds?.[i] ?? Number.NaN) }))
+      .map((token, i) => ({ token, odds: Number(chained?.lastOdds[i] ?? Number.NaN) }))
       .filter(({ token, odds }) => poolByToken?.[token.toLowerCase()] && Number.isFinite(odds))
       .sort((a, b) => b.odds - a.odds)
       .slice(0, CHAINED_CHART_SERIES);
